@@ -1,114 +1,201 @@
-:root {
-    --bg: #050505;
-    --acc: #ff0055;
-    --txt: #ffffff;
-    --dim: #888888;
+/* MultiTube Pro - Core Component Styles */
+
+.main-layout {
+    display: flex;
+    gap: 3rem;
+    align-items: flex-start;
 }
 
-body {
-    background: var(--bg);
-    color: var(--txt);
-    font-family: sans-serif;
-    margin: 0;
-    padding: 20px;
+.content-area {
+    flex: 1;
 }
 
-.version-tag {
-    position: fixed;
-    top: 5px;
-    right: 5px;
-    background: var(--acc);
-    font-size: 10px;
-    padding: 2px 5px;
-    z-index: 9999;
-}
-
-.simple-flow {
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.control-box {
-    background: #111;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #333;
+.premium-box {
+    background: var(--bg-card);
+    padding: 3rem;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 textarea {
     width: 100%;
-    height: 100px;
-    background: #000;
-    color: #fff;
-    border: 1px solid #444;
-    padding: 10px;
-    margin-bottom: 10px;
+    height: 180px;
+    background: var(--bg-dark);
+    color: var(--text-main);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    font-family: inherit;
+    font-size: 1rem;
+    resize: vertical;
+    transition: var(--transition);
+    margin-bottom: 1rem;
 }
 
-.inputs {
+textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--accent-glow);
+}
+
+.control-footer {
     display: flex;
-    gap: 10px;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 2rem;
+    margin-top: 1.5rem;
 }
 
-button {
-    background: var(--acc);
+@media (max-width: 768px) {
+    .premium-box {
+        padding: 1.5rem;
+    }
+
+    .control-footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1.5rem;
+    }
+
+    .input-group input {
+        width: 100%;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.input-group label {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    font-weight: 700;
+}
+
+.input-group input {
+    background: var(--bg-dark);
+    border: 1px solid var(--border);
     color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-weight: bold;
+    padding: 0.8rem;
+    border-radius: 6px;
+    width: 80px;
+    font-size: 1rem;
+    font-weight: 700;
 }
 
-.btn-clear {
-    background: #333;
-}
-
-.diagnostic-info {
-    margin-top: 10px;
-    font-size: 12px;
-    color: var(--dim);
-}
-
-.simple-grid {
+.button-group {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+    gap: 1rem;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+    min-height: 400px;
+    align-items: start;
+    /* Prevent items from stretching vertically */
+}
+
+@media (max-width: 600px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .item-box {
+        aspect-ratio: 16 / 10;
+    }
+}
+
+@media (min-width: 1600px) {
+    .grid-container {
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    }
+}
+
+.empty-state {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
     justify-content: center;
-    border: 2px dashed #222;
-    /* Purely for diagnostic visibility */
-    padding: 20px;
-    min-height: 100px;
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    color: var(--text-dim);
+    font-style: italic;
 }
 
 .item-box {
-    width: 300px;
-    background: #111;
-    border: 1px solid #333;
-    position: relative;
+    background: #000;
+    /* Use pure black for videos to hide any tiny gaps */
+    border: 1px solid var(--border);
+    border-radius: 8px;
     overflow: hidden;
-    /* Removed aspect-ratio for hard min-height fallback */
-    min-height: 170px;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+}
+
+.item-box:hover {
+    border-color: var(--primary);
+    box-shadow: 0 0 20px var(--accent-glow);
 }
 
 .item-box.short {
-    width: 200px;
-    min-height: 350px;
+    aspect-ratio: 9 / 16;
+    max-width: 320px;
+    /* Limit width of shorts to avoid massive height on large screens */
+    margin-inline: auto;
 }
 
-.force-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    opacity: 0.8;
-}
-
+/* Ensure the div injected by YT API and the resulting iframe fill the box */
 .item-box>div,
 .item-box iframe {
     width: 100% !important;
     height: 100% !important;
+    display: block;
+    border: none;
 }
 
-#overallStatus.playing {
-    color: #00ff88;
+.force-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 100;
+    opacity: 0.9;
+}
+
+/* Premium Mode Specifics */
+body.premium-active .ad-banner {
+    display: none !important;
+}
+
+body.premium-active .sidebar-ad {
+    display: none !important;
+}
+
+@media (max-width: 1100px) {
+    .main-layout {
+        flex-direction: column;
+    }
+
+    .sidebar-ad {
+        width: 100%;
+        min-height: 250px;
+    }
 }

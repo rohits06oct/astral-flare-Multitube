@@ -4,40 +4,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MultiTube v4.0 | Ultra-Resistant Edition</title>
+    <title>MultiTube Pro | Premium Multitasking</title>
+    <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="version-tag">v4.0 ULTRA-RESISTANT</div>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">MultiTube Pro</a>
+                <div class="nav-links">
+                    <a href="index.html" class="active">Home</a>
+                    <a href="about.html">About</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="subscription.html" class="upgrade-link">Pricing</a>
+                </div>
+            </nav>
+        </div>
+    </header>
 
-    <main class="simple-flow">
-        <header>
-            <h1>MultiTube Pro</h1>
-            <p>Diagnostic Mode Activated</p>
-        </header>
-
-        <div class="control-box">
-            <textarea id="videoUrls" placeholder="Paste YouTube links here..."></textarea>
-            <div class="inputs">
-                <input type="number" id="screenCount" value="4" min="1">
-                <button id="generateBtn">Generate</button>
-                <button id="hardResetBtn" class="btn-clear">Reset All</button>
-            </div>
-            <div id="diagnosticLog" class="diagnostic-info">
-                Status: <span id="overallStatus">Ready</span> |
-                Screens Active: <span id="activeCount">0</span>
-            </div>
+    <div class="container">
+        <!-- Header Banner Ad -->
+        <div class="ad-banner">
+            <span class="ad-label">ADVERTISEMENT</span>
+            <div id="header-ad">Sign up for MultiTube Pro to remove ads!</div>
         </div>
 
-        <section id="displayArea" class="simple-grid">
-            <!-- Items injected here -->
-        </section>
+        <main class="main-layout">
+            <div class="content-area">
+                <section class="control-box premium-box">
+                    <h1>Multiple YouTube Screen Generator</h1>
+                    <p class="text-dim">Paste your links and watch them all at once.</p>
 
-        <button id="forcePlayAllBtn" class="force-btn">Force Start All Iframes</button>
-    </main>
+                    <textarea id="videoUrls"
+                        placeholder="Paste YouTube links here (one per line or comma separated)..."></textarea>
+
+                    <div class="control-footer">
+                        <div class="input-group">
+                            <label for="screenCount">Screens</label>
+                            <input type="number" id="screenCount" value="4" min="1" max="50">
+                        </div>
+                        <div class="button-group">
+                            <button id="generateBtn" class="btn btn-primary">Generate</button>
+                            <button id="hardResetBtn" class="btn btn-secondary">Reset</button>
+                        </div>
+                    </div>
+
+                    <div id="diagnosticLog" class="diagnostic-info">
+                        Status: <span id="overallStatus">Ready</span> |
+                        Screens Active: <span id="activeCount">0</span>
+                    </div>
+                </section>
+
+                <section id="displayArea" class="grid-container">
+                    <!-- Dynamic Grid -->
+                    <div class="empty-state">
+                        <p>Your multi-screen view will appear here.</p>
+                    </div>
+                </section>
+            </div>
+
+            <aside class="sidebar-ad">
+                <div class="ad-banner"
+                    style="height: 100%; min-height: 400px; display: flex; flex-direction: column; justify-content: center;">
+                    <span class="ad-label">VERTICAL AD</span>
+                    <p>Premium Sponsorships</p>
+                </div>
+            </aside>
+        </main>
+
+        <button id="forcePlayAllBtn" class="btn btn-primary force-btn">Force Start All</button>
+
+        <!-- Footer Ad -->
+        <div class="ad-banner" style="margin-top: 3rem;">
+            <span class="ad-label">FOOTER AD</span>
+            <p>Promote your content here.</p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 MultiTube Pro. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
+                <a href="subscription.html">Subscription</a>
+            </div>
+        </div>
+    </footer>
 
     <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="shared.js"></script>
     <script src="script.js"></script>
 </body>
 
