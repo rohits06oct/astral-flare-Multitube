@@ -1,0 +1,114 @@
+:root {
+    --bg: #050505;
+    --acc: #ff0055;
+    --txt: #ffffff;
+    --dim: #888888;
+}
+
+body {
+    background: var(--bg);
+    color: var(--txt);
+    font-family: sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+.version-tag {
+    position: fixed;
+    top: 5px;
+    right: 5px;
+    background: var(--acc);
+    font-size: 10px;
+    padding: 2px 5px;
+    z-index: 9999;
+}
+
+.simple-flow {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.control-box {
+    background: #111;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #333;
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+    background: #000;
+    color: #fff;
+    border: 1px solid #444;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.inputs {
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    background: var(--acc);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-clear {
+    background: #333;
+}
+
+.diagnostic-info {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--dim);
+}
+
+.simple-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    border: 2px dashed #222;
+    /* Purely for diagnostic visibility */
+    padding: 20px;
+    min-height: 100px;
+}
+
+.item-box {
+    width: 300px;
+    background: #111;
+    border: 1px solid #333;
+    position: relative;
+    overflow: hidden;
+    /* Removed aspect-ratio for hard min-height fallback */
+    min-height: 170px;
+}
+
+.item-box.short {
+    width: 200px;
+    min-height: 350px;
+}
+
+.force-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    opacity: 0.8;
+}
+
+.item-box>div,
+.item-box iframe {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+#overallStatus.playing {
+    color: #00ff88;
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MultiTube v4.0 | Ultra-Resistant Edition</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="version-tag">v4.0 ULTRA-RESISTANT</div>
+
+    <main class="simple-flow">
+        <header>
+            <h1>MultiTube Pro</h1>
+            <p>Diagnostic Mode Activated</p>
+        </header>
+
+        <div class="control-box">
+            <textarea id="videoUrls" placeholder="Paste YouTube links here..."></textarea>
+            <div class="inputs">
+                <input type="number" id="screenCount" value="4" min="1">
+                <button id="generateBtn">Generate</button>
+                <button id="hardResetBtn" class="btn-clear">Reset All</button>
+            </div>
+            <div id="diagnosticLog" class="diagnostic-info">
+                Status: <span id="overallStatus">Ready</span> |
+                Screens Active: <span id="activeCount">0</span>
+            </div>
+        </div>
+
+        <section id="displayArea" class="simple-grid">
+            <!-- Items injected here -->
+        </section>
+
+        <button id="forcePlayAllBtn" class="force-btn">Force Start All Iframes</button>
+    </main>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
