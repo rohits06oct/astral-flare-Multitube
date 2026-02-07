@@ -140,6 +140,12 @@ nav {
     opacity: 0.5;
 }
 
+/* Premium Mode Specifics (Global) */
+body.premium-active .ad-banner,
+body.premium-active .sidebar-ad {
+    display: none !important;
+}
+
 .sidebar-ad {
     width: 300px;
     min-height: 600px;

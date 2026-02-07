@@ -181,14 +181,6 @@ textarea:focus {
 }
 
 /* Premium Mode Specifics */
-body.premium-active .ad-banner {
-    display: none !important;
-}
-
-body.premium-active .sidebar-ad {
-    display: none !important;
-}
-
 @media (max-width: 1100px) {
     .main-layout {
         flex-direction: column;
