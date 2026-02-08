@@ -9,8 +9,9 @@ test.describe('MultiTube Pro Regression Tests', () => {
         await expect(page).toHaveTitle(/MultiTube Pro/);
 
         const navLinks = ['About', 'Contact', 'Pricing'];
+        const nav = page.locator('nav');
         for (const linkText of navLinks) {
-            await page.getByRole('link', { name: linkText }).click();
+            await nav.getByRole('link', { name: linkText }).click();
             await expect(page.url()).toContain(linkText.toLowerCase() === 'pricing' ? 'subscription' : linkText.toLowerCase());
             await page.goto('/');
         }
@@ -42,6 +43,7 @@ test.describe('MultiTube Pro Regression Tests', () => {
 
         await expect(page.locator('#activeCount')).toHaveText('0');
         await expect(page.locator('.empty-state')).toBeVisible();
+        await expect(page.locator('#videoUrls')).toHaveValue('');
     });
 
     test('TC-004: Subscription Enforcement', async ({ page }) => {

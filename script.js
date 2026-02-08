@@ -54,7 +54,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     rBtn.addEventListener('click', () => {
         if (confirm('Clear all screens and reset?')) {
-            window.location.reload();
+            // Cleanup existing players
+            _p.forEach(p => { try { p.destroy(); } catch (e) { } });
+            _p = [];
+
+            // Restore empty state UI
+            stage.innerHTML = `
+                <div class="empty-state">
+                    <p>Your multi-screen view will appear here.</p>
+                </div>
+            `;
+
+            // Reset inputs
+            uIn.value = '';
+            sIn.value = '4';
+
+            // Reset status
+            _count(0);
+            _up('Ready', 'playing');
         }
     });
 

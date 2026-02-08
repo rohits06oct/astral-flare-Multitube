@@ -29,7 +29,7 @@ test.describe('MultiTube Pro E2E Tests', () => {
 
     test('TC-010: Ads Visibility', async ({ page }) => {
         // Header Ad
-        await expect(page.locator('.ad-banner').filter({ hasText: 'ADVERTISEMENT' })).toBeVisible();
+        await expect(page.locator('.ad-banner').filter({ hasText: 'ADVERTISEMENT' }).first()).toBeVisible();
 
         // Sidebar Ad
         await expect(page.locator('.sidebar-ad .ad-banner').filter({ hasText: 'VERTICAL AD' })).toBeVisible();
@@ -45,7 +45,7 @@ test.describe('MultiTube Pro E2E Tests', () => {
         await page.locator('#hamburgerBtn').click();
 
         // Click Home in mobile nav
-        await page.locator('.mobile-nav-links').getByRole('link', { name: 'Home' }).click();
+        await page.locator('.mobile-nav-links').first().getByRole('link', { name: 'Home' }).click();
 
         // Generate
         await page.locator('#videoUrls').fill('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
