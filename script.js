@@ -123,20 +123,23 @@ window._initHook = function (hid, vid, src, idx) {
         el.innerHTML = `<span>Loading Slot ${idx + 1}...</span>`;
     }
 
-    console.log(`[MultiTube Pro] Initializing Slot ${idx} for origin: ${src}`);
+    // Sanitize origin: Ensure no trailing slash for the handshake
+    const appOrigin = window.location.origin;
+    console.log(`[MultiTube Pro] Slot ${idx} Init | Origin: ${appOrigin}`);
 
     if (_ready && typeof YT !== 'undefined' && YT.Player) {
         try {
             const player = new YT.Player(hid, {
                 height: '100%', width: '100%', videoId: vid,
+                host: 'https://www.youtube-nocookie.com',
                 playerVars: {
                     'autoplay': 0,
                     'mute': 0,
                     'controls': 1,
                     'rel': 0,
                     'enablejsapi': 1,
-                    'origin': src,
-                    'widget_referrer': src,
+                    'origin': appOrigin,
+                    'widget_referrer': appOrigin,
                     'playlist': vid
                 },
                 events: {
@@ -145,17 +148,17 @@ window._initHook = function (hid, vid, src, idx) {
                     },
                     'onError': (e) => {
                         console.warn(`[MultiTube Pro] Slot ${idx} API Error:`, e.data);
-                        _fallback(hid, vid, src);
+                        _fallback(hid, vid, appOrigin);
                     }
                 }
             });
             _p.push(player);
         } catch (e) {
             console.error('[MultiTube Pro] Constructor Error, falling back:', e);
-            _fallback(hid, vid, src);
+            _fallback(hid, vid, appOrigin);
         }
     } else {
-        _fallback(hid, vid, src);
+        _fallback(hid, vid, appOrigin);
     }
 }
 
@@ -163,14 +166,12 @@ function _fallback(hid, vid, src) {
     const el = document.getElementById(hid);
     if (!el) return;
     const ifr = document.createElement('iframe');
-    // Using simple embed if API fails, ensures maximum compatibility
-    // Explicitly using origin without trailing slash for API consistency
-    const cleanOrigin = new URL(src).origin;
-    ifr.src = `https://www.youtube.com/embed/${vid}?autoplay=0&mute=0&enablejsapi=1&origin=${encodeURIComponent(cleanOrigin)}`;
+    const appOrigin = window.location.origin;
+    ifr.src = `https://www.youtube-nocookie.com/embed/${vid}?autoplay=0&mute=0&enablejsapi=1&origin=${encodeURIComponent(appOrigin)}`;
     ifr.allow = "autoplay; encrypted-media; picture-in-picture";
     ifr.className = "fallback-iframe";
     el.innerHTML = '';
-    el.className = ''; // Remove placeholder styling
+    el.className = '';
     el.appendChild(ifr);
 }
 
