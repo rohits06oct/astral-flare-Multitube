@@ -118,10 +118,10 @@ document.addEventListener('DOMContentLoaded', () => {
             box.appendChild(hook);
             stage.appendChild(box);
 
-            // Staggered initialization for better performance
+            // Staggered initialization for better performance and policy compliance
             setTimeout(() => {
                 _initHook(hookId, vid, host, i);
-            }, i * 150);
+            }, i * 4000); // 4-second extra time between screens
         }
 
         _count(num);
@@ -134,13 +134,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 const player = new YT.Player(hid, {
                     height: '100%', width: '100%', videoId: vid,
                     playerVars: {
-                        'autoplay': 1, 'mute': 1, 'controls': 1, 'rel': 0,
+                        'autoplay': 0, 'mute': 0, 'controls': 1, 'rel': 0,
                         'enablejsapi': 1, 'origin': src, 'playlist': vid
                     },
                     events: {
                         'onReady': (event) => {
                             console.log(`[MultiTube Pro] Slot ${idx} Ready`);
-                            event.target.playVideo();
+                            // event.target.playVideo(); // Removed to ensure intentional user engagement
                         },
                         'onError': () => _fallback(hid, vid, src)
                     }
@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const el = document.getElementById(hid);
         if (!el) return;
         const ifr = document.createElement('iframe');
-        ifr.src = `https://www.youtube.com/embed/${vid}?autoplay=1&mute=1&enablejsapi=1&origin=${encodeURIComponent(src)}&playlist=${vid}`;
+        ifr.src = `https://www.youtube.com/embed/${vid}?autoplay=0&mute=0&enablejsapi=1&origin=${encodeURIComponent(src)}&playlist=${vid}`;
         ifr.allow = "autoplay; encrypted-media";
         ifr.style.border = "none";
         el.innerHTML = '';
