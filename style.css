@@ -167,7 +167,8 @@ textarea:focus {
 
 /* Ensure the div injected by YT API and the resulting iframe fill the box */
 .item-box>div,
-.item-box iframe {
+.item-box iframe,
+.fallback-iframe {
     width: 100% !important;
     height: 100% !important;
     display: block;

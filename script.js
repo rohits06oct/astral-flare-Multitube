@@ -153,11 +153,11 @@ function _fallback(hid, vid, src) {
     if (!el) return;
     const ifr = document.createElement('iframe');
     // Using simple embed if API fails, ensures maximum compatibility
-    ifr.src = `https://www.youtube.com/embed/${vid}?autoplay=0&mute=0&enablejsapi=1&origin=${encodeURIComponent(src)}`;
+    // Explicitly using origin without trailing slash for API consistency
+    const cleanOrigin = new URL(src).origin;
+    ifr.src = `https://www.youtube.com/embed/${vid}?autoplay=0&mute=0&enablejsapi=1&origin=${encodeURIComponent(cleanOrigin)}`;
     ifr.allow = "autoplay; encrypted-media; picture-in-picture";
-    ifr.style.border = "none";
-    ifr.style.width = "100%";
-    ifr.style.height = "100%";
+    ifr.className = "fallback-iframe";
     el.innerHTML = '';
     el.className = ''; // Remove placeholder styling
     el.appendChild(ifr);
