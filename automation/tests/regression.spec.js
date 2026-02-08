@@ -5,13 +5,22 @@ test.describe('MultiTube Pro Regression Tests', () => {
         await page.goto('/');
     });
 
-    test('TC-001: Header Navigation', async ({ page }) => {
+    test('TC-001: Header Navigation', async ({ page, isMobile }) => {
         await expect(page).toHaveTitle(/MultiTube Pro/);
 
         const navLinks = ['About', 'Contact', 'Pricing'];
-        const nav = page.locator('nav');
+
         for (const linkText of navLinks) {
-            await nav.getByRole('link', { name: linkText }).click();
+            if (isMobile) {
+                await page.locator('#hamburgerBtn').click();
+                const mobileMenu = page.locator('.mobile-menu-container');
+                await expect(mobileMenu).toBeVisible();
+                await mobileMenu.getByRole('link', { name: linkText }).click();
+            } else {
+                const nav = page.locator('nav');
+                await nav.getByRole('link', { name: linkText }).click();
+            }
+
             await expect(page.url()).toContain(linkText.toLowerCase() === 'pricing' ? 'subscription' : linkText.toLowerCase());
             await page.goto('/');
         }
@@ -55,7 +64,7 @@ test.describe('MultiTube Pro Regression Tests', () => {
         page.on('dialog', dialog => dialog.accept());
         await page.getByRole('button', { name: 'Generate' }).click();
 
-        await expect(page.url()).toContain('subscription.html');
+        await expect(page.url()).toContain('http://localhost:8000/subscription');
     });
 
     test('TC-005: Hamburger Menu Visibility (Mobile only)', async ({ page, isMobile }) => {
@@ -71,6 +80,6 @@ test.describe('MultiTube Pro Regression Tests', () => {
         await expect(mobileMenu).toBeVisible();
 
         await mobileMenu.getByRole('link', { name: 'About' }).click();
-        await expect(page.url()).toContain('about.html');
+        await expect(page.url()).toContain('http://localhost:8000/about');
     });
 });

@@ -38,20 +38,24 @@ test.describe('MultiTube Pro E2E Tests', () => {
         await expect(page.locator('.ad-banner').filter({ hasText: 'FOOTER AD' })).toBeVisible();
     });
 
-    test('TC-011: Mobile Flow - Hamburger to Generation', async ({ page, isMobile }) => {
-        if (!isMobile) return;
+    test('TC-011: Navigation and Generation Flow', async ({ page, isMobile }) => {
+        // Navigation Step
+        if (isMobile) {
+            await page.locator('#hamburgerBtn').click();
+            await page.locator('.mobile-nav-links').first().getByRole('link', { name: 'Home' }).click();
+        } else {
+            await page.locator('nav').getByRole('link', { name: 'Home' }).click();
+        }
 
-        // Open hamburger
-        await page.locator('#hamburgerBtn').click();
-
-        // Click Home in mobile nav
-        await page.locator('.mobile-nav-links').first().getByRole('link', { name: 'Home' }).click();
-
-        // Generate
+        // Generate Step
         await page.locator('#videoUrls').fill('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
         await page.getByRole('button', { name: 'Generate' }).click();
 
-        await expect(page.locator('#activeCount')).toHaveText('1');
-        await expect(page.locator('.item-box iframe')).toBeVisible();
+        await expect(page.locator('#activeCount')).toHaveText('4');
+
+        // Assertions
+        const iframes = page.locator('.item-box iframe');
+        await expect(iframes).toHaveCount(4);
+        await expect(iframes.first()).toBeVisible();
     });
 });
