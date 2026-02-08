@@ -4,7 +4,46 @@
 
 let _p = []; // Active players
 let _ready = false;
+let _loadQueue = [];
+let _loadInProgress = false;
 
+const observerOptions = {
+    root: null,
+    rootMargin: '100px',
+    threshold: 0.1
+};
+
+const _observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const hid = entry.target.dataset.hookId;
+            const vid = entry.target.dataset.vid;
+            const host = entry.target.dataset.host;
+            const idx = entry.target.dataset.idx;
+
+            if (hid && !_loadQueue.some(q => q.hid === hid)) {
+                _loadQueue.push({ hid, vid, host, idx });
+                _processQueue();
+            }
+            _observer.unobserve(entry.target);
+        }
+    });
+}, observerOptions);
+
+function _processQueue() {
+    if (_loadInProgress || _loadQueue.length === 0) return;
+    _loadInProgress = true;
+
+    const next = _loadQueue.shift();
+    _initHook(next.hid, next.vid, next.host, next.idx);
+
+    setTimeout(() => {
+        _loadInProgress = false;
+        _processQueue();
+    }, 1000); // Reduced to 1s stagger (with Lazy Loading this is safe and better UX)
+}
+
+// Global API callbacks and utilities
 window.onYouTubeIframeAPIReady = function () {
     _ready = true;
     _up('Ready', 'playing');
@@ -23,6 +62,123 @@ function _count(n) {
     if (el) el.textContent = n;
 }
 
+function _getId(u) {
+    const m = u.match(/(?:shorts\/|v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]{11})/);
+    return m ? m[1] : (u.length === 11 ? u : '');
+}
+
+function _start(urls, num, stage) {
+    _up('Preparing Grid...', '');
+
+    // Cleanup old players
+    _p.forEach(p => { try { p.destroy(); } catch (e) { } });
+    _p = [];
+    _loadQueue = [];
+    _loadInProgress = false;
+    stage.innerHTML = '';
+    _count(0);
+
+    const ids = urls.map(u => ({ id: _getId(u), original: u })).filter(item => item.id !== '');
+    if (ids.length === 0) return alert('No valid YouTube IDs found in your input.');
+
+    // Clean Origin (No trailing slash)
+    const host = window.location.origin;
+
+    for (let i = 0; i < num; i++) {
+        const item = ids[i % ids.length];
+        const vid = item.id;
+        const originalUrl = item.original;
+
+        const box = document.createElement('div');
+        box.className = 'item-box';
+        if (originalUrl.includes('/shorts/')) box.classList.add('short');
+
+        const hookId = `slot-node-${i}`;
+        const hook = document.createElement('div');
+        hook.id = hookId;
+        hook.className = 'slot-placeholder';
+        hook.innerHTML = `<span>Waiting for Viewport...</span>`;
+
+        // Data for Observer
+        box.dataset.hookId = hookId;
+        box.dataset.vid = vid;
+        box.dataset.host = host;
+        box.dataset.idx = i;
+
+        box.appendChild(hook);
+        stage.appendChild(box);
+
+        // Observe this box for lazy loading
+        _observer.observe(box);
+    }
+
+    _count(num);
+    _up('Ready (Lazy Loading Enabled)', 'playing');
+}
+
+function _initHook(hid, vid, src, idx) {
+    const el = document.getElementById(hid);
+    if (el) {
+        el.className = 'slot-placeholder';
+        el.innerHTML = `<span>Loading Slot ${idx + 1}...</span>`;
+    }
+
+    if (_ready && typeof YT !== 'undefined' && YT.Player) {
+        try {
+            const player = new YT.Player(hid, {
+                height: '100%', width: '100%', videoId: vid,
+                playerVars: {
+                    'autoplay': 0, 'mute': 0, 'controls': 1, 'rel': 0,
+                    'enablejsapi': 1, 'origin': src, 'playlist': vid
+                },
+                events: {
+                    'onReady': (event) => {
+                        console.log(`[MultiTube Pro] Slot ${idx} Ready`);
+                    },
+                    'onError': () => _fallback(hid, vid, src)
+                }
+            });
+            _p.push(player);
+        } catch (e) {
+            console.error('[MultiTube Pro] API Error, falling back:', e);
+            _fallback(hid, vid, src);
+        }
+    } else {
+        _fallback(hid, vid, src);
+    }
+}
+
+function _fallback(hid, vid, src) {
+    const el = document.getElementById(hid);
+    if (!el) return;
+    const ifr = document.createElement('iframe');
+    // Using simple embed if API fails, ensures maximum compatibility
+    ifr.src = `https://www.youtube.com/embed/${vid}?autoplay=0&mute=0&enablejsapi=1&origin=${encodeURIComponent(src)}`;
+    ifr.allow = "autoplay; encrypted-media; picture-in-picture";
+    ifr.style.border = "none";
+    ifr.style.width = "100%";
+    ifr.style.height = "100%";
+    el.innerHTML = '';
+    el.className = ''; // Remove placeholder styling
+    el.appendChild(ifr);
+}
+
+// Side-effects: Visibility & Focus
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+        console.log('[MultiTube Pro] Tab hidden - Pausing all active players for compliance');
+        _p.forEach(p => {
+            try {
+                if (p && typeof p.pauseVideo === 'function') p.pauseVideo();
+            } catch (e) { }
+        });
+        document.querySelectorAll('iframe').forEach(i => {
+            try { i.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*'); } catch (e) { }
+        });
+    }
+});
+
+// Main Loop: Bind UI events
 document.addEventListener('DOMContentLoaded', () => {
     const gBtn = document.getElementById('generateBtn');
     const rBtn = document.getElementById('hardResetBtn');
@@ -31,17 +187,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const sIn = document.getElementById('screenCount');
     const stage = document.getElementById('displayArea');
 
-    if (!gBtn) return; // Not on home page
+    if (!gBtn) return;
 
     gBtn.addEventListener('click', () => {
         const raw = uIn.value.trim();
         const count = parseInt(sIn.value) || 1;
-
         if (!raw) return alert('Please enter at least one YouTube URL.');
-
         const list = raw.split(/[\n,;]+/).map(s => s.trim()).filter(s => s.length > 0);
 
-        // Subscription Limit Enforcement
         const check = window.MultiTubeApp.checkPermission(list.length, count);
         if (!check.allowed) {
             alert(check.error);
@@ -54,22 +207,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     rBtn.addEventListener('click', () => {
         if (confirm('Clear all screens and reset?')) {
-            // Cleanup existing players
             _p.forEach(p => { try { p.destroy(); } catch (e) { } });
             _p = [];
-
-            // Restore empty state UI
-            stage.innerHTML = `
-                <div class="empty-state">
-                    <p>Your multi-screen view will appear here.</p>
-                </div>
-            `;
-
-            // Reset inputs
+            _loadQueue = [];
+            _loadInProgress = false;
+            stage.innerHTML = `<div class="empty-state"><p>Your multi-screen view will appear here.</p></div>`;
             uIn.value = '';
             sIn.value = '4';
-
-            // Reset status
             _count(0);
             _up('Ready', 'playing');
         }
@@ -81,85 +225,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         _p.forEach(p => { try { p.playVideo(); } catch (e) { } });
     });
-
-    function _getId(u) {
-        const m = u.match(/(?:shorts\/|v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]{11})/);
-        return m ? m[1] : (u.length === 11 ? u : '');
-    }
-
-    function _start(urls, num, stage) {
-        _up('Generating Grid...', '');
-
-        // Cleanup old players
-        _p.forEach(p => { try { p.destroy(); } catch (e) { } });
-        _p = [];
-        stage.innerHTML = '';
-        _count(0);
-
-        const ids = urls.map(u => ({ id: _getId(u), original: u })).filter(item => item.id !== '');
-        if (ids.length === 0) return alert('No valid YouTube IDs found in your input.');
-
-        const host = window.location.protocol + '//' + window.location.host;
-
-        for (let i = 0; i < num; i++) {
-            const item = ids[i % ids.length];
-            const vid = item.id;
-            const originalUrl = item.original;
-
-            const box = document.createElement('div');
-            box.className = 'item-box';
-            if (originalUrl.includes('/shorts/')) box.classList.add('short');
-
-            const hookId = `slot-node-${i}`;
-            const hook = document.createElement('div');
-            hook.id = hookId;
-            hook.innerHTML = `<div style="display:flex; height:100%; align-items:center; justify-content:center; color:var(--text-dim); font-size:0.8rem;">Loading Slot ${i + 1}...</div>`;
-
-            box.appendChild(hook);
-            stage.appendChild(box);
-
-            // Staggered initialization for better performance and policy compliance
-            setTimeout(() => {
-                _initHook(hookId, vid, host, i);
-            }, i * 4000); // 4-second extra time between screens
-        }
-
-        _count(num);
-        _up('Active', 'playing');
-    }
-
-    function _initHook(hid, vid, src, idx) {
-        if (_ready && typeof YT !== 'undefined' && YT.Player) {
-            try {
-                const player = new YT.Player(hid, {
-                    height: '100%', width: '100%', videoId: vid,
-                    playerVars: {
-                        'autoplay': 0, 'mute': 0, 'controls': 1, 'rel': 0,
-                        'enablejsapi': 1, 'origin': src, 'playlist': vid
-                    },
-                    events: {
-                        'onReady': (event) => {
-                            console.log(`[MultiTube Pro] Slot ${idx} Ready`);
-                            // event.target.playVideo(); // Removed to ensure intentional user engagement
-                        },
-                        'onError': () => _fallback(hid, vid, src)
-                    }
-                });
-                _p.push(player);
-            } catch (e) { _fallback(hid, vid, src); }
-        } else {
-            _fallback(hid, vid, src);
-        }
-    }
-
-    function _fallback(hid, vid, src) {
-        const el = document.getElementById(hid);
-        if (!el) return;
-        const ifr = document.createElement('iframe');
-        ifr.src = `https://www.youtube.com/embed/${vid}?autoplay=0&mute=0&enablejsapi=1&origin=${encodeURIComponent(src)}&playlist=${vid}`;
-        ifr.allow = "autoplay; encrypted-media";
-        ifr.style.border = "none";
-        el.innerHTML = '';
-        el.appendChild(ifr);
-    }
 });

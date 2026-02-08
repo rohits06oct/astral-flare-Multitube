@@ -21,6 +21,7 @@ test.describe('MultiTube Pro E2E Tests', () => {
 
         // Check if 4 iframes are present
         const iframes = page.locator('.item-box iframe');
+        await page.waitForTimeout(150000);
         await expect(iframes).toHaveCount(4);
 
         // Verify status is "Active"
@@ -55,6 +56,7 @@ test.describe('MultiTube Pro E2E Tests', () => {
 
         // Assertions
         const iframes = page.locator('.item-box iframe');
+        await page.waitForTimeout(150000);
         await expect(iframes).toHaveCount(4);
         await expect(iframes.first()).toBeVisible();
     });

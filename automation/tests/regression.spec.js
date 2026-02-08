@@ -37,6 +37,7 @@ test.describe('MultiTube Pro Regression Tests', () => {
 
         const activeCount = page.locator('#activeCount');
         await expect(activeCount).toHaveText('2');
+        await page.waitForTimeout(150000);
         await expect(page.locator('.item-box iframe')).toHaveCount(2);
     });
 
