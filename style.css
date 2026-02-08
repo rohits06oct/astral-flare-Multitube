@@ -207,3 +207,15 @@ textarea:focus {
         min-height: 250px;
     }
 }
+
+.sidebar-ad-inner {
+    height: 100%;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.ad-footer {
+    margin-top: 3rem;
+}
