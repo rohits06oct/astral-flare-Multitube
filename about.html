@@ -22,21 +22,24 @@
 
         .feature-card {
             background: var(--bg-card);
-            padding: 2rem;
-            border-radius: 12px;
+            padding: 2.5rem;
+            border-radius: 20px;
             border: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             transition: var(--transition);
         }
 
         .feature-card:hover {
             border-color: var(--primary);
-            transform: translateY(-5px);
+            background: rgba(255, 0, 0, 0.05);
+            transform: translateY(-8px);
         }
 
         .hero-title {
             font-size: clamp(2rem, 8vw, 3rem);
             margin-bottom: 1.5rem;
-            background: linear-gradient(90deg, #fff, var(--primary));
+            background: linear-gradient(90deg, var(--text-main), var(--primary));
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
