@@ -116,31 +116,42 @@ function _start(urls, num, stage) {
     _up('Ready (Lazy Loading Enabled)', 'playing');
 }
 
-function _initHook(hid, vid, src, idx) {
+window._initHook = function (hid, vid, src, idx) {
     const el = document.getElementById(hid);
     if (el) {
         el.className = 'slot-placeholder';
         el.innerHTML = `<span>Loading Slot ${idx + 1}...</span>`;
     }
 
+    console.log(`[MultiTube Pro] Initializing Slot ${idx} for origin: ${src}`);
+
     if (_ready && typeof YT !== 'undefined' && YT.Player) {
         try {
             const player = new YT.Player(hid, {
                 height: '100%', width: '100%', videoId: vid,
                 playerVars: {
-                    'autoplay': 0, 'mute': 0, 'controls': 1, 'rel': 0,
-                    'enablejsapi': 1, 'origin': src, 'playlist': vid
+                    'autoplay': 0,
+                    'mute': 0,
+                    'controls': 1,
+                    'rel': 0,
+                    'enablejsapi': 1,
+                    'origin': src,
+                    'widget_referrer': src,
+                    'playlist': vid
                 },
                 events: {
                     'onReady': (event) => {
-                        console.log(`[MultiTube Pro] Slot ${idx} Ready`);
+                        console.log(`[MultiTube Pro] Slot ${idx} Ready (${vid})`);
                     },
-                    'onError': () => _fallback(hid, vid, src)
+                    'onError': (e) => {
+                        console.warn(`[MultiTube Pro] Slot ${idx} API Error:`, e.data);
+                        _fallback(hid, vid, src);
+                    }
                 }
             });
             _p.push(player);
         } catch (e) {
-            console.error('[MultiTube Pro] API Error, falling back:', e);
+            console.error('[MultiTube Pro] Constructor Error, falling back:', e);
             _fallback(hid, vid, src);
         }
     } else {
