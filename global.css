@@ -1,6 +1,7 @@
 :root {
     /* YouTube Brand Colors */
     --primary: #FF0000;
+    --primary-input: #3bee0e;
     --primary-hover: #cc0000;
 
     /* Modern Dark Theme (OLED Black + Cyber Glow) */

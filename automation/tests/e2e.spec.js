@@ -7,10 +7,10 @@ test.describe('MultiTube Pro E2E Tests', () => {
 
     test('TC-008: Full User Flow - Generate and Watch', async ({ page }) => {
         const urls = [
-            'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+            'https://www.youtube.com/shorts/9k6onvOYVj8',
             'https://www.youtube.com/watch?v=jNQXAC9IVRw',
             'https://www.youtube.com/watch?v=9bZkp7q19f0',
-            'https://www.youtube.com/watch?v=kJQP7kiw5Fk'
+            'https://www.youtube.com/shorts/9k6onvOYVj8'
         ];
 
         await page.locator('#videoUrls').fill(urls.join('\n'));
@@ -48,7 +48,7 @@ test.describe('MultiTube Pro E2E Tests', () => {
         }
 
         // Generate Step
-        await page.locator('#videoUrls').fill('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
+        await page.locator('#videoUrls').fill('https://www.youtube.com/shorts/9k6onvOYVj8');
         await page.getByRole('button', { name: 'Generate' }).click();
 
         await expect(page.locator('#activeCount')).toHaveText('4');

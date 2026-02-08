@@ -28,7 +28,7 @@ test.describe('MultiTube Pro Regression Tests', () => {
 
     test('TC-002: YouTube Link Parsing and Generation', async ({ page }) => {
         const textarea = page.locator('#videoUrls');
-        await textarea.fill('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
+        await textarea.fill('https://www.youtube.com/shorts/9k6onvOYVj8');
 
         const screenInput = page.locator('#screenCount');
         await screenInput.fill('2');
@@ -42,7 +42,7 @@ test.describe('MultiTube Pro Regression Tests', () => {
 
     test('TC-003: Reset Functionality', async ({ page }) => {
         // Fill and generate first
-        await page.locator('#videoUrls').fill('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
+        await page.locator('#videoUrls').fill('https://www.youtube.com/shorts/9k6onvOYVj8');
         await page.getByRole('button', { name: 'Generate' }).click();
         await expect(page.locator('#activeCount')).toHaveText('4');
 
@@ -58,7 +58,7 @@ test.describe('MultiTube Pro Regression Tests', () => {
 
     test('TC-004: Subscription Enforcement', async ({ page }) => {
         // Enter 11 links (limit is 10 for free)
-        const urls = Array(11).fill('https://www.youtube.com/watch?v=dQw4w9WgXcQ').join('\n');
+        const urls = Array(11).fill('https://www.youtube.com/shorts/9k6onvOYVj8').join('\n');
         await page.locator('#videoUrls').fill(urls);
 
         page.on('dialog', dialog => dialog.accept());
