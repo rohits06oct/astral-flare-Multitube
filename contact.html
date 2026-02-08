@@ -300,6 +300,14 @@ Thank you`;
                     btn.textContent = 'Message Sent';
                     form.reset();
                     wordCountDisplay.textContent = `Words: 0 / ${WORD_LIMIT}`;
+
+                    // Re-enable for subsequent submissions
+                    btn.disabled = false;
+                    setTimeout(() => {
+                        if (btn.textContent === 'Message Sent') {
+                            btn.textContent = 'Send Message';
+                        }
+                    }, 3000);
                 }, function (error) {
                     console.error('EmailJS Error:', error);
                     status.textContent = 'Failed to send message. Please try again or contact us directly.';

@@ -7,7 +7,7 @@ let _ready = false;
 
 window.onYouTubeIframeAPIReady = function () {
     _ready = true;
-    _up('API Ready', 'playing');
+    _up('Ready', 'playing');
 };
 
 function _up(m, t) {

@@ -13,7 +13,7 @@ if %errorlevel%==0 (
     goto end
 )
 
-:: Try Python next
+:: Try Python next || python -m http.server 8000
 where python >nul 2>nul
 if %errorlevel%==0 (
     echo [2/2] Node.js not found. Starting with Python...
