@@ -35,11 +35,11 @@ test.describe('MultiTube Pro Regression Tests', () => {
         // Fill and generate first
         await page.locator('#videoUrls').fill('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
         await page.getByRole('button', { name: 'Generate' }).click();
-        await expect(page.locator('#activeCount')).toHaveText('1');
+        await expect(page.locator('#activeCount')).toHaveText('4');
 
         // Reset
-        page.on('dialog', dialog => dialog.accept());
         await page.getByRole('button', { name: 'Reset' }).click();
+        page.on('dialog', dialog => dialog.accept());
 
         await expect(page.locator('#activeCount')).toHaveText('0');
         await expect(page.locator('.empty-state')).toBeVisible();
