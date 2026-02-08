@@ -131,7 +131,7 @@ window._initHook = function (hid, vid, src, idx) {
         try {
             const player = new YT.Player(hid, {
                 height: '100%', width: '100%', videoId: vid,
-                host: 'https://www.youtube-nocookie.com',
+                host: 'https://www.youtube.com',
                 playerVars: {
                     'autoplay': 0,
                     'mute': 0,
@@ -167,7 +167,7 @@ function _fallback(hid, vid, src) {
     if (!el) return;
     const ifr = document.createElement('iframe');
     const appOrigin = window.location.origin;
-    ifr.src = `https://www.youtube-nocookie.com/embed/${vid}?autoplay=0&mute=0&enablejsapi=1&origin=${encodeURIComponent(appOrigin)}`;
+    ifr.src = `https://www.youtube.com/embed/${vid}?autoplay=0&mute=0&enablejsapi=1&origin=${encodeURIComponent(appOrigin)}`;
     ifr.allow = "autoplay; encrypted-media; picture-in-picture";
     ifr.className = "fallback-iframe";
     el.innerHTML = '';
