@@ -40,7 +40,7 @@ function _processQueue() {
     setTimeout(() => {
         _loadInProgress = false;
         _processQueue();
-    }, 1000); // Reduced to 1s stagger (with Lazy Loading this is safe and better UX)
+    }, 2000); // Increased to 2s stagger to ensure security handshakes complete
 }
 
 // Global API callbacks and utilities
@@ -178,15 +178,16 @@ function _fallback(hid, vid, src) {
 // Side-effects: Visibility & Focus
 document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
-        console.log('[MultiTube Pro] Tab hidden - Pausing all active players for compliance');
+        console.log('[MultiTube Pro] Tab hidden - Pausing players via API');
         _p.forEach(p => {
             try {
-                if (p && typeof p.pauseVideo === 'function') p.pauseVideo();
+                if (p && typeof p.pauseVideo === 'function' && p.getPlayerState) {
+                    p.pauseVideo();
+                }
             } catch (e) { }
         });
-        document.querySelectorAll('iframe').forEach(i => {
-            try { i.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*'); } catch (e) { }
-        });
+        // We no longer use wildcard postMessage(*) to avoid origin mismatch errors.
+        // Compliance is handled strictly by the tracked API players.
     }
 });
 
@@ -232,9 +233,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     fBtn.addEventListener('click', () => {
-        document.querySelectorAll('iframe').forEach(i => {
-            try { i.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*'); } catch (e) { }
+        _p.forEach(p => {
+            try {
+                if (p && typeof p.playVideo === 'function' && p.getPlayerState) {
+                    p.playVideo();
+                }
+            } catch (e) { }
         });
-        _p.forEach(p => { try { p.playVideo(); } catch (e) { } });
     });
 });
