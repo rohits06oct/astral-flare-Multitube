@@ -11,6 +11,10 @@ module.exports = defineConfig({
         baseURL: 'http://localhost:8000',
         trace: 'on-first-retry',
         screenshot: 'only-on-failure',
+        headless: process.env.HEADLESS === 'false' ? false : true,
+        launchOptions: {
+            slowMo: 500,
+        },
     },
 
     projects: [

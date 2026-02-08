@@ -38,6 +38,7 @@ test.describe('MultiTube Pro Regression Tests', () => {
         await expect(page.locator('#activeCount')).toHaveText('4');
 
         // Reset
+        page.on('dialog', dialog => dialog.accept());
         await page.getByRole('button', { name: 'Reset' }).click();
         page.on('dialog', dialog => dialog.accept());
 
