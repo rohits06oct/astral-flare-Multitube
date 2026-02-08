@@ -246,15 +246,120 @@ footer {
     font-size: 0.9rem;
 }
 
+/* Base Styles (Visible on Desktop) */
+.hamburger-btn {
+    display: none;
+}
+
 @media (max-width: 768px) {
     .nav-links {
         display: none;
-        /* Consider a hamburger menu for true production, but keeping it simple as per instructions */
     }
 
     .container {
         padding: 0 1rem;
     }
+
+    .hamburger-btn {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 5px;
+        z-index: 1001;
+    }
+
+    .hamburger-btn span {
+        display: block;
+        width: 25px;
+        height: 2px;
+        background-color: var(--text-main);
+        transition: var(--transition);
+        border-radius: 2px;
+    }
+
+    /* Hamburger Animation to X */
+    .mobile-menu-active .hamburger-btn span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+    }
+
+    .mobile-menu-active .hamburger-btn span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .mobile-menu-active .hamburger-btn span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+    }
+}
+
+/* Mobile Menu Overlay */
+.mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+}
+
+.mobile-menu-container {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    height: 100%;
+    background: var(--bg-main);
+    border-left: 1px solid var(--border);
+    z-index: 1001;
+    padding: 6rem 2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    transition: var(--transition);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+    overflow-y: auto;
+}
+
+.mobile-menu-active .mobile-menu-overlay {
+    opacity: 1;
+    visibility: visible;
+}
+
+.mobile-menu-active .mobile-menu-container {
+    right: 0;
+}
+
+.mobile-nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.mobile-nav-links a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 1.25rem;
+    font-weight: 600;
+    transition: var(--transition);
+    padding: 0.5rem 0;
+    border-bottom: 1px solid transparent;
+}
+
+.mobile-nav-links a:hover,
+.mobile-nav-links a.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+}
+
+.mobile-menu-active body {
+    overflow: hidden;
 }
 
 /* Mobile & Small Screen Adaptations */

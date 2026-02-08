@@ -46,12 +46,37 @@ const MultiTubeApp = {
             // Hide "Upgrade" links if already premium
             document.querySelectorAll('.upgrade-link').forEach(el => el.style.display = 'none');
         }
+    },
+
+    initMobileMenu() {
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const overlay = document.getElementById('mobileMenuOverlay');
+        const mobileLinks = document.querySelectorAll('.mobile-nav-links a');
+
+        if (!hamburgerBtn || !overlay) return;
+
+        const toggleMenu = () => {
+            document.documentElement.classList.toggle('mobile-menu-active');
+        };
+
+        const closeMenu = () => {
+            document.documentElement.classList.remove('mobile-menu-active');
+        };
+
+        hamburgerBtn.addEventListener('click', toggleMenu);
+        overlay.addEventListener('click', closeMenu);
+
+        // Close menu when a link is clicked
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
     }
 };
 
 // Auto-init shared UI elements
 document.addEventListener('DOMContentLoaded', () => {
     MultiTubeApp.initPremiumUI();
+    MultiTubeApp.initMobileMenu();
 });
 
 window.MultiTubeApp = MultiTubeApp;
