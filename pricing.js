@@ -1,4 +1,4 @@
-// pricing.js - Pricing & Subscription Logic for MultiTube Pro
+// pricing.js - Pricing & Subscription Logic for YoutubeMulti Pro
 
 (function () {
     const checkoutBtn = document.getElementById('checkout-btn');

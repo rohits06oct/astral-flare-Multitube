@@ -1,5 +1,5 @@
 /**
- * MultiTube Pro - Shared Business Logic
+ * YoutubeMulti Pro - Shared Business Logic
  */
 
 const MultiTubeApp = {

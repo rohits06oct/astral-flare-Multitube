@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 
-test.describe('MultiTube Pro E2E Tests', () => {
+test.describe('YoutubeMulti Pro E2E Tests', () => {
     test.beforeEach(async ({ page }) => {
         await page.goto('/');
     });

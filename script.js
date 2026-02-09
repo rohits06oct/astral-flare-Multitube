@@ -1,5 +1,5 @@
 /**
- * MultiTube Pro - Execution Engine
+ * YoutubeMulti Pro - Execution Engine
  */
 
 let _p = []; // Active players
@@ -125,7 +125,7 @@ window._initHook = function (hid, vid, src, idx) {
 
     // Sanitize origin: Ensure no trailing slash for the handshake
     const appOrigin = window.location.origin;
-    console.log(`[MultiTube Pro] Slot ${idx} Init | Origin: ${appOrigin}`);
+    console.log(`[YoutubeMulti Pro] Slot ${idx} Init | Origin: ${appOrigin}`);
 
     if (_ready && typeof YT !== 'undefined' && YT.Player) {
         try {
@@ -144,17 +144,17 @@ window._initHook = function (hid, vid, src, idx) {
                 },
                 events: {
                     'onReady': (event) => {
-                        console.log(`[MultiTube Pro] Slot ${idx} Ready (${vid})`);
+                        console.log(`[YoutubeMulti Pro] Slot ${idx} Ready (${vid})`);
                     },
                     'onError': (e) => {
-                        console.warn(`[MultiTube Pro] Slot ${idx} API Error:`, e.data);
+                        console.warn(`[YoutubeMulti Pro] Slot ${idx} API Error:`, e.data);
                         _fallback(hid, vid, appOrigin);
                     }
                 }
             });
             _p.push(player);
         } catch (e) {
-            console.error('[MultiTube Pro] Constructor Error, falling back:', e);
+            console.error('[YoutubeMulti Pro] Constructor Error, falling back:', e);
             _fallback(hid, vid, appOrigin);
         }
     } else {
@@ -178,7 +178,7 @@ function _fallback(hid, vid, src) {
 // Side-effects: Visibility & Focus
 document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
-        console.log('[MultiTube Pro] Tab hidden - Pausing players via API');
+        console.log('[YoutubeMulti Pro] Tab hidden - Pausing players via API');
         _p.forEach(p => {
             try {
                 if (p && typeof p.pauseVideo === 'function' && p.getPlayerState) {

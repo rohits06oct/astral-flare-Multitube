@@ -1,4 +1,4 @@
-// contact.js - Contact Form Logic for MultiTube Pro
+// contact.js - Contact Form Logic for YoutubeMulti Pro
 
 (function () {
     // Initialize EmailJS
