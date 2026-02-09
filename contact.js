@@ -2,8 +2,15 @@
 
 (function () {
     // Initialize EmailJS
+    // NOTE: These values are replaced during deployment or can be set in a config.js file
+    const appConfig = typeof CONFIG !== 'undefined' ? CONFIG : {
+        publicKey: "YOUR_EMAILJS_PUBLIC_KEY",
+        serviceId: "YOUR_EMAILJS_SERVICE_ID",
+        templateId: "YOUR_EMAILJS_TEMPLATE_ID"
+    };
+
     emailjs.init({
-        publicKey: "53XIksfxxklzLnSKw",
+        publicKey: appConfig.publicKey,
     });
 
     const form = document.getElementById('contactForm');
@@ -95,12 +102,12 @@
             name: nameInput.value,
             email: emailInput.value,
             lib_version: '@emailjs/browser@4',
-            service_id: 'service_oqrebg5yu',
-            template_id: 'template_nowjwvi',
-            user_id: '53XIksfxxklzLnSKw'
+            service_id: appConfig.serviceId,
+            template_id: appConfig.templateId,
+            user_id: appConfig.publicKey
         };
 
-        emailjs.send('service_oqrebg5yu', 'template_nowjwvi', templateParams)
+        emailjs.send(appConfig.serviceId, appConfig.templateId, templateParams)
             .then(function () {
                 status.textContent = 'Message sent successfully! We will get back to you soon.';
                 status.className = 'success';

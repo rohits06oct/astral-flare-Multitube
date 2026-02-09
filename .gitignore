@@ -18,3 +18,7 @@ yarn-error.log*
 # Temporary files
 tmp/
 temp/
+
+# Environment files
+.env
+config.js
