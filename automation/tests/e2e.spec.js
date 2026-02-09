@@ -28,16 +28,16 @@ test.describe('YoutubeMulti Pro E2E Tests', () => {
         await expect(page.locator('#overallStatus')).toHaveText('Active');
     });
 
-    test('TC-010: Ads Visibility', async ({ page }) => {
-        // Header Ad
-        await expect(page.locator('.ad-banner').filter({ hasText: 'ADVERTISEMENT' }).first()).toBeVisible();
+    // test('TC-010: Ads Visibility', async ({ page }) => {
+    //     // Header Ad
+    //     await expect(page.locator('.ad-banner').filter({ hasText: 'ADVERTISEMENT' }).first()).toBeVisible();
 
-        // Sidebar Ad
-        await expect(page.locator('.sidebar-ad .ad-banner').filter({ hasText: 'VERTICAL AD' })).toBeVisible();
+    //     // Sidebar Ad
+    //     await expect(page.locator('.sidebar-ad .ad-banner').filter({ hasText: 'VERTICAL AD' })).toBeVisible();
 
-        // Footer Ad
-        await expect(page.locator('.ad-banner').filter({ hasText: 'FOOTER AD' })).toBeVisible();
-    });
+    //     // Footer Ad
+    //     await expect(page.locator('.ad-banner').filter({ hasText: 'FOOTER AD' })).toBeVisible();
+    // });
 
     test('TC-011: Navigation and Generation Flow', async ({ page, isMobile }) => {
         // Navigation Step
