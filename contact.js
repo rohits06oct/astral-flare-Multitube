@@ -9,9 +9,8 @@
         templateId: "YOUR_EMAILJS_TEMPLATE_ID"
     };
 
-    emailjs.init({
-        publicKey: appConfig.publicKey,
-    });
+    // Use local proxy in production to hide keys
+    const PROXY_ENDPOINT = '/api/send-email';
 
     const form = document.getElementById('contactForm');
     const nameInput = document.getElementById('name');
@@ -100,28 +99,36 @@
             time: currentTime,
             email_body: emailBody,
             name: nameInput.value,
-            email: emailInput.value,
-            lib_version: '@emailjs/browser@4',
-            service_id: appConfig.serviceId,
-            template_id: appConfig.templateId,
-            user_id: appConfig.publicKey
+            email: emailInput.value
         };
 
-        emailjs.send(appConfig.serviceId, appConfig.templateId, templateParams)
-            .then(function () {
-                status.textContent = 'Message sent successfully! We will get back to you soon.';
-                status.className = 'success';
-                btn.textContent = 'Message Sent';
-                form.reset();
-                wordCountDisplay.textContent = `Words: 0 / ${WORD_LIMIT}`;
-                btn.disabled = false;
-                setTimeout(() => {
-                    if (btn.textContent === 'Message Sent') {
-                        btn.textContent = 'Send Message';
-                    }
-                }, 3000);
-            }, function (error) {
-                console.error('EmailJS Error:', error);
+        // Send to backend proxy instead of direct EmailJS
+        fetch(PROXY_ENDPOINT, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(templateParams)
+        })
+            .then(response => {
+                if (response.ok) {
+                    status.textContent = 'Message sent successfully! We will get back to you soon.';
+                    status.className = 'success';
+                    btn.textContent = 'Message Sent';
+                    form.reset();
+                    wordCountDisplay.textContent = `Words: 0 / ${WORD_LIMIT}`;
+                    btn.disabled = false;
+                    setTimeout(() => {
+                        if (btn.textContent === 'Message Sent') {
+                            btn.textContent = 'Send Message';
+                        }
+                    }, 3000);
+                } else {
+                    throw new Error('Server responded with error');
+                }
+            })
+            .catch(error => {
+                console.error('Submission Error:', error);
                 status.textContent = 'Failed to send message. Please try again or contact us directly.';
                 status.className = 'error';
                 btn.disabled = false;
