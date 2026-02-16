@@ -17,12 +17,11 @@ const _observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             const hid = entry.target.dataset.hookId;
-            const vid = entry.target.dataset.vid;
-            const host = entry.target.dataset.host;
+            const info = entry.target.dataset.mediaInfo;
             const idx = entry.target.dataset.idx;
 
             if (hid && !_loadQueue.some(q => q.hid === hid)) {
-                _loadQueue.push({ hid, vid, host, idx });
+                _loadQueue.push({ hid, info, idx });
                 _processQueue();
             }
             _observer.unobserve(entry.target);
@@ -35,7 +34,7 @@ function _processQueue() {
     _loadInProgress = true;
 
     const next = _loadQueue.shift();
-    _initHook(next.hid, next.vid, next.host, next.idx);
+    _initHook(next.hid, next.info, null, next.idx);
 
     setTimeout(() => {
         _loadInProgress = false;
@@ -62,9 +61,45 @@ function _count(n) {
     if (el) el.textContent = n;
 }
 
-function _getId(u) {
-    const m = u.match(/(?:shorts\/|v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]{11})/);
-    return m ? m[1] : (u.length === 11 ? u : '');
+function _getMediaInfo(u) {
+    // YouTube
+    let m = u.match(/(?:shorts\/|v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]{11})/);
+    if (m || u.length === 11) return { id: m ? m[1] : u, platform: 'youtube', type: u.includes('/shorts/') ? 'short' : 'long', url: u };
+
+    // TikTok
+    m = u.match(/tiktok\.com\/.*video\/(\d+)/) || u.match(/tiktok\.com\/t\/(\w+)/);
+    if (m) return { id: m[1], platform: 'tiktok', type: 'short', url: u };
+
+    // Instagram
+    m = u.match(/instagram\.com\/(?:p|reels|reel)\/([a-zA-Z0-9_-]+)/);
+    if (m) return { id: m[1], platform: 'instagram', type: 'short', url: u };
+
+    // Facebook
+    if (u.includes('facebook.com')) return { id: encodeURIComponent(u), platform: 'facebook', type: 'long', url: u };
+
+    // Vimeo
+    m = u.match(/vimeo\.com\/(\d+)/);
+    if (m) return { id: m[1], platform: 'vimeo', type: 'long', url: u };
+
+    // Dailymotion
+    m = u.match(/dailymotion\.com\/video\/([a-zA-Z0-9]+)/);
+    if (m) return { id: m[1], platform: 'dailymotion', type: 'long', url: u };
+
+    // Twitch
+    m = u.match(/twitch\.tv\/([a-zA-Z0-9_-]+)/);
+    if (m) {
+        const isVideo = u.includes('/videos/');
+        return { id: m[1], platform: 'twitch', type: 'long', url: u, subType: isVideo ? 'video' : 'channel' };
+    }
+
+    // Snapchat
+    m = u.match(/snapchat\.com\/.*spotlight\/([a-zA-Z0-9_-]+)/);
+    if (m) return { id: m[1], platform: 'snapchat', type: 'short', url: u };
+
+    // Moj
+    if (u.includes('mojapp.in')) return { id: encodeURIComponent(u), platform: 'moj', type: 'short', url: u };
+
+    return null;
 }
 
 function _start(urls, num, stage) {
@@ -78,20 +113,14 @@ function _start(urls, num, stage) {
     stage.innerHTML = '';
     _count(0);
 
-    const ids = urls.map(u => ({ id: _getId(u), original: u })).filter(item => item.id !== '');
-    if (ids.length === 0) return alert('No valid YouTube IDs found in your input.');
-
-    // Clean Origin (No trailing slash)
-    const host = window.location.origin;
+    const items = urls.map(u => _getMediaInfo(u)).filter(item => item !== null);
+    if (items.length === 0) return alert('No valid Video URLs found in your input. Supported: YouTube, TikTok, FB, IG, Vimeo, etc.');
 
     for (let i = 0; i < num; i++) {
-        const item = ids[i % ids.length];
-        const vid = item.id;
-        const originalUrl = item.original;
-
+        const info = items[i % items.length];
         const box = document.createElement('div');
         box.className = 'item-box';
-        if (originalUrl.includes('/shorts/')) box.classList.add('short');
+        if (info.type === 'short') box.classList.add('short');
 
         const hookId = `slot-node-${i}`;
         const hook = document.createElement('div');
@@ -101,8 +130,7 @@ function _start(urls, num, stage) {
 
         // Data for Observer
         box.dataset.hookId = hookId;
-        box.dataset.vid = vid;
-        box.dataset.host = host;
+        box.dataset.mediaInfo = JSON.stringify(info);
         box.dataset.idx = i;
 
         box.appendChild(hook);
@@ -113,62 +141,89 @@ function _start(urls, num, stage) {
     }
 
     _count(num);
-    _up('Ready (Lazy Loading Enabled)', 'playing');
+    _up('Ready (Multi-Platform Enabled)', 'playing');
 }
 
-window._initHook = function (hid, vid, src, idx) {
+window._initHook = function (hid, infoRaw, _, idx) {
+    const info = typeof infoRaw === 'string' ? JSON.parse(infoRaw) : infoRaw;
     const el = document.getElementById(hid);
     if (el) {
         el.className = 'slot-placeholder';
-        el.innerHTML = `<span>Loading Slot ${idx + 1}...</span>`;
+        el.innerHTML = `<span>Loading ${info.platform} ${idx + 1}...</span>`;
     }
 
-    // Sanitize origin: Ensure no trailing slash for the handshake
     const appOrigin = window.location.origin;
-    console.log(`[YoutubeMulti Pro] Slot ${idx} Init | Origin: ${appOrigin}`);
+    const hostname = window.location.hostname;
 
-    if (_ready && typeof YT !== 'undefined' && YT.Player) {
-        try {
-            const player = new YT.Player(hid, {
-                height: '100%', width: '100%', videoId: vid,
-                host: 'https://www.youtube.com',
-                playerVars: {
-                    'autoplay': 0,
-                    'mute': 0,
-                    'controls': 1,
-                    'rel': 0,
-                    'enablejsapi': 1,
-                    'origin': appOrigin,
-                    'widget_referrer': appOrigin,
-                    'playlist': vid
-                },
-                events: {
-                    'onReady': (event) => {
-                        console.log(`[YoutubeMulti Pro] Slot ${idx} Ready (${vid})`);
+    if (info.platform === 'youtube') {
+        if (_ready && typeof YT !== 'undefined' && YT.Player) {
+            try {
+                const player = new YT.Player(hid, {
+                    height: '100%', width: '100%', videoId: info.id,
+                    host: 'https://www.youtube.com',
+                    playerVars: {
+                        'autoplay': 0, 'mute': 0, 'controls': 1, 'rel': 0, 'enablejsapi': 1,
+                        'origin': appOrigin, 'widget_referrer': appOrigin, 'playlist': info.id
                     },
-                    'onError': (e) => {
-                        console.warn(`[YoutubeMulti Pro] Slot ${idx} API Error:`, e.data);
-                        _fallback(hid, vid, appOrigin);
+                    events: {
+                        'onReady': () => console.log(`[MultiTube Pro] Slot ${idx} Ready (YT:${info.id})`),
+                        'onError': () => _fallback(hid, info)
                     }
-                }
-            });
-            _p.push(player);
-        } catch (e) {
-            console.error('[YoutubeMulti Pro] Constructor Error, falling back:', e);
-            _fallback(hid, vid, appOrigin);
+                });
+                _p.push(player);
+                return;
+            } catch (e) { console.warn('YT API Error:', e); }
         }
-    } else {
-        _fallback(hid, vid, appOrigin);
     }
+
+    // Non-YouTube or YT Fallback
+    _fallback(hid, info);
 }
 
-function _fallback(hid, vid, src) {
+function _fallback(hid, info) {
     const el = document.getElementById(hid);
     if (!el) return;
     const ifr = document.createElement('iframe');
     const appOrigin = window.location.origin;
-    ifr.src = `https://www.youtube.com/embed/${vid}?autoplay=0&mute=0&enablejsapi=1&origin=${encodeURIComponent(appOrigin)}`;
-    ifr.allow = "autoplay; encrypted-media; picture-in-picture";
+    const hostname = window.location.hostname;
+    let embedSrc = '';
+
+    switch (info.platform) {
+        case 'youtube':
+            embedSrc = `https://www.youtube.com/embed/${info.id}?autoplay=0&mute=0&enablejsapi=1&origin=${encodeURIComponent(appOrigin)}`;
+            break;
+        case 'tiktok':
+            embedSrc = `https://www.tiktok.com/embed/v2/${info.id}`;
+            break;
+        case 'instagram':
+            embedSrc = `https://www.instagram.com/reels/${info.id}/embed`;
+            break;
+        case 'facebook':
+            embedSrc = `https://www.facebook.com/plugins/video.php?href=${info.id}&show_text=0`;
+            break;
+        case 'vimeo':
+            embedSrc = `https://player.vimeo.com/video/${info.id}`;
+            break;
+        case 'dailymotion':
+            embedSrc = `https://www.dailymotion.com/embed/video/${info.id}`;
+            break;
+        case 'twitch':
+            const typeParam = info.subType === 'video' ? `video=${info.id[1]}` : `channel=${info.id}`;
+            embedSrc = `https://player.twitch.tv/?${typeParam}&parent=${hostname}&autoplay=false`;
+            break;
+        case 'snapchat':
+            embedSrc = `https://www.snapchat.com/embed/spotlight/${info.id}`;
+            break;
+        case 'moj':
+            embedSrc = decodeURIComponent(info.id); // Direct if possible
+            break;
+        default:
+            embedSrc = info.url;
+    }
+
+    ifr.src = embedSrc;
+    ifr.allow = "autoplay; encrypted-media; picture-in-picture; web-share";
+    ifr.allowFullscreen = true;
     ifr.className = "fallback-iframe";
     el.innerHTML = '';
     el.className = '';
@@ -205,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
     gBtn.addEventListener('click', () => {
         const raw = uIn.value.trim();
         const count = parseInt(sIn.value) || 1;
-        if (!raw) return alert('Please enter at least one YouTube URL.');
+        if (!raw) return alert('Please enter at least one URL (YouTube, Facebook, TikTok, etc.).');
         const list = raw.split(/[\n,;]+/).map(s => s.trim()).filter(s => s.length > 0);
 
         const check = window.MultiTubeApp.checkPermission(list.length, count);
