@@ -81,7 +81,7 @@ const MultiTubeApp = {
         const headerHTML = `
             <div class="container">
                 <nav>
-                    <a href="${prefix}index.html" class="logo">YoutubeMulti</a>
+                    <a href="${prefix}index.html" class="logo">YoutubeMulti Pro</a>
                     <div class="nav-links">
                         <a href="${prefix}index.html" class="${currentPath === 'index.html' ? 'active' : ''}">Home</a>
                         <a href="${prefix}about.html" class="${currentPath === 'about.html' ? 'active' : ''}">About</a>
@@ -115,6 +115,7 @@ const MultiTubeApp = {
             <div class="container">
                 <p>&copy; 2026 YoutubeMulti Pro. All rights reserved.</p>
                 <div class="footer-links">
+                    <a href="${prefix}index.html">Home</a>
                     <a href="${prefix}about.html">About YoutubeMulti</a>
                     <a href="${prefix}contact.html">Contact Support</a>
                     <a href="${prefix}blog.html">Blog</a>
