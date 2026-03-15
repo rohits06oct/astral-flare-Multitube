@@ -230,7 +230,7 @@ function initSharedUI() {
         MultiTubeApp.initPremiumUI();
         MultiTubeApp.initMobileMenu();
     }
-    
+
     // Inject the translator on all pages
     MultiTubeApp.injectTranslator();
 }
