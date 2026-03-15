@@ -8,10 +8,10 @@ module.exports = defineConfig({
     workers: process.env.CI ? 1 : undefined,
     reporter: 'html',
     use: {
-        baseURL: 'http://localhost:8000',
+        baseURL: 'https://youtubemulti.online/',
         trace: 'on-first-retry',
         screenshot: 'only-on-failure',
-        headless: process.env.HEADLESS === 'false' ? false : true,
+        headless: false,
         launchOptions: {
             slowMo: 500,
         },
@@ -36,11 +36,4 @@ module.exports = defineConfig({
         },
     ],
 
-    // Run local dev server before starting the tests
-    webServer: {
-        command: 'npx -y serve .. -p 8000',
-        url: 'http://localhost:8000',
-        reuseExistingServer: !process.env.CI,
-        cwd: __dirname,
-    },
 });
