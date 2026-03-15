@@ -170,23 +170,84 @@ const MultiTubeApp = {
         // Re-initialize mobile menu after injection
         this.initMobileMenu();
         this.initPremiumUI();
+    },
+
+    injectTranslator() {
+        if (document.getElementById('google_translate_element')) return;
+
+        const translateContainer = document.createElement('div');
+        translateContainer.id = 'google_translate_container';
+        translateContainer.style.cssText = 'text-align: right; padding: 10px 20px; background: var(--bg-card, #1e1e1e); border-bottom: 1px solid var(--border, #333); margin-bottom: 20px; border-radius: 8px; display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 10px;';
+
+        const translateDiv = document.createElement('div');
+        translateDiv.id = 'google_translate_element';
+        translateDiv.style.display = 'inline-block';
+
+        const label = document.createElement('span');
+        label.innerText = 'Translate: ';
+        label.style.fontWeight = 'bold';
+        label.style.color = 'var(--text-main, #fff)';
+
+        translateContainer.appendChild(label);
+        translateContainer.appendChild(translateDiv);
+
+        const articleContainer = document.querySelector('.article-container');
+        if (articleContainer) {
+            articleContainer.prepend(translateContainer);
+        } else {
+            const blogContainer = document.querySelector('.blog-container');
+            if (blogContainer) {
+                blogContainer.prepend(translateContainer);
+            }
+        }
+
+        window.googleTranslateElementInit = function () {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,es,fr,de,pl,zh-CN,hi,pt,ru,ja',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        };
+
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+        document.body.appendChild(script);
     }
 };
 
 // Auto-init shared UI elements
-document.addEventListener('DOMContentLoaded', () => {
-    // If the page is NOT index or blog (which have hardcoded headers for SEO/performance), 
-    // or if we explicitly want to standardise them, we can call renderSharedElements.
-    // However, for articles, we definitely want it.
+function initSharedUI() {
     const isArticle = window.location.pathname.includes('/article/');
+    const isBlog = window.location.pathname.includes('blog') || document.title.includes('Blog');
+    const ishome = window.location.pathname.includes('index') || document.title.includes('Home');
+    const isContact = window.location.pathname.includes('contact') || document.title.includes('Contact');
+    const isAbout = window.location.pathname.includes('about') || document.title.includes('About');
+    //const isBlog = window.location.pathname.includes('blog') || document.title.includes('Blog');
+
     if (isArticle) {
         MultiTubeApp.renderSharedElements();
+        MultiTubeApp.injectTranslator();
     } else {
-        // For root pages, just init the existing elements
         MultiTubeApp.initPremiumUI();
         MultiTubeApp.initMobileMenu();
+        if (isBlog) {
+            MultiTubeApp.injectTranslator();
+        } if (isContact) {
+            MultiTubeApp.injectTranslator();
+        } if (isAbout) {
+            MultiTubeApp.injectTranslator();
+        } if (ishome) {
+            MultiTubeApp.injectTranslator();
+        }
     }
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSharedUI);
+} else {
+    initSharedUI();
+}
 
 window.MultiTubeApp = MultiTubeApp;
 
