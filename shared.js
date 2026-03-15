@@ -192,19 +192,23 @@ const MultiTubeApp = {
         translateContainer.appendChild(translateDiv);
 
         const articleContainer = document.querySelector('.article-container');
+        const blogContainer = document.querySelector('.blog-container');
+        const header = document.getElementById('site-header') || document.querySelector('header');
+
         if (articleContainer) {
             articleContainer.prepend(translateContainer);
+        } else if (blogContainer) {
+            blogContainer.prepend(translateContainer);
+        } else if (header) {
+            header.after(translateContainer);
         } else {
-            const blogContainer = document.querySelector('.blog-container');
-            if (blogContainer) {
-                blogContainer.prepend(translateContainer);
-            }
+            document.body.prepend(translateContainer);
         }
 
         window.googleTranslateElementInit = function () {
             new google.translate.TranslateElement({
                 pageLanguage: 'en',
-                includedLanguages: 'en,es,fr,de,pl,zh-CN,hi,pt,ru,ja',
+                includedLanguages: 'en,es,fr,de,pl,zh-CN,hi,pt,ru,ja,ar,bn,ur,ko',
                 layout: google.translate.TranslateElement.InlineLayout.SIMPLE
             }, 'google_translate_element');
         };
@@ -219,28 +223,16 @@ const MultiTubeApp = {
 // Auto-init shared UI elements
 function initSharedUI() {
     const isArticle = window.location.pathname.includes('/article/');
-    const isBlog = window.location.pathname.includes('blog') || document.title.includes('Blog');
-    const ishome = window.location.pathname.includes('index') || document.title.includes('Home');
-    const isContact = window.location.pathname.includes('contact') || document.title.includes('Contact');
-    const isAbout = window.location.pathname.includes('about') || document.title.includes('About');
-    //const isBlog = window.location.pathname.includes('blog') || document.title.includes('Blog');
 
     if (isArticle) {
         MultiTubeApp.renderSharedElements();
-        MultiTubeApp.injectTranslator();
     } else {
         MultiTubeApp.initPremiumUI();
         MultiTubeApp.initMobileMenu();
-        if (isBlog) {
-            MultiTubeApp.injectTranslator();
-        } if (isContact) {
-            MultiTubeApp.injectTranslator();
-        } if (isAbout) {
-            MultiTubeApp.injectTranslator();
-        } if (ishome) {
-            MultiTubeApp.injectTranslator();
-        }
     }
+    
+    // Inject the translator on all pages
+    MultiTubeApp.injectTranslator();
 }
 
 if (document.readyState === 'loading') {
