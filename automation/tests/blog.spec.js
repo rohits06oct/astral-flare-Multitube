@@ -15,6 +15,8 @@ test.describe('Blog Page Tests', () => {
         // Assert that there are multiple article cards
         const count = await articleCards.count();
         expect(count).toBeGreaterThan(5);
+        
+        await page.waitForTimeout(30000);
     });
 
     test('TC-BLOG-002: Read More Navigation', async ({ page }) => {
@@ -28,5 +30,7 @@ test.describe('Blog Page Tests', () => {
         // Check it has a valid href linking to an article
         const href = await firstReadMore.getAttribute('href');
         expect(href).toMatch(/^article\/.*\.html$/);
+        
+        await page.waitForTimeout(30000);
     });
 });

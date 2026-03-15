@@ -22,6 +22,13 @@ module.exports = defineConfig({
             name: 'desktop-chrome',
             use: { ...devices['Desktop Chrome'] },
         },
+        // {
+        //     name: 'safari',
+        //     use: {
+        //         browserName: 'webkit',
+        //         viewport: { width: 1280, height: 720 },
+        //     },
+        // },
         {
             name: 'mobile-pixel',
             use: { ...devices['Pixel 5'] },
@@ -32,7 +39,7 @@ module.exports = defineConfig({
         },
         {
             name: 'mobile-iphone',
-            use: { ...devices['iPhone 12'] },
+            use: { ...devices['iPhone 15'] },
         },
     ],
 

@@ -26,6 +26,8 @@ test.describe('YoutubeMulti Pro E2E Tests', () => {
 
         // Verify status is "Active"
         await expect(page.locator('#overallStatus')).toHaveText('Active');
+        
+        await page.waitForTimeout(30000);
     });
 
     // test('TC-010: Ads Visibility', async ({ page }) => {
@@ -59,5 +61,7 @@ test.describe('YoutubeMulti Pro E2E Tests', () => {
         await page.waitForTimeout(150000);
         await expect(iframes).toHaveCount(4);
         await expect(iframes.first()).toBeVisible();
+        
+        await page.waitForTimeout(30000);
     });
 });

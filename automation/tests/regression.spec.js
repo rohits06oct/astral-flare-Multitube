@@ -24,6 +24,8 @@ test.describe('YoutubeMulti Pro Regression Tests', () => {
             await expect(page.url()).toContain(linkText.toLowerCase() === 'pricing' ? 'subscription' : linkText.toLowerCase());
             await page.goto('/');
         }
+        
+        await page.waitForTimeout(30000);
     });
 
     test('TC-002: YouTube Link Parsing and Generation', async ({ page }) => {
@@ -39,6 +41,8 @@ test.describe('YoutubeMulti Pro Regression Tests', () => {
         await expect(activeCount).toHaveText('2');
         await page.waitForTimeout(150000);
         await expect(page.locator('.item-box iframe')).toHaveCount(2);
+
+        await page.waitForTimeout(30000);
     });
 
     test('TC-003: Reset Functionality', async ({ page }) => {
@@ -55,6 +59,8 @@ test.describe('YoutubeMulti Pro Regression Tests', () => {
         await expect(page.locator('#activeCount')).toHaveText('0');
         await expect(page.locator('.empty-state')).toBeVisible();
         await expect(page.locator('#videoUrls')).toHaveValue('');
+
+        await page.waitForTimeout(30000);
     });
 
     test('TC-004: Subscription Enforcement', async ({ page }) => {
@@ -66,12 +72,16 @@ test.describe('YoutubeMulti Pro Regression Tests', () => {
         await page.getByRole('button', { name: 'Generate' }).click();
 
         await expect(page.url()).toContain('http://localhost:8000/subscription');
+
+        await page.waitForTimeout(30000);
     });
 
     test('TC-005: Hamburger Menu Visibility (Mobile only)', async ({ page, isMobile }) => {
         if (!isMobile) return;
         const hamburger = page.locator('#hamburgerBtn');
         await expect(hamburger).toBeVisible();
+
+        await page.waitForTimeout(30000);
     });
 
     test('TC-006: Mobile Navigation (Mobile only)', async ({ page, isMobile }) => {
@@ -82,5 +92,7 @@ test.describe('YoutubeMulti Pro Regression Tests', () => {
 
         await mobileMenu.getByRole('link', { name: 'About' }).click();
         await expect(page.url()).toContain('http://localhost:8000/about');
+
+        await page.waitForTimeout(30000);
     });
 });

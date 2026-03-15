@@ -15,6 +15,8 @@ test.describe('Subscription Page Tests', () => {
         const proPlan = page.locator('.pricing-card').filter({ hasText: 'Pro Plan' });
         await expect(proPlan).toBeVisible();
         await expect(proPlan.locator('.price')).toContainText('$0.12');
+        
+        await page.waitForTimeout(30000);
     });
 
     test('TC-SUB-002: Feature Comparison Table', async ({ page }) => {
@@ -30,5 +32,7 @@ test.describe('Subscription Page Tests', () => {
         await expect(videoUrlRow).toBeVisible();
         await expect(videoUrlRow.locator('td').nth(1)).toHaveText('10');
         await expect(videoUrlRow.locator('td').nth(2)).toHaveText('30');
+        
+        await page.waitForTimeout(30000);
     });
 });
