@@ -1372,8 +1372,18 @@
     <script src="shared.js"></script>
     <script>
         const runBtn = document.getElementById('runTestsBtn');
+        const ghLink = document.getElementById('ghActionsLink');
         const stopBtn = document.getElementById('stopTestsBtn');
         const outputContainer = document.getElementById('testOutputContainer');
+
+        // Environment Detection
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        if (isLocal) {
+            runBtn.style.display = 'inline-block';
+        } else {
+            ghLink.style.display = 'inline-block';
+        }
+
         const outputContent = document.getElementById('testOutput');
         const closeBtn = document.getElementById('closeOutput');
 
@@ -1395,16 +1405,21 @@
         };
 
         runBtn.onclick = async () => {
+            const apiBase = isLocal ? '' : 'http://localhost:8000';
+            
             runBtn.disabled = true;
             runBtn.innerText = '⌛ Connecting...';
             runBtn.style.display = 'none';
             stopBtn.style.display = 'inline-block';
             
             outputContainer.style.display = 'block';
-            outputContent.innerText = '>>> Requesting test execution from local server...\n';
+            outputContent.innerHTML = '>>> Requesting test execution from local server...';
+            if (!isLocal) {
+                outputContent.innerHTML += '\n<span style="color: #6a9955;">[INFO]: Connecting to your local machine at localhost:8000. Ensure "node server.js" is running!</span>\n';
+            }
 
             try {
-                const response = await fetch('/api/run-tests');
+                const response = await fetch(`${apiBase}/api/run-tests`);
                 if (!response.ok) {
                     const errorText = await response.text();
                     throw new Error(errorText || 'Could not connect to local server.');
@@ -1424,10 +1439,14 @@
                     outputContainer.scrollTop = outputContainer.scrollHeight;
                 }
             } catch (err) {
-                outputContent.innerHTML += `\n<span style="color: #ff5252;">[ERROR]: ${err.message}</span>`;
+                if (!isLocal && err.message.includes('fetch')) {
+                    outputContent.innerHTML += `\n<span style="color: #ff5252;">[SECURE BROWSER ERROR]: Your browser blocked the connection from HTTPS (site) to HTTP (local). To fix:</span>\n1. Click the 🔒 icon in your browser URL bar.\n2. Go to "Site Settings".\n3. Allow "Insecure Content".\n4. Refresh the page.`;
+                } else {
+                    outputContent.innerHTML += `\n<span style="color: #ff5252;">[ERROR]: ${err.message}</span>`;
+                }
             } finally {
                 runBtn.disabled = false;
-                runBtn.innerText = '▶ Run Automation Tests';
+                runBtn.innerText = '▶ Run Automation Tests (Local)';
                 runBtn.style.display = 'inline-block';
                 stopBtn.style.display = 'none';
             }
