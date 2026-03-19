@@ -5,13 +5,10 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "cd automation && npx playwright test tests/articles.spec.js",
-    "postinstall": "npx playwright install --with-deps"
+    "test": "npm run test --prefix automation",
+    "postinstall": "npm install --prefix automation && npx playwright install --with-deps"
   },
-  "dependencies": {
-    "playwright": "^1.58.2",
-    "@playwright/test": "^1.58.2"
-  },
+  "dependencies": {},
   "engines": {
     "node": ">=18"
   }

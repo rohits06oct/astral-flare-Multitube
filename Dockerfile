@@ -7,17 +7,14 @@ WORKDIR /app
 # Copy the entire project
 COPY . .
 
-# Install root dependencies
-RUN npm install
-
-# Install automation dependencies
+# Install dependencies in the automation folder where playwright is defined
 RUN cd automation && npm install
 
 # Install browsers and their system dependencies
-# This is pre-baked in the image, but good to ensure latest/needed
+# This ensures that the environment is fully ready
 RUN npx playwright install --with-deps
 
-# Create output directories just in case
+# Create output directories for reports
 RUN mkdir -p automation/test-results automation/playwright-report
 
 # Expose the default server port
