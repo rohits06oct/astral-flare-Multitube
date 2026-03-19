@@ -234,18 +234,41 @@
         <div class="blog-container">
             <div class="blog-header">
                 <h1>Insights & Strategies</h1>
-                <!-- <script src="https://breachuptown.com/3c/32/4f/3c324f9a1060899bbe07b8d5b3c98cf5.js"></script> -->
                 <p class="text-dim">Latest articles from the YoutubeMulti Pro team</p>
-                <script>
-                    atOptions = {
-                        'key': '33433f6df6b598bfe9054c0fa007dbbf',
-                        'format': 'iframe',
-                        'height': 60,
-                        'width': 468,
-                        'params': {}
-                    };
-                </script>
-                <script src="https://www.highperformanceformat.com/33433f6df6b598bfe9054c0fa007dbbf/invoke.js"></script>
+
+                <!-- Automation Trigger UI -->
+                <div style="margin: 20px 0; display: inline-block; width: 100%; max-width: 600px;">
+                    <button id="runTestsBtn" class="read-more-btn"
+                        style="background: #28a745; border-color: #28a745; color: white; cursor: pointer; padding: 12px 24px; font-size: 1.1rem; box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);">
+                        ▶ Run Automation Tests
+                    </button>
+                    <button id="stopTestsBtn" class="read-more-btn"
+                        style="background: #ff5252; border-color: #ff5252; color: white; cursor: pointer; padding: 12px 24px; font-size: 1.1rem; display: none; margin-left: 10px; box-shadow: 0 4px 10px rgba(255, 82, 82, 0.3);">
+                        ■ Stop Tests
+                    </button>
+                    <div id="testOutputContainer"
+                        style="display: none; margin-top: 25px; text-align: left; background: #121212; color: #e0e0e0; padding: 15px; border-radius: 12px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; font-size: 0.9rem; max-height: 450px; overflow-y: auto; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.6);">
+                        <div
+                            style="display: flex; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px solid #333; padding-bottom: 8px;">
+                            <span style="color: #4caf50; font-weight: bold;">[CONSOLE] Playwright E2E Suite</span>
+                            <span id="closeOutput" style="cursor: pointer; color: #ff5252; font-weight: bold;">[CLOSE]</span>
+                        </div>
+                        <pre id="testOutput" style="margin: 0; white-space: pre-wrap; line-height: 1.5;"></pre>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <script>
+                        atOptions = {
+                            'key': '33433f6df6b598bfe9054c0fa007dbbf',
+                            'format': 'iframe',
+                            'height': 60,
+                            'width': 468,
+                            'params': {}
+                        };
+                    </script>
+                    <script src="https://www.highperformanceformat.com/33433f6df6b598bfe9054c0fa007dbbf/invoke.js"></script>
+                </div>
             </div>
 
             <article class="article-card">
@@ -1347,6 +1370,69 @@
     </footer>
 
     <script src="shared.js"></script>
+    <script>
+        const runBtn = document.getElementById('runTestsBtn');
+        const stopBtn = document.getElementById('stopTestsBtn');
+        const outputContainer = document.getElementById('testOutputContainer');
+        const outputContent = document.getElementById('testOutput');
+        const closeBtn = document.getElementById('closeOutput');
+
+        closeBtn.onclick = () => { outputContainer.style.display = 'none'; };
+
+        stopBtn.onclick = async () => {
+            stopBtn.disabled = true;
+            stopBtn.innerText = '⌛ Stopping...';
+            try {
+                const response = await fetch('/api/stop-tests');
+                const text = await response.text();
+                outputContent.innerText += `\n${text}\n`;
+            } catch (err) {
+                outputContent.innerHTML += `\n<span style="color: #ff5252;">[ERROR]: Failed to stop - ${err.message}</span>`;
+            } finally {
+                stopBtn.disabled = false;
+                stopBtn.innerText = '■ Stop Tests';
+            }
+        };
+
+        runBtn.onclick = async () => {
+            runBtn.disabled = true;
+            runBtn.innerText = '⌛ Connecting...';
+            runBtn.style.display = 'none';
+            stopBtn.style.display = 'inline-block';
+            
+            outputContainer.style.display = 'block';
+            outputContent.innerText = '>>> Requesting test execution from local server...\n';
+
+            try {
+                const response = await fetch('/api/run-tests');
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(errorText || 'Could not connect to local server.');
+                }
+                
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    
+                    const chunk = decoder.decode(value, { stream: true });
+                    outputContent.innerText += chunk;
+                    
+                    // Auto-scroll to bottom as results stream in
+                    outputContainer.scrollTop = outputContainer.scrollHeight;
+                }
+            } catch (err) {
+                outputContent.innerHTML += `\n<span style="color: #ff5252;">[ERROR]: ${err.message}</span>`;
+            } finally {
+                runBtn.disabled = false;
+                runBtn.innerText = '▶ Run Automation Tests';
+                runBtn.style.display = 'inline-block';
+                stopBtn.style.display = 'none';
+            }
+        };
+    </script>
 </body>
 
 </html>

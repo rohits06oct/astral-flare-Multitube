@@ -5,13 +5,18 @@ echo    MultiTube Local Server Starter
 echo ==========================================
 echo.
 
-:: Try Node.js first (serve is very reliable)
-where npx >nul 2>nul
+:: Try Node.js first (server.js is the most feature-rich)
+where node >nul 2>nul
 if %errorlevel%==0 (
-    echo [1/2] Attempting to start with Node.js (npx serve)...
-    npx -y serve . -p 8000
+    echo [1/3] Starting with Node.js (server.js)...
+    node server.js
     goto end
 )
+
+:: Fallback to serve
+where npx >nul 2>nul
+if %errorlevel%==0 (
+    echo [2/3] Attempting to start with npx serve...
 
 :: Try Python next || python -m http.server 8000
 where python >nul 2>nul
