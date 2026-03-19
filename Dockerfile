@@ -10,8 +10,10 @@ COPY . .
 # Install dependencies in the automation folder where playwright is defined
 RUN cd automation && npm install
 
+# Fix potential permission issues with binaries
+RUN chmod +x automation/node_modules/.bin/* || true
+
 # Install browsers and their system dependencies
-# This ensures that the environment is fully ready
 RUN npx playwright install --with-deps
 
 # Create output directories for reports

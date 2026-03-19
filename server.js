@@ -35,10 +35,10 @@ const server = http.createServer((req, res) => {
         });
 
         res.write('>>> INITIALIZING PLAYWRIGHT TEST SUITE...\n');
-        res.write('>>> COMMAND: npx playwright test tests/articles.spec.js --config playwright.config.js\n\n');
+        res.write('>>> COMMAND: npm test -- tests/articles.spec.js --config playwright.config.js\n\n');
 
         // Run from the automation directory where config/dependencies are
-        activeTestProcess = spawn('npx', ['playwright', 'test', 'tests/articles.spec.js', '--config', 'playwright.config.js'], {
+        activeTestProcess = spawn('npm', ['test', '--', 'tests/articles.spec.js', '--config', 'playwright.config.js'], {
             shell: true,
             cwd: path.join(__dirname, 'automation')
         });
