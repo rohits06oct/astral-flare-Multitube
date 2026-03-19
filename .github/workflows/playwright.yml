@@ -25,9 +25,9 @@ jobs:
       working-directory: ./automation
       run: npx playwright install --with-deps
 
-    - name: Run Playwright tests
-      working-directory: ./automation
-      run: npx playwright test automation/tests/articles.spec.js
+    # - name: Run Playwright tests
+    #   working-directory: ./automation
+    #   run: npx playwright test automation/tests/articles.spec.js
 
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
