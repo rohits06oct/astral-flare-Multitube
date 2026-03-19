@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { spawn } = require('child_process');
 
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 let activeTestProcess = null;
 
 const MIME_TYPES = {
@@ -70,8 +70,11 @@ const server = http.createServer((req, res) => {
     if (req.url === '/api/stop-tests') {
         res.writeHead(200, { 'Content-Type': 'text/plain', 'Access-Control-Allow-Origin': '*' });
         if (activeTestProcess) {
-            // On Windows, spawned processes might need taskkill to kill the entire tree
-            spawn('taskkill', ['/pid', activeTestProcess.pid, '/f', '/t']);
+            if (process.platform === 'win32') {
+                spawn('taskkill', ['/pid', activeTestProcess.pid, '/f', '/t']);
+            } else {
+                activeTestProcess.kill('SIGKILL');
+            }
             res.end('>>> Request sent to terminate Playwright process.');
         } else {
             res.end('>>> No active test process to stop.');

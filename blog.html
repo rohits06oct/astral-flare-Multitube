@@ -1388,12 +1388,12 @@
         const outputContainer = document.getElementById('testOutputContainer');
 
         // Environment Detection
+        const RENDER_URL = 'https://astral-flare-multitube.onrender.com'; // FIXME: Update with your actual Render URL
         const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-        if (isLocal) {
-            runBtn.style.display = 'inline-block';
-        } else {
-            ghLink.style.display = 'inline-block';
-        }
+
+        // Always show the run button, but label it based on environment
+        runBtn.style.display = 'inline-block';
+        runBtn.innerText = isLocal ? '▶ Run Automation Tests (Local)' : '▶ Run Automation Tests (Render)';
 
         const outputContent = document.getElementById('testOutput');
         const closeBtn = document.getElementById('closeOutput');
@@ -1401,10 +1401,11 @@
         closeBtn.onclick = () => { outputContainer.style.display = 'none'; };
 
         stopBtn.onclick = async () => {
+            const apiBase = isLocal ? '' : RENDER_URL;
             stopBtn.disabled = true;
             stopBtn.innerText = '⌛ Stopping...';
             try {
-                const response = await fetch('/api/stop-tests');
+                const response = await fetch(`${apiBase}/api/stop-tests`);
                 const text = await response.text();
                 outputContent.innerText += `\n${text}\n`;
             } catch (err) {
@@ -1416,7 +1417,7 @@
         };
 
         runBtn.onclick = async () => {
-            const apiBase = isLocal ? '' : 'http://localhost:8000';
+            const apiBase = isLocal ? '' : RENDER_URL;
 
             runBtn.disabled = true;
             runBtn.innerText = '⌛ Connecting...';
@@ -1424,9 +1425,9 @@
             stopBtn.style.display = 'inline-block';
 
             outputContainer.style.display = 'block';
-            outputContent.innerHTML = '>>> Requesting test execution from local server...';
+            outputContent.innerHTML = `>>> Requesting test execution from ${isLocal ? 'local server' : 'Render server'}...`;
             if (!isLocal) {
-                outputContent.innerHTML += '\n<span style="color: #6a9955;">[INFO]: Connecting to your local machine at localhost:8000. Ensure "node server.js" is running!</span>\n';
+                outputContent.innerHTML += `\n<span style="color: #6a9955;">[INFO]: Connecting to Render at ${RENDER_URL}</span>\n`;
             }
 
             try {
@@ -1470,7 +1471,7 @@
                 }
             } finally {
                 runBtn.disabled = false;
-                runBtn.innerText = '▶ Run Automation Tests (Local)';
+                runBtn.innerText = isLocal ? '▶ Run Automation Tests (Local)' : '▶ Run Automation Tests (Render)';
                 runBtn.style.display = 'inline-block';
                 stopBtn.style.display = 'none';
             }
