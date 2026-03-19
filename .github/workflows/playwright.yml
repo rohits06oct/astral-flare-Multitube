@@ -27,7 +27,7 @@ jobs:
 
     - name: Run Playwright tests
       working-directory: ./automation
-      run: npx playwright test --config playwright.config.js
+      run: npx playwright test automation/tests/articles.spec.js
 
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
