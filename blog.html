@@ -251,7 +251,8 @@
                         <div
                             style="display: flex; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px solid #333; padding-bottom: 8px;">
                             <span style="color: #4caf50; font-weight: bold;">[CONSOLE] Playwright E2E Suite</span>
-                            <span id="closeOutput" style="cursor: pointer; color: #ff5252; font-weight: bold;">[CLOSE]</span>
+                            <span id="closeOutput"
+                                style="cursor: pointer; color: #ff5252; font-weight: bold;">[CLOSE]</span>
                         </div>
                         <pre id="testOutput" style="margin: 0; white-space: pre-wrap; line-height: 1.5;"></pre>
                     </div>
@@ -267,7 +268,8 @@
                             'params': {}
                         };
                     </script>
-                    <script src="https://www.highperformanceformat.com/33433f6df6b598bfe9054c0fa007dbbf/invoke.js"></script>
+                    <script
+                        src="https://www.highperformanceformat.com/33433f6df6b598bfe9054c0fa007dbbf/invoke.js"></script>
                 </div>
             </div>
 
@@ -1406,12 +1408,12 @@
 
         runBtn.onclick = async () => {
             const apiBase = isLocal ? '' : 'http://localhost:8000';
-            
+
             runBtn.disabled = true;
             runBtn.innerText = '⌛ Connecting...';
             runBtn.style.display = 'none';
             stopBtn.style.display = 'inline-block';
-            
+
             outputContainer.style.display = 'block';
             outputContent.innerHTML = '>>> Requesting test execution from local server...';
             if (!isLocal) {
@@ -1424,23 +1426,36 @@
                     const errorText = await response.text();
                     throw new Error(errorText || 'Could not connect to local server.');
                 }
-                
+
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder();
 
                 while (true) {
                     const { done, value } = await reader.read();
                     if (done) break;
-                    
+
                     const chunk = decoder.decode(value, { stream: true });
                     outputContent.innerText += chunk;
-                    
+
                     // Auto-scroll to bottom as results stream in
                     outputContainer.scrollTop = outputContainer.scrollHeight;
                 }
             } catch (err) {
-                if (!isLocal && err.message.includes('fetch')) {
-                    outputContent.innerHTML += `\n<span style="color: #ff5252;">[SECURE BROWSER ERROR]: Your browser blocked the connection from HTTPS (site) to HTTP (local). To fix:</span>\n1. Click the 🔒 icon in your browser URL bar.\n2. Go to "Site Settings".\n3. Allow "Insecure Content".\n4. Refresh the page.`;
+                // Better detection for Mixed Content/Blocked Fetch
+                const isBlocked = !isLocal && (err.message.toLowerCase().includes('fetch') || err.name === 'TypeError');
+
+                if (isBlocked) {
+                    outputContent.innerHTML += `\n<div style="color: #ff5252; background: rgba(255,82,82,0.1); padding: 10px; border-radius: 5px; margin-top: 10px; border: 1px solid #ff5252;">
+                        <strong>[SECURE BROWSER BLOCK]:</strong> Your browser prevented this site (HTTPS) from talking to your local machine (HTTP) for security.
+                        <br><br><strong>To enable this feature:</strong>
+                        <ol style="margin-top: 10px;">
+                            <li>Click the 🔒 (lock) icon in your browser's address bar.</li>
+                            <li>Select <strong>"Site settings"</strong>.</li>
+                            <li>Find <strong>"Insecure content"</strong> in the list.</li>
+                            <li>Change it from "Block" to <strong>"Allow"</strong>.</li>
+                            <li><strong>Refresh this page</strong> and try again.</li>
+                        </ol>
+                    </div>`;
                 } else {
                     outputContent.innerHTML += `\n<span style="color: #ff5252;">[ERROR]: ${err.message}</span>`;
                 }
