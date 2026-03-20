@@ -29,14 +29,14 @@ module.exports = defineConfig({
         //         viewport: { width: 1280, height: 720 },
         //     },
         // },
-        {
-            name: 'mobile-pixel',
-            use: { ...devices['Pixel 5'] },
-        },
         // {
-        //     name: 'desktop-firefox',
-        //     use: { ...devices['Desktop Firefox'] },
+        //     name: 'mobile-pixel',
+        //     use: { ...devices['Pixel 5'] },
         // },
+        {
+            name: 'desktop-firefox',
+            use: { ...devices['Desktop Firefox'] },
+        },
         {
             name: 'mobile-iphone',
             use: { ...devices['iPhone 15'] },
