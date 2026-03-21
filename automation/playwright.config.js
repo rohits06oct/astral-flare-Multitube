@@ -22,6 +22,62 @@ module.exports = defineConfig({
             name: 'desktop-chrome',
             use: { ...devices['Desktop Chrome'] },
         },
+        {
+            name: 'desktop-chrome',
+            use: { ...devices['Desktop Chrome'] },
+        },
+        {
+            name: 'desktop-chrome',
+            use: { ...devices['Desktop Chrome'] },
+        },
+        {
+            name: 'desktop-chrome',
+            use: { ...devices['Desktop Chrome'] },
+        },
+        {
+            name: 'desktop-chrome',
+            use: { ...devices['Desktop Chrome'] },
+        },
+        {
+            name: 'desktop-chrome',
+            use: { ...devices['Desktop Chrome'] },
+        },
+        {
+            name: 'desktop-chrome',
+            use: { ...devices['Desktop Chrome'] },
+        },
+        {
+            name: 'desktop-chrome',
+            use: { ...devices['Desktop Chrome'] },
+        },
+        {
+            name: 'desktop-chrome',
+            use: { ...devices['Desktop Chrome'] },
+        },
+        {
+            name: 'desktop-chrome',
+            use: { ...devices['Desktop Chrome'] },
+        },
+        {
+            name: 'desktop-chrome',
+            use: { ...devices['Desktop Chrome'] },
+        },
+        {
+            name: 'desktop-chrome',
+            use: { ...devices['Desktop Chrome'] },
+        },
+        {
+            name: 'desktop-chrome',
+            use: { ...devices['Desktop Chrome'] },
+        },
+        {
+            name: 'desktop-chrome',
+            use: { ...devices['Desktop Chrome'] },
+        },
+        {
+            name: 'desktop-chrome',
+            use: { ...devices['Desktop Chrome'] },
+        },
         // {
         //     name: 'safari',
         //     use: {
@@ -33,14 +89,14 @@ module.exports = defineConfig({
         //     name: 'mobile-pixel',
         //     use: { ...devices['Pixel 5'] },
         // },
-        {
-            name: 'desktop-firefox',
-            use: { ...devices['Desktop Firefox'] },
-        },
-        {
-            name: 'mobile-iphone',
-            use: { ...devices['iPhone 15'] },
-        },
+        // {
+        //     name: 'desktop-firefox',
+        //     use: { ...devices['Desktop Firefox'] },
+        // },
+        // {
+        //     name: 'mobile-iphone',
+        //     use: { ...devices['iPhone 15'] },
+        // },
     ],
 
 });
