@@ -6,7 +6,7 @@ for (let i = 1; i <= 10; i++) {
 
         // Create a new context with the requested settings
         const context = await browser.newContext({
-            userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36',
+            userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15',
             viewport: { width: 1366, height: 768 },
             locale: 'en-US',
             timezoneId: 'Asia/Kolkata',
@@ -20,10 +20,12 @@ for (let i = 1; i <= 10; i++) {
 
         // Open the URL
         await page.goto('https://ziply.pk/youtubemulti');
+        await page.waitForTimeout(3000);
+        //await page.goto('https://omg10.com/4/10755935');
 
         // Wait for 15 seconds as requested
         //console.log(`[Iteration ${i}] Waiting for 15 seconds...`);
-        await page.waitForTimeout(10000);
+        //await page.waitForTimeout(3000);
 
         // Click or scroll
         //console.log(`[Iteration ${i}] Scrolling page...`);
@@ -32,7 +34,7 @@ for (let i = 1; i <= 10; i++) {
         // });
 
         // Wait a bit more to see the result
-        await page.waitForTimeout(2000);
+        await page.waitForTimeout(1000);
 
         //console.log(`[Iteration ${i}] Test completed.`);
 
