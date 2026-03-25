@@ -3,16 +3,6 @@ const path = require('path');
 
 const oldAdSnippet = `
 <div style="text-align: center; margin: 20px auto; width: 100%; display: flex; justify-content: center;">
-<script>
-  atOptions = {
-    'key' : 'afeda7cc33106ef3c1c5eb0182d19b54',
-    'format' : 'iframe',
-    'height' : 250,
-    'width' : 300,
-    'params' : {}
-  };
-</script>
-<script src="https://www.highperformanceformat.com/afeda7cc33106ef3c1c5eb0182d19b54/invoke.js"></script>
 </div>
 `;
 
@@ -20,52 +10,6 @@ const oldAdSnippet = `
 const newAdSnippet = `
 <div style="text-align: center; margin: 20px auto; width: 100%; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
   <div>
-    <script>
-      atOptions = {
-        'key' : 'afeda7cc33106ef3c1c5eb0182d19b54',
-        'format' : 'iframe',
-        'height' : 250,
-        'width' : 300,
-        'params' : {}
-      };
-    </script>
-    <script src="https://www.highperformanceformat.com/afeda7cc33106ef3c1c5eb0182d19b54/invoke.js"></script>
-  </div>
-  <div>
-    <script>
-      atOptions = {
-        'key' : 'afeda7cc33106ef3c1c5eb0182d19b54',
-        'format' : 'iframe',
-        'height' : 250,
-        'width' : 300,
-        'params' : {}
-      };
-    </script>
-    <script src="https://www.highperformanceformat.com/afeda7cc33106ef3c1c5eb0182d19b54/invoke.js"></script>
-  </div>
-  <div>
-    <script>
-      atOptions = {
-        'key' : 'afeda7cc33106ef3c1c5eb0182d19b54',
-        'format' : 'iframe',
-        'height' : 250,
-        'width' : 300,
-        'params' : {}
-      };
-    </script>
-    <script src="https://www.highperformanceformat.com/afeda7cc33106ef3c1c5eb0182d19b54/invoke.js"></script>
-  </div>
-  <div>
-    <script>
-      atOptions = {
-        'key' : 'afeda7cc33106ef3c1c5eb0182d19b54',
-        'format' : 'iframe',
-        'height' : 250,
-        'width' : 300,
-        'params' : {}
-      };
-    </script>
-    <script src="https://www.highperformanceformat.com/afeda7cc33106ef3c1c5eb0182d19b54/invoke.js"></script>
   </div>
 </div>
 `;
