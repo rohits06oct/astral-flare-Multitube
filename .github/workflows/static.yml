@@ -1,16 +1,13 @@
 # Simple workflow for deploying static content to GitHub Pages
-name: Deploy + Playwright Tests
+name: Deploy Static Content
 
 on:
   push:
     branches: ["main"]
   workflow_dispatch:
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -20,10 +17,13 @@ concurrency:
 
 jobs:
   deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Inject EmailJS Keys
         run: |
@@ -31,48 +31,16 @@ jobs:
           sed -i "s/YOUR_EMAILJS_TEMPLATE_ID/${{ secrets.EMAILJS_TEMPLATE_ID }}/g" contact.js
           sed -i "s/YOUR_EMAILJS_PUBLIC_KEY/${{ secrets.EMAILJS_PUBLIC_KEY }}/g" contact.js
 
-      - name: Setup Node
-        uses: actions/setup-node@v5
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          node-version: '18'
-
-      # - name: Install dependencies
-      #   run: npm install  # Skip if no package.json in root
-
-      # - name: Build website
-      #   run: npm run build   # Skip if static HTML
+          # Upload entire repository
+          path: '.'
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .
+        id: deployment
+        uses: actions/deploy-pages@v4
 
-  playwright-tests:
-    needs: deploy
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v5
-
-      - name: Wait for deployment
-        run: sleep 30
-
-      - name: Setup Node
-        uses: actions/setup-node@v5
-        with:
-          node-version: '18'
-
-      - name: Install dependencies
-        run: npm ci
-        working-directory: automation
-
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-        working-directory: automation
-
-      # - name: Run Playwright Tests
-      #   run: npx playwright test tests/articles.spec.js
-      #   working-directory: automation
-      #   env:
-      #     BASE_URL: https://youtubemulti.online/
