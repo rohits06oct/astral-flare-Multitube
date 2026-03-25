@@ -19,7 +19,7 @@ for (let i = 1; i <= 10; i++) {
         //console.log(`[Iteration ${i}] Navigating to https://ziply.pk/youtubemulti...`);
 
         // Open the URL
-        await page.goto('https://ziply.pk/youtubemulti');
+        //await page.goto('https://ziply.pk/youtubemulti');
         await page.waitForTimeout(3000);
         //await page.goto('https://omg10.com/4/10755935');
 
