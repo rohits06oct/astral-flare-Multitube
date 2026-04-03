@@ -7,6 +7,12 @@
         <priority>1.0</priority>
     </url>
     <url>
+        <loc>https://youtubemulti.online/</loc>
+        <lastmod>2026-04-03</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+    <url>
         <loc>https://youtubemulti.online/about.html</loc>
         <lastmod>2026-04-03</lastmod>
         <changefreq>daily</changefreq>
@@ -84,9 +90,14 @@
     <url><loc>https://youtubemulti.online/article/tottenham_atletico_madrid_cl_showdown_2026.html</loc><lastmod>2026-04-03</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
     <url><loc>https://youtubemulti.online/article/usa_financial_regulation_occ_2026.html</loc><lastmod>2026-04-03</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
     <url><loc>https://youtubemulti.online/article/usa_iran_conflict_monitoring_2026.html</loc><lastmod>2026-04-03</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
-
     <url>
         <loc>https://www.youtubemulti.online/index.html</loc>
+        <lastmod>2026-04-03</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>https://www.youtubemulti.online/</loc>
         <lastmod>2026-04-03</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
@@ -169,5 +180,4 @@
     <url><loc>https://www.youtubemulti.online/article/tottenham_atletico_madrid_cl_showdown_2026.html</loc><lastmod>2026-04-03</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
     <url><loc>https://www.youtubemulti.online/article/usa_financial_regulation_occ_2026.html</loc><lastmod>2026-04-03</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
     <url><loc>https://www.youtubemulti.online/article/usa_iran_conflict_monitoring_2026.html</loc><lastmod>2026-04-03</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
-
 </urlset>
