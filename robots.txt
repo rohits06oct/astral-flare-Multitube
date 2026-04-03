@@ -2,4 +2,3 @@ User-agent: *
 Allow: /
 
 Sitemap: https://youtubemulti.online/sitemap.xml
-Sitemap: https://www.youtubemulti.online/sitemap.xml
