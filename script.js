@@ -162,7 +162,7 @@ window._initHook = function (hid, infoRaw, _, idx) {
                     height: '100%', width: '100%', videoId: info.id,
                     host: 'https://www.youtube.com',
                     playerVars: {
-                        'autoplay': 0, 'mute': 0, 'controls': 1, 'rel': 0, 'enablejsapi': 1,
+                        'autoplay': 1, 'mute': 1, 'controls': 1, 'rel': 0, 'enablejsapi': 1,
                         'origin': appOrigin, 'widget_referrer': appOrigin, 'playlist': info.id
                     },
                     events: {
@@ -190,26 +190,26 @@ function _fallback(hid, info) {
 
     switch (info.platform) {
         case 'youtube':
-            embedSrc = `https://www.youtube.com/embed/${info.id}?autoplay=0&mute=0&enablejsapi=1&origin=${encodeURIComponent(appOrigin)}`;
+            embedSrc = `https://www.youtube.com/embed/${info.id}?autoplay=1&mute=1&enablejsapi=1&origin=${encodeURIComponent(appOrigin)}`;
             break;
         case 'tiktok':
-            embedSrc = `https://www.tiktok.com/embed/v2/${info.id}`;
+            embedSrc = `https://www.tiktok.com/embed/v2/${info.id}`; // TikTok doesn't easily support autoplay via URL
             break;
         case 'instagram':
             embedSrc = `https://www.instagram.com/reels/${info.id}/embed`;
             break;
         case 'facebook':
-            embedSrc = `https://www.facebook.com/plugins/video.php?href=${info.id}&show_text=0`;
+            embedSrc = `https://www.facebook.com/plugins/video.php?href=${info.id}&show_text=0&autoplay=1&mute=1`;
             break;
         case 'vimeo':
-            embedSrc = `https://player.vimeo.com/video/${info.id}`;
+            embedSrc = `https://player.vimeo.com/video/${info.id}?autoplay=1&muted=1`;
             break;
         case 'dailymotion':
-            embedSrc = `https://www.dailymotion.com/embed/video/${info.id}`;
+            embedSrc = `https://www.dailymotion.com/embed/video/${info.id}?autoplay=1&mute=1`;
             break;
         case 'twitch':
             const typeParam = info.subType === 'video' ? `video=${info.id[1]}` : `channel=${info.id}`;
-            embedSrc = `https://player.twitch.tv/?${typeParam}&parent=${hostname}&autoplay=false`;
+            embedSrc = `https://player.twitch.tv/?${typeParam}&parent=${hostname}&autoplay=true&muted=true`;
             break;
         case 'snapchat':
             embedSrc = `https://www.snapchat.com/embed/spotlight/${info.id}`;
