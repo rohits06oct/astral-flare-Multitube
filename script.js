@@ -39,7 +39,7 @@ function _processQueue() {
     setTimeout(() => {
         _loadInProgress = false;
         _processQueue();
-    }, 2000); // Increased to 2s stagger to ensure security handshakes complete
+    }, 100); // Increased to 2s stagger to ensure security handshakes complete
 }
 
 // Global API callbacks and utilities
