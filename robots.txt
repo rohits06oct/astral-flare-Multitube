@@ -7,4 +7,4 @@ Disallow: /
 User-agent: ClaudeBot
 Disallow: /
 
-Sitemap: https://youtubemulti.online/sitemap.xml
+Sitemap: https://www.youtubemulti.online/sitemap.xml
