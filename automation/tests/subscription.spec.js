@@ -6,7 +6,7 @@ test.describe('Subscription Page Tests', () => {
     });
 
     test('TC-SUB-001: Pricing Visibility', async ({ page }) => {
-        await expect(page).toHaveTitle(/Pricing & Plans \| YoutubeMulti Pro/);
+        await expect(page).toHaveTitle(/Pricing & Plans \| YoutubeMulti/);
         
         const freePlan = page.locator('.pricing-card').filter({ hasText: 'Free Plan' });
         await expect(freePlan).toBeVisible();

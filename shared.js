@@ -1,5 +1,5 @@
 /**
- * YoutubeMulti Pro - Shared Business Logic
+ * YoutubeMulti - Shared Business Logic
  */
 
 const MultiTubeApp = {
@@ -130,7 +130,7 @@ const MultiTubeApp = {
 
         const footerHTML = `
             <div class="container">
-                <p>&copy; 2026 YoutubeMulti Pro. All rights reserved.</p>
+                <p>&copy; 2026 YoutubeMulti. All rights reserved.</p>
                 <div class="footer-links">
                     <a href="${prefix}index.html">Home</a>
                     <a href="${prefix}about.html">About YoutubeMulti</a>

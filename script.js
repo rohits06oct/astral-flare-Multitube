@@ -1,5 +1,5 @@
 /**
- * YoutubeMulti Pro - Execution Engine
+ * YoutubeMulti - Execution Engine
  */
 
 let _p = []; // Active players
@@ -233,7 +233,7 @@ function _fallback(hid, info) {
 // Side-effects: Visibility & Focus
 document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
-        console.log('[YoutubeMulti Pro] Tab hidden - Pausing players via API');
+        console.log('[YoutubeMulti] Tab hidden - Pausing players via API');
         _p.forEach(p => {
             try {
                 if (p && typeof p.pauseVideo === 'function' && p.getPlayerState) {

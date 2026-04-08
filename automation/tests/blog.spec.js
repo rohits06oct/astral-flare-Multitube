@@ -6,7 +6,7 @@ test.describe('Blog Page Tests', () => {
     });
 
     test('TC-BLOG-001: Articles Visibility', async ({ page }) => {
-        await expect(page).toHaveTitle(/Blog \| YoutubeMulti Pro/);
+        await expect(page).toHaveTitle(/Blog \| YoutubeMulti/);
         
         // Ensure that at least a few article cards are present
         const articleCards = page.locator('.article-card');

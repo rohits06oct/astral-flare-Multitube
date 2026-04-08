@@ -1,12 +1,12 @@
 const { test, expect } = require('@playwright/test');
 
-test.describe('YoutubeMulti Pro Regression Tests', () => {
+test.describe('YoutubeMulti Regression Tests', () => {
     test.beforeEach(async ({ page }) => {
         await page.goto('/');
     });
 
     test('TC-001: Header Navigation', async ({ page, isMobile }) => {
-        await expect(page).toHaveTitle(/YoutubeMulti Pro/);
+        await expect(page).toHaveTitle(/YoutubeMulti/);
 
         const navLinks = ['About', 'Contact', 'Pricing'];
 
