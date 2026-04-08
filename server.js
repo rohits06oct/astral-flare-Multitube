@@ -20,18 +20,32 @@ const MIME_TYPES = {
 };
 
 const server = http.createServer((req, res) => {
+    // Standard CORS headers for all responses
+    const headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS, POST, GET',
+        'Access-Control-Allow-Headers': 'Content-Type',
+    };
+
+    // Handle CORS preflight request
+    if (req.method === 'OPTIONS') {
+        res.writeHead(204, headers);
+        res.end();
+        return;
+    }
+
     // API Endpoint for running tests
     if (req.url === '/api/run-tests') {
         if (activeTestProcess) {
-            res.writeHead(400, { 'Content-Type': 'text/plain' });
+            res.writeHead(400, { ...headers, 'Content-Type': 'text/plain' });
             res.end('ERROR: A test is already running. Please stop it first.');
             return;
         }
 
         res.writeHead(200, {
+            ...headers,
             'Content-Type': 'text/plain',
-            'Transfer-Encoding': 'chunked',
-            'Access-Control-Allow-Origin': '*'
+            'Transfer-Encoding': 'chunked'
         });
 
         res.write('>>> INITIALIZING PLAYWRIGHT TEST SUITE...\n');
@@ -68,7 +82,7 @@ const server = http.createServer((req, res) => {
 
     // API Endpoint for stopping tests
     if (req.url === '/api/stop-tests') {
-        res.writeHead(200, { 'Content-Type': 'text/plain', 'Access-Control-Allow-Origin': '*' });
+        res.writeHead(200, { ...headers, 'Content-Type': 'text/plain' });
         if (activeTestProcess) {
             if (process.platform === 'win32') {
                 spawn('taskkill', ['/pid', activeTestProcess.pid, '/f', '/t']);
@@ -92,14 +106,14 @@ const server = http.createServer((req, res) => {
     fs.readFile(filePath, (error, content) => {
         if (error) {
             if (error.code == 'ENOENT') {
-                res.writeHead(404);
+                res.writeHead(404, { ...headers, 'Content-Type': 'text/plain' });
                 res.end('File not found');
             } else {
-                res.writeHead(500);
+                res.writeHead(500, { ...headers, 'Content-Type': 'text/plain' });
                 res.end('Server error: ' + error.code);
             }
         } else {
-            res.writeHead(200, { 'Content-Type': contentType });
+            res.writeHead(200, { ...headers, 'Content-Type': contentType });
             res.end(content, 'utf-8');
         }
     });
