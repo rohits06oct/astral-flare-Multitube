@@ -8,7 +8,7 @@ module.exports = defineConfig({
     workers: process.env.CI ? 1 : undefined,
     reporter: 'html',
     use: {
-        baseURL: 'https://youtubemulti.online/',
+        baseURL: 'https://www.youtubemulti.online/',
         trace: 'on-first-retry',
         screenshot: 'only-on-failure',
         headless: false,
