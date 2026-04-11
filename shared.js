@@ -75,7 +75,7 @@ const MultiTubeApp = {
     renderSharedElements() {
         // Detect if we are in the article subdirectory
         const isArticle = window.location.pathname.includes('/article/');
-        const prefix = isArticle ? '../' : '';
+        const prefix = isArticle ? 'https://www.youtubemulti.online/' : '';
         const currentPath = window.location.pathname.split('/').pop() || 'index.html';
 
         const headerHTML = `
@@ -100,11 +100,11 @@ const MultiTubeApp = {
                     </svg>
                     </a>
                     <div class="nav-links">
-                        <a href="${prefix}index.html" class="${currentPath === 'index.html' ? 'active' : ''}">Home</a>
-                        <a href="${prefix}about.html" class="${currentPath === 'about.html' ? 'active' : ''}">About</a>
-                        <a href="${prefix}contact.html" class="${currentPath === 'contact.html' ? 'active' : ''}">Contact</a>
-                        <a href="${prefix}blog.html" class="${currentPath === 'blog.html' || isArticle ? 'active' : ''}">Blog</a>
-                        <a href="${prefix}subscription.html" class="${currentPath === 'subscription.html' ? 'upgrade-link' : 'upgrade-link'}">Pricing</a>
+                        <a href="${prefix}index.html" class="${currentPath === 'https://www.youtubemulti.online/index.html' ? 'active' : ''}">Home</a>
+                        <a href="${prefix}about.html" class="${currentPath === 'https://www.youtubemulti.online/about.html' ? 'active' : ''}">About</a>
+                        <a href="${prefix}contact.html" class="${currentPath === 'https://www.youtubemulti.online/contact.html' ? 'active' : ''}">Contact</a>
+                        <a href="${prefix}blog.html" class="${currentPath === 'https://www.youtubemulti.online/blog.html' || isArticle ? 'active' : ''}">Blog</a>
+                        <a href="${prefix}subscription.html" class="${currentPath === 'https://www.youtubemulti.online/subscription.html' ? 'upgrade-link' : 'upgrade-link'}">Pricing</a>
                     </div>
                     <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle Navigation">
                         <span></span>
@@ -119,10 +119,10 @@ const MultiTubeApp = {
             <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
             <div class="mobile-menu-container">
                 <div class="mobile-nav-links">
-                    <a href="${prefix}index.html" class="${currentPath === 'index.html' ? 'active' : ''}">Home</a>
-                    <a href="${prefix}about.html" class="${currentPath === 'about.html' ? 'active' : ''}">About</a>
-                    <a href="${prefix}contact.html" class="${currentPath === 'contact.html' ? 'active' : ''}">Contact</a>
-                    <a href="${prefix}blog.html" class="${currentPath === 'blog.html' || isArticle ? 'active' : ''}">Blog</a>
+                    <a href="${prefix}index.html" class="${currentPath === 'https://www.youtubemulti.online/index.html' ? 'active' : ''}">Home</a>
+                    <a href="${prefix}about.html" class="${currentPath === 'https://www.youtubemulti.online/about.html' ? 'active' : ''}">About</a>
+                    <a href="${prefix}contact.html" class="${currentPath === 'https://www.youtubemulti.online/contact.html' ? 'active' : ''}">Contact</a>
+                    <a href="${prefix}blog.html" class="${currentPath === 'https://www.youtubemulti.online/blog.html' || isArticle ? 'active' : ''}">Blog</a>
                     <a href="${prefix}subscription.html" class="upgrade-link">Pricing</a>
                 </div>
             </div>
@@ -226,10 +226,10 @@ function initSharedUI() {
 
     if (isArticle) {
         MultiTubeApp.renderSharedElements();
-    } else {
-        MultiTubeApp.initPremiumUI();
-        MultiTubeApp.initMobileMenu();
     }
+
+    MultiTubeApp.initPremiumUI();
+    MultiTubeApp.initMobileMenu();
 
     // Inject the translator on all pages
     MultiTubeApp.injectTranslator();
