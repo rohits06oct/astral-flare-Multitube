@@ -128,18 +128,18 @@ const MultiTubeApp = {
             </div>
         `;
 
-        const footerHTML = `
-            <div class="container">
-                <p>&copy; 2026 YoutubeMulti. All rights reserved.</p>
-                <div class="footer-links">
-                    <a href="${prefix}index.html">Home</a>
-                    <a href="${prefix}about.html">About YoutubeMulti</a>
-                    <a href="${prefix}contact.html">Contact Support</a>
-                    <a href="${prefix}blog.html">Blog</a>
-                    <a href="${prefix}subscription.html">Subscription Plans</a>
-                </div>
-            </div>
-        `;
+        // const footerHTML = `
+        //     <div class="container">
+        //         <p>&copy; 2026 YoutubeMulti. All rights reserved.</p>
+        //         <div class="footer-links">
+        //             <a href="${prefix}index.html">Home</a>
+        //             <a href="${prefix}about.html">About YoutubeMulti</a>
+        //             <a href="${prefix}contact.html">Contact Support</a>
+        //             <a href="${prefix}blog.html">Blog</a>
+        //             <a href="${prefix}subscription.html">Subscription Plans</a>
+        //         </div>
+        //     </div>
+        // `;
 
         // Inject Header
         let siteHeader = document.getElementById('site-header');
