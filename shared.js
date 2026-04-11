@@ -159,17 +159,17 @@ const MultiTubeApp = {
         }
 
         // Inject Footer
-        let siteFooter = document.getElementById('site-footer');
-        if (!siteFooter) {
-            siteFooter = document.createElement('footer');
-            siteFooter.id = 'site-footer';
-            document.body.appendChild(siteFooter);
-        }
-        siteFooter.innerHTML = footerHTML;
+        // let siteFooter = document.getElementById('site-footer');
+        // if (!siteFooter) {
+        //     siteFooter = document.createElement('footer');
+        //     siteFooter.id = 'site-footer';
+        //     document.body.appendChild(siteFooter);
+        // }
+        // siteFooter.innerHTML = footerHTML;
 
-        // Re-initialize mobile menu after injection
-        this.initMobileMenu();
-        this.initPremiumUI();
+        // // Re-initialize mobile menu after injection
+        // this.initMobileMenu();
+        // this.initPremiumUI();
     },
 
     injectTranslator() {
