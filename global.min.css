@@ -242,6 +242,13 @@ footer {
     justify-content: center;
     gap: 2rem;
     margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .footer-links {
+        gap: 1rem;
+    }
 }
 
 .footer-links a {
