@@ -217,6 +217,24 @@ const MultiTubeApp = {
         script.type = 'text/javascript';
         script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
         document.body.appendChild(script);
+    },
+
+    injectFavicon() {
+        // Delay insertion by 2 seconds as requested for "lazy loading"
+        setTimeout(() => {
+            if (document.querySelector('link[rel="icon"]')) return;
+            
+            const link = document.createElement('link');
+            link.rel = 'icon';
+            link.type = 'image/x-icon';
+            
+            // Check if we are in an article subdirectory
+            const isArticle = window.location.pathname.includes('/article/');
+            link.href = isArticle ? '../favicon.ico' : 'favicon.ico';
+            
+            document.head.appendChild(link);
+            console.log('Favicon lazy-loaded after 2s delay');
+        }, 2000);
     }
 };
 
@@ -233,6 +251,9 @@ function initSharedUI() {
 
     // Inject the translator on all pages
     MultiTubeApp.injectTranslator();
+
+    // Inject the favicon lazily on all pages
+    MultiTubeApp.injectFavicon();
 }
 
 if (document.readyState === 'loading') {
