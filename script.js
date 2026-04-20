@@ -75,7 +75,10 @@ function _getMediaInfo(u) {
     if (m) return { id: m[1], platform: 'instagram', type: 'short', url: u };
 
     // Facebook
-    if (u.includes('facebook.com')) return { id: encodeURIComponent(u), platform: 'facebook', type: 'long', url: u };
+    if (u.includes('facebook.com')) {
+        const isReel = u.includes('/reels/') || u.includes('/reel/');
+        return { id: encodeURIComponent(u), platform: 'facebook', type: isReel ? 'short' : 'long', url: u };
+    }
 
     // Vimeo
     m = u.match(/vimeo\.com\/(\d+)/);
@@ -199,7 +202,7 @@ function _fallback(hid, info) {
             embedSrc = `https://www.instagram.com/reels/${info.id}/embed`;
             break;
         case 'facebook':
-            embedSrc = `https://www.facebook.com/plugins/video.php?href=${info.id}&show_text=0&autoplay=1&mute=1`;
+            embedSrc = `https://www.facebook.com/plugins/video.php?href=${info.id}&show_text=0&autoplay=1&mute=1&width=750`;
             break;
         case 'vimeo':
             embedSrc = `https://player.vimeo.com/video/${info.id}?autoplay=1&muted=1`;
