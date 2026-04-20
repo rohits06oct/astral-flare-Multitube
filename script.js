@@ -255,45 +255,49 @@ document.addEventListener('DOMContentLoaded', () => {
     const sIn = document.getElementById('screenCount');
     const stage = document.getElementById('displayArea');
 
-    if (!gBtn) return;
+    if (gBtn && uIn && sIn && stage) {
+        gBtn.addEventListener('click', () => {
+            const raw = uIn.value.trim();
+            const count = parseInt(sIn.value) || 1;
+            if (!raw) return alert('Please enter at least one URL (YouTube, Facebook, TikTok, etc.).');
+            const list = raw.split(/[\n,;]+/).map(s => s.trim()).filter(s => s.length > 0);
 
-    gBtn.addEventListener('click', () => {
-        const raw = uIn.value.trim();
-        const count = parseInt(sIn.value) || 1;
-        if (!raw) return alert('Please enter at least one URL (YouTube, Facebook, TikTok, etc.).');
-        const list = raw.split(/[\n,;]+/).map(s => s.trim()).filter(s => s.length > 0);
+            const check = window.MultiTubeApp.checkPermission(list.length, count);
+            if (!check.allowed) {
+                alert(check.error);
+                window.location.href = 'subscription.html';
+                return;
+            }
 
-        const check = window.MultiTubeApp.checkPermission(list.length, count);
-        if (!check.allowed) {
-            alert(check.error);
-            window.location.href = 'subscription.html';
-            return;
-        }
-
-        _start(list, count, stage);
-    });
-
-    rBtn.addEventListener('click', () => {
-        if (confirm('Clear all screens and reset?')) {
-            _p.forEach(p => { try { p.destroy(); } catch (e) { } });
-            _p = [];
-            _loadQueue = [];
-            _loadInProgress = false;
-            stage.innerHTML = `<div class="empty-state"><p>Your multi-screen view will appear here.</p></div>`;
-            uIn.value = '';
-            sIn.value = '4';
-            _count(0);
-            _up('Ready', 'playing');
-        }
-    });
-
-    fBtn.addEventListener('click', () => {
-        _p.forEach(p => {
-            try {
-                if (p && typeof p.playVideo === 'function' && p.getPlayerState) {
-                    p.playVideo();
-                }
-            } catch (e) { }
+            _start(list, count, stage);
         });
-    });
+    }
+
+    if (rBtn && stage && uIn && sIn) {
+        rBtn.addEventListener('click', () => {
+            if (confirm('Clear all screens and reset?')) {
+                _p.forEach(p => { try { p.destroy(); } catch (e) { } });
+                _p = [];
+                _loadQueue = [];
+                _loadInProgress = false;
+                stage.innerHTML = `<div class="empty-state"><p>Your multi-screen view will appear here.</p></div>`;
+                uIn.value = '';
+                sIn.value = '4';
+                _count(0);
+                _up('Ready', 'playing');
+            }
+        });
+    }
+
+    if (fBtn) {
+        fBtn.addEventListener('click', () => {
+            _p.forEach(p => {
+                try {
+                    if (p && typeof p.playVideo === 'function' && p.getPlayerState) {
+                        p.playVideo();
+                    }
+                } catch (e) { }
+            });
+        });
+    }
 });
