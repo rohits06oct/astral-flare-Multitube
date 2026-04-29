@@ -2,6 +2,11 @@
 <html lang="en">
 
 <head>
+    <script>
+        if (window.location.pathname === '/' || window.location.pathname === '') {
+            window.location.replace('/index.html');
+        }
+    </script>
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="preconnect" href="https://www.google-analytics.com">
     <link rel="preconnect" href="https://pagead2.googlesyndication.com">
