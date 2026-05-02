@@ -176,6 +176,66 @@
         }
     </style>
 
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://www.youtubemulti.online/index.html#organization",
+          "name": "YoutubeMulti",
+          "url": "https://www.youtubemulti.online/",
+          "logo": "https://www.youtubemulti.online/og-image.webp"
+        },
+        {
+          "@type": "ContactPage",
+          "@id": "https://www.youtubemulti.online/contact.html#webpage",
+          "url": "https://www.youtubemulti.online/contact.html",
+          "name": "Contact Us | YoutubeMulti Support",
+          "description": "Reach out to the YoutubeMulti team for technical support, feature requests, or business inquiries.",
+          "publisher": {
+            "@id": "https://www.youtubemulti.online/#organization"
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "YoutubeMulti",
+          "applicationCategory": "MultimediaApplication",
+          "operatingSystem": "Web",
+          "description": "Premium video multitasking tool for monitoring multiple streams simultaneously."
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How quickly does the support team respond?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Our team typically responds to all inquiries within 24-48 business hours."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is my data secure when I contact you?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Absolutely. We use industry-standard encryption for all communications. Your contact information is used solely to resolve your inquiry and is never shared with third parties."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I request a custom video grid layout?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes! While our platform supports up to 50 screens, we are always open to building specialized layouts for specific professional workflows."
+              }
+            }
+          ]
+        }
+      ]
+    }
+  </script>
 </head>
 
 <body>
@@ -286,6 +346,66 @@
                 <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
                 <div id="form-status"></div>
             </form>
+        </div>
+
+        <section
+            style="margin-top: 5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; text-align: left;">
+            <div>
+                <h2 style="margin-bottom: 1.5rem;">Why Connect With Us?</h2>
+                <p class="text-dim" style="line-height: 1.8; margin-bottom: 1.5rem;">
+                    At YoutubeMulti, we believe that the best tools are built through collaboration with the people who
+                    use them. Whether you're a content creator, a digital marketer, or a data researcher, your feedback
+                    is the engine that drives our innovation.
+                </p>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 10px;">
+                        <span style="color: var(--primary); font-weight: bold;">→</span>
+                        <span><strong>Technical Support:</strong> Encountered a bug? Our engineering team is ready to
+                            help you resolve playback or synchronization issues quickly.</span>
+                    </li>
+                    <li style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 10px;">
+                        <span style="color: var(--primary); font-weight: bold;">→</span>
+                        <span><strong>Feature Requests:</strong> Have an idea for a new layout or tool? We prioritize
+                            our development roadmap based on user suggestions.</span>
+                    </li>
+                    <li style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 10px;">
+                        <span style="color: var(--primary); font-weight: bold;">→</span>
+                        <span><strong>Business Inquiries:</strong> Looking for custom enterprise solutions or API
+                            access? Let's discuss how we can scale with your organization.</span>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h2 style="margin-bottom: 1.5rem;">Frequently Asked Questions</h2>
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem;">How quickly will I get a response?</h3>
+                    <p class="text-dim" style="line-height: 1.6;">Our support team typically responds to all inquiries
+                        within 24 to 48 business hours. Priority support is available for our Premium subscription
+                        holders.</p>
+                </div>
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem;">Is my data secure when I contact you?</h3>
+                    <p class="text-dim" style="line-height: 1.6;">Absolutely. We use industry-standard encryption for
+                        all communications. Your contact information is used solely to resolve your inquiry and is never
+                        shared with third parties.</p>
+                </div>
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem;">Can I request a custom video grid layout?</h3>
+                    <p class="text-dim" style="line-height: 1.6;">Yes! While our platform supports up to 50 screens, we
+                        are always open to building specialized layouts for specific professional workflows.</p>
+                </div>
+            </div>
+        </section>
+
+        <div
+            style="margin-top: 5rem; padding: 3rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; text-align: center;">
+            <h2 style="margin-bottom: 1rem;">Experience the Future of Video</h2>
+            <p class="text-dim" style="max-width: 700px; margin: 0 auto 2rem auto; line-height: 1.8;">
+                YoutubeMulti is more than just a viewer—it's a productivity powerhouse. Our multi-stream technology empowers you to see more and
+                do more.
+            </p>
+            <a href="https://www.youtubemulti.online/index.html" class="btn btn-primary"
+                style="display: inline-block;">Back to Multitasking</a>
         </div>
 
     </div>
