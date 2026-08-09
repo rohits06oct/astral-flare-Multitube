@@ -282,125 +282,149 @@
     </div>
 
     <div class="container">
-        <div style="text-align: center; margin-bottom: 3rem;">
-            <h1>Get In Touch</h1>
-            <p class="text-dim">Have questions or feedback? We'd love to hear from you.</p>
+        <div
+            style="text-align: center; margin-bottom: 2rem; padding: 1rem; background: rgba(59, 130, 246, 0.1); border: 1px solid var(--primary); border-radius: 12px;">
+            <p style="margin: 0; font-weight: 500;">
+                <span style="color: var(--primary); font-weight: bold; margin-right: 0.5rem;">Important News:</span>
+                We are currently looking to sell this product.
+                <b>Asking Price: $11,000,000 ($11M) to $21,000,000 ($21M) USD.</b>
+                If you are interested in acquiring this product, please send an email to <a
+                    href="mailto:singhalr.11aug@gmail.com">singhalr.11aug@gmail.com</a> with
+                your contact details and relevant information.
+                Our team will review your inquiry and respond via email.
+                You make the payment in any manner you prefer or donation/reward.
+            </p>
         </div>
 
-        <div class="contact-form">
-            <form id="contactForm" novalidate>
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" id="name" class="form-control" required placeholder="John Doe">
-                    <div id="nameError" class="error-msg">Name must be at least 3 characters.</div>
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <h1>Get In Touch</h1>
+                <p class="text-dim">Have questions or feedback? We'd love to hear from you.</p>
+            </div>
+
+            <div class="contact-form">
+                <form id="contactForm" novalidate>
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="name" class="form-control" required placeholder="John Doe">
+                        <div id="nameError" class="error-msg">Name must be at least 3 characters.</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="email" class="form-control" required placeholder="john@example.com">
+                        <div id="emailError" class="error-msg">Please enter a valid email address.</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Contact Number</label>
+                        <input type="tel" id="phone" class="form-control" required placeholder="+1 (555) 000-0000">
+                        <div id="phoneError" class="error-msg">Contact number is required (numbers/+/ ( ) -).</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Why you want to connect with us</label>
+                        <textarea id="message" class="form-control" required
+                            placeholder="Tell us about your inquiry..."></textarea>
+                        <div class="flex-between">
+                            <div id="messageError" class="error-msg">This field is required.</div>
+                            <div id="wordCount" class="word-counter">Words: 0 / 1000</div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+                    <div id="form-status"></div>
+                </form>
+            </div>
+
+            <section
+                style="margin-top: 5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; text-align: left;">
+                <div>
+                    <h2 style="margin-bottom: 1.5rem;">Why Connect With Us?</h2>
+                    <p class="text-dim" style="line-height: 1.8; margin-bottom: 1.5rem;">
+                        At YoutubeMulti, we believe that the best tools are built through collaboration with the people
+                        who
+                        use them. Whether you're a content creator, a digital marketer, or a data researcher, your
+                        feedback
+                        is the engine that drives our innovation.
+                    </p>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 10px;">
+                            <span style="color: var(--primary); font-weight: bold;">→</span>
+                            <span><strong>Technical Support:</strong> Encountered a bug? Our engineering team is ready
+                                to
+                                help you resolve playback or synchronization issues quickly.</span>
+                        </li>
+                        <li style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 10px;">
+                            <span style="color: var(--primary); font-weight: bold;">→</span>
+                            <span><strong>Feature Requests:</strong> Have an idea for a new layout or tool? We
+                                prioritize
+                                our development roadmap based on user suggestions.</span>
+                        </li>
+                        <li style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 10px;">
+                            <span style="color: var(--primary); font-weight: bold;">→</span>
+                            <span><strong>Business Inquiries:</strong> Looking for custom enterprise solutions or API
+                                access? Let's discuss how we can scale with your organization.</span>
+                        </li>
+                    </ul>
                 </div>
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" id="email" class="form-control" required placeholder="john@example.com">
-                    <div id="emailError" class="error-msg">Please enter a valid email address.</div>
-                </div>
-                <div class="form-group">
-                    <label>Contact Number</label>
-                    <input type="tel" id="phone" class="form-control" required placeholder="+1 (555) 000-0000">
-                    <div id="phoneError" class="error-msg">Contact number is required (numbers/+/ ( ) -).</div>
-                </div>
-                <div class="form-group">
-                    <label>Why you want to connect with us</label>
-                    <textarea id="message" class="form-control" required
-                        placeholder="Tell us about your inquiry..."></textarea>
-                    <div class="flex-between">
-                        <div id="messageError" class="error-msg">This field is required.</div>
-                        <div id="wordCount" class="word-counter">Words: 0 / 1000</div>
+                <div>
+                    <h2 style="margin-bottom: 1.5rem;">Frequently Asked Questions</h2>
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem;">How quickly will I get a response?</h3>
+                        <p class="text-dim" style="line-height: 1.6;">Our support team typically responds to all
+                            inquiries
+                            within 24 to 48 business hours. Priority support is available for our Premium subscription
+                            holders.</p>
+                    </div>
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem;">Is my data secure when I contact you?</h3>
+                        <p class="text-dim" style="line-height: 1.6;">Absolutely. We use industry-standard encryption
+                            for
+                            all communications. Your contact information is used solely to resolve your inquiry and is
+                            never
+                            shared with third parties.</p>
+                    </div>
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem;">Can I request a custom video grid layout?
+                        </h3>
+                        <p class="text-dim" style="line-height: 1.6;">Yes! While our platform supports up to 50 screens,
+                            we
+                            are always open to building specialized layouts for specific professional workflows.</p>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
-                <div id="form-status"></div>
-            </form>
-        </div>
+            </section>
 
-        <section
-            style="margin-top: 5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; text-align: left;">
-            <div>
-                <h2 style="margin-bottom: 1.5rem;">Why Connect With Us?</h2>
-                <p class="text-dim" style="line-height: 1.8; margin-bottom: 1.5rem;">
-                    At YoutubeMulti, we believe that the best tools are built through collaboration with the people who
-                    use them. Whether you're a content creator, a digital marketer, or a data researcher, your feedback
-                    is the engine that drives our innovation.
+            <div
+                style="margin-top: 5rem; padding: 3rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; text-align: center;">
+                <h2 style="margin-bottom: 1rem;">Experience the Future of Video</h2>
+                <p class="text-dim" style="max-width: 700px; margin: 0 auto 2rem auto; line-height: 1.8;">
+                    YoutubeMulti is more than just a viewer—it's a productivity powerhouse. Our multi-stream technology
+                    empowers you to see more and
+                    do more.
                 </p>
-                <ul style="list-style: none; padding: 0;">
-                    <li style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 10px;">
-                        <span style="color: var(--primary); font-weight: bold;">→</span>
-                        <span><strong>Technical Support:</strong> Encountered a bug? Our engineering team is ready to
-                            help you resolve playback or synchronization issues quickly.</span>
-                    </li>
-                    <li style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 10px;">
-                        <span style="color: var(--primary); font-weight: bold;">→</span>
-                        <span><strong>Feature Requests:</strong> Have an idea for a new layout or tool? We prioritize
-                            our development roadmap based on user suggestions.</span>
-                    </li>
-                    <li style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 10px;">
-                        <span style="color: var(--primary); font-weight: bold;">→</span>
-                        <span><strong>Business Inquiries:</strong> Looking for custom enterprise solutions or API
-                            access? Let's discuss how we can scale with your organization.</span>
-                    </li>
-                </ul>
+                <a href="https://www.youtubemulti.online/index.html" class="btn btn-primary"
+                    style="display: inline-block;">Back to Multitasking</a>
             </div>
-            <div>
-                <h2 style="margin-bottom: 1.5rem;">Frequently Asked Questions</h2>
-                <div style="margin-bottom: 2rem;">
-                    <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem;">How quickly will I get a response?</h3>
-                    <p class="text-dim" style="line-height: 1.6;">Our support team typically responds to all inquiries
-                        within 24 to 48 business hours. Priority support is available for our Premium subscription
-                        holders.</p>
-                </div>
-                <div style="margin-bottom: 2rem;">
-                    <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem;">Is my data secure when I contact you?</h3>
-                    <p class="text-dim" style="line-height: 1.6;">Absolutely. We use industry-standard encryption for
-                        all communications. Your contact information is used solely to resolve your inquiry and is never
-                        shared with third parties.</p>
-                </div>
-                <div style="margin-bottom: 2rem;">
-                    <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem;">Can I request a custom video grid layout?</h3>
-                    <p class="text-dim" style="line-height: 1.6;">Yes! While our platform supports up to 50 screens, we
-                        are always open to building specialized layouts for specific professional workflows.</p>
-                </div>
-            </div>
-        </section>
 
-        <div
-            style="margin-top: 5rem; padding: 3rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; text-align: center;">
-            <h2 style="margin-bottom: 1rem;">Experience the Future of Video</h2>
-            <p class="text-dim" style="max-width: 700px; margin: 0 auto 2rem auto; line-height: 1.8;">
-                YoutubeMulti is more than just a viewer—it's a productivity powerhouse. Our multi-stream technology
-                empowers you to see more and
-                do more.
-            </p>
-            <a href="https://www.youtubemulti.online/index.html" class="btn btn-primary"
-                style="display: inline-block;">Back to Multitasking</a>
         </div>
 
-    </div>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 YoutubeMulti. All rights reserved.</p>
-            <div class="footer-links">
-                <a href="https://www.youtubemulti.online/index.html">Back to Home</a>
-                <a href="https://www.youtubemulti.online/about.html">About YoutubeMulti</a>
-                <a href="https://www.youtubemulti.online/blog.html">Blog</a>
-                <a href="https://www.youtubemulti.online/subscription.html">Subscription Plans</a>
-                <a href="https://www.youtubemulti.online/privacy-policy.html">Privacy Policy</a>
-                <a href="https://www.youtubemulti.online/terms-conditions.html">Terms & Conditions</a>
-                <a href="https://www.youtubemulti.online/disclaimer.html">Disclaimer</a>
-                <a href="https://www.youtubemulti.online/cookie-policy.html">Cookie Policy</a>
-                <a href="https://www.youtubemulti.online/sitemap.xml">Sitemap</a>
+        <footer>
+            <div class="container">
+                <p>&copy; 2026 YoutubeMulti. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="https://www.youtubemulti.online/index.html">Back to Home</a>
+                    <a href="https://www.youtubemulti.online/about.html">About YoutubeMulti</a>
+                    <a href="https://www.youtubemulti.online/blog.html">Blog</a>
+                    <a href="https://www.youtubemulti.online/subscription.html">Subscription Plans</a>
+                    <a href="https://www.youtubemulti.online/privacy-policy.html">Privacy Policy</a>
+                    <a href="https://www.youtubemulti.online/terms-conditions.html">Terms & Conditions</a>
+                    <a href="https://www.youtubemulti.online/disclaimer.html">Disclaimer</a>
+                    <a href="https://www.youtubemulti.online/cookie-policy.html">Cookie Policy</a>
+                    <a href="https://www.youtubemulti.online/sitemap.xml">Sitemap</a>
+                </div>
             </div>
-        </div>
-    </footer>
+        </footer>
 
-    <script src="shared.js"></script>
-    <script src="config.js"></script>
-    <script src="contact.js"></script>
+        <script src="shared.js"></script>
+        <script src="config.js"></script>
+        <script src="contact.js"></script>
 </body>
 
 </html>

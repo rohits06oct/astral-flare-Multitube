@@ -143,143 +143,171 @@
         </div>
     </div>
 
-    <main class="main-layout">
-        <div class="content-area">
-            <section class="control-box premium-box">
-                <h1>Multiple Screen Generator</h1>
-                <p class="text-dim">Paste your links and watch them all at once.</p>
-                <textarea id="videoUrls"
-                    placeholder="Enter video links (YouTube, Facebook, TikTok, Instagram, etc.). Separate links with commas or new lines."
-                    title="Support for comma-separated or new-line separated video links from all major platforms."></textarea>
+    <div class="container">
+        <div
+            style="text-align: center; margin-bottom: 2rem; padding: 1rem; background: rgba(59, 130, 246, 0.1); border: 1px solid var(--primary); border-radius: 12px;">
+            <p style="margin: 0; font-weight: 500;">
+                <span style="color: var(--primary); font-weight: bold; margin-right: 0.5rem;">Important News:</span>
+                We are currently looking to sell this product.
+                <b>Asking Price: $11,000,000 ($11M) to $21,000,000 ($21M) USD.</b>
+                If you are interested in acquiring this product, please send an email to <a
+                    href="mailto:singhalr.11aug@gmail.com">singhalr.11aug@gmail.com</a> with
+                your contact details and relevant information.
+                Our team will review your inquiry and respond via email.
+                You make the payment in any manner you prefer or donation/reward.
+            </p>
+        </div>
 
-                <div class="control-footer">
-                    <div class="input-group">
-                        <label for="screenCount">Screens</label>
-                        <input type="number" id="screenCount" value="4" min="1" max="50">
+        <main class="main-layout">
+            <div class="content-area">
+                <section class="control-box premium-box">
+                    <h1>Multiple Screen Generator</h1>
+                    <p class="text-dim">Paste your links and watch them all at once.</p>
+                    <textarea id="videoUrls"
+                        placeholder="Enter video links (YouTube, Facebook, TikTok, Instagram, etc.). Separate links with commas or new lines."
+                        title="Support for comma-separated or new-line separated video links from all major platforms."></textarea>
+
+                    <div class="control-footer">
+                        <div class="input-group">
+                            <label for="screenCount">Screens</label>
+                            <input type="number" id="screenCount" value="4" min="1" max="50">
+                        </div>
+                        <div class="button-group">
+                            <button id="generateBtn" class="btn btn-primary">Generate</button>
+                            <button id="hardResetBtn" class="btn btn-secondary">Reset</button>
+                        </div>
                     </div>
-                    <div class="button-group">
-                        <button id="generateBtn" class="btn btn-primary">Generate</button>
-                        <button id="hardResetBtn" class="btn btn-secondary">Reset</button>
+
+                    <div id="diagnosticLog" class="diagnostic-info">
+                        Status: <span id="overallStatus">Ready</span> |
+                        Screens Active: <span id="activeCount">0</span>
                     </div>
-                </div>
+                </section>
 
-                <div id="diagnosticLog" class="diagnostic-info">
-                    Status: <span id="overallStatus">Ready</span> |
-                    Screens Active: <span id="activeCount">0</span>
-                </div>
-            </section>
+                <section id="displayArea" class="grid-container">
+                    <!-- Dynamic Grid -->
+                    <div class="empty-state">
+                        <p>Your multi-screen view will appear here.</p>
+                    </div>
+                </section>
 
-            <section id="displayArea" class="grid-container">
-                <!-- Dynamic Grid -->
-                <div class="empty-state">
-                    <p>Your multi-screen view will appear here.</p>
-                </div>
-            </section>
-
-            <section class="seo-content" style="margin-top: 5rem; text-align: left;">
-                <h2>Best Multi-Screen Video Player for YouTube, TikTok & More</h2>
-                <p class="text-dim" style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem;">
-                    YoutubeMulti is designed for power users who need to stay on top of multiple content
-                    streams. Whether you are a creator monitoring trends, a researcher tracking global events, or a
-                    fan watching multiple sports streams, our platform provides the ultimate
-                    <strong>multi-screen video grid</strong>. In an era where information density is key to
-                    success, we provide the tools you need to visualize the digital world in real-time.
-                </p>
-
-                <div
-                    style="margin: 3rem 0; padding: 2.5rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px;">
-                    <h3 style="margin-bottom: 1.5rem;">Empowering Digital Productivity Worldwide</h3>
-                    <p class="text-dim" style="line-height: 1.8; margin-bottom: 1.5rem;">
-                        YoutubeMulti is designed to be a global productivity booster. Media professionals, marketing
-                        agencies, and remote learners around the world use our multi-screen generator to streamline
-                        their digital workflows. By offering a high-performance interface with low latency, we ensure
-                        that you can multitask across several video streams without bottlenecking your device.
+                <section class="seo-content" style="margin-top: 5rem; text-align: left;">
+                    <h2>Best Multi-Screen Video Player for YouTube, TikTok & More</h2>
+                    <p class="text-dim" style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem;">
+                        YoutubeMulti is designed for power users who need to stay on top of multiple content
+                        streams. Whether you are a creator monitoring trends, a researcher tracking global events, or a
+                        fan watching multiple sports streams, our platform provides the ultimate
+                        <strong>multi-screen video grid</strong>. In an era where information density is key to
+                        success, we provide the tools you need to visualize the digital world in real-time.
                     </p>
-                    <p class="text-dim" style="line-height: 1.8;">
-                        Content creators and digital marketers leverage YoutubeMulti to monitor content quality and
-                        compare video performance across multiple platforms in real-time. This provides visual analysis
-                        for creative audits, competitive research, and social media tracking, allowing teams to make
-                        decisions faster and with higher precision.
-                    </p>
-                </div>
 
-                <div class="feature-grid"
-                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2.5rem; margin-top: 3rem;">
-                    <div>
-                        <h3>Research & News Tracking</h3>
-                        <p class="text-dim">For researchers, journalists, and media analysts, tracking real-time events
-                            is a necessity. Monitor multiple news streams and social feeds in a single window. Our
-                            platform is a favorite for tracking breaking trends and live events simultaneously.</p>
-                    </div>
-                    <div>
-                        <h3>Any Platform Support</h3>
-                        <p class="text-dim">Seamless integration for YouTube, TikTok, Facebook, Instagram, Vimeo, and
-                            Twitch. Our engine handles diverse media formats with zero configuration.</p>
-                    </div>
-                    <div>
-                        <h3>Zero Latency Playback</h3>
-                        <p class="text-dim">Optimized embedding engine ensures smooth, synchronized playback across all
-                            screens. Perfect for comparing video quality or tracking live events.</p>
-                    </div>
-                    <div>
-                        <h3>Ad Strategy Intelligence</h3>
-                        <p class="text-dim">Monitor Check video quality in multiple screens performance across platforms
-                            in real-time. Gain visual
-                            intelligence for creative auditing and strategic budget optimization.</p>
-                    </div>
-                </div>
-
-                <div style="margin-top: 4rem; text-align: left;">
-                    <h3>Why Millions Choose YoutubeMulti</h3>
-                    <p class="text-dim" style="line-height: 1.8; margin-top: 1rem;">
-                        Our commitment to excellence has made us the premier "multiwatch youtube" solution on the
-                        market. Often compared to legacy tools like ViewSync, PanLab, or Multitube, YoutubeMulti offers
-                        a modern, faster, and more versatile alternative. We understand the needs of developers,
-                        creators, and data analysts who require a <strong>YouTube multi-viewer</strong> that just works.
-                    </p>
-                    <p class="text-dim" style="line-height: 1.8; margin-top: 1rem;">
-                        By continuously integrating user feedback from our global community, we ensure that our
-                        "multi-screen video player" remains the gold standard for innovation. Access the most powerful
-                        multi-viewer browser experience directly from your web browser without downloading any software.
-                        Choose from a simple side-by-side view to a massive wall of video with up to 50 screens. Stop
-                        juggling tabs and start mastering your media with YoutubeMulti today.
-                    </p>
                     <div
-                        style="margin-top: 3rem; padding: 2rem; border-left: 4px solid var(--primary); background: rgba(255, 0, 0, 0.02);">
-                        <h3 style="margin-bottom: 1rem;">Getting Started with the Premier Multi-Viewer</h3>
+                        style="margin: 3rem 0; padding: 2.5rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px;">
+                        <h3 style="margin-bottom: 1.5rem;">Empowering Digital Productivity Worldwide</h3>
+                        <p class="text-dim" style="line-height: 1.8; margin-bottom: 1.5rem;">
+                            YoutubeMulti is designed to be a global productivity booster. Media professionals, marketing
+                            agencies, and remote learners around the world use our multi-screen generator to streamline
+                            their digital workflows. By offering a high-performance interface with low latency, we
+                            ensure
+                            that you can multitask across several video streams without bottlenecking your device.
+                        </p>
                         <p class="text-dim" style="line-height: 1.8;">
-                            Ready to revolutionize how you interact with video content? Starting with YoutubeMulti is
-                            simple. Just paste your links from YouTube, TikTok, or any major platform into the
-                            generator, choose your screen count, and click generate. Our platform scales with your
-                            needs, helping you organize your video workspace efficiently. Experience the future of video
-                            multitasking today and join the power users who demand more from their digital workflow.
+                            Content creators and digital marketers leverage YoutubeMulti to monitor content quality and
+                            compare video performance across multiple platforms in real-time. This provides visual
+                            analysis
+                            for creative audits, competitive research, and social media tracking, allowing teams to make
+                            decisions faster and with higher precision.
                         </p>
                     </div>
-                </div>
-            </section>
-        </div>
-    </main>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 YoutubeMulti. All rights reserved.</p>
-            <div class="footer-links">
-                <a href="https://www.youtubemulti.online/about.html">About YoutubeMulti</a>
-                <a href="https://www.youtubemulti.online/contact.html">Contact Support</a>
-                <a href="https://www.youtubemulti.online/blog.html">Blog</a>
-                <a href="https://www.youtubemulti.online/subscription.html">Subscription Plans</a>
-                <a href="https://www.youtubemulti.online/privacy-policy.html">Privacy Policy</a>
-                <a href="https://www.youtubemulti.online/terms-conditions.html">Terms & Conditions</a>
-                <a href="https://www.youtubemulti.online/disclaimer.html">Disclaimer</a>
-                <a href="https://www.youtubemulti.online/cookie-policy.html">Cookie Policy</a>
-                <a href="https://www.youtubemulti.online/sitemap.xml">Sitemap</a>
+                    <div class="feature-grid"
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2.5rem; margin-top: 3rem;">
+                        <div>
+                            <h3>Research & News Tracking</h3>
+                            <p class="text-dim">For researchers, journalists, and media analysts, tracking real-time
+                                events
+                                is a necessity. Monitor multiple news streams and social feeds in a single window. Our
+                                platform is a favorite for tracking breaking trends and live events simultaneously.</p>
+                        </div>
+                        <div>
+                            <h3>Any Platform Support</h3>
+                            <p class="text-dim">Seamless integration for YouTube, TikTok, Facebook, Instagram, Vimeo,
+                                and
+                                Twitch. Our engine handles diverse media formats with zero configuration.</p>
+                        </div>
+                        <div>
+                            <h3>Zero Latency Playback</h3>
+                            <p class="text-dim">Optimized embedding engine ensures smooth, synchronized playback across
+                                all
+                                screens. Perfect for comparing video quality or tracking live events.</p>
+                        </div>
+                        <div>
+                            <h3>Ad Strategy Intelligence</h3>
+                            <p class="text-dim">Monitor Check video quality in multiple screens performance across
+                                platforms
+                                in real-time. Gain visual
+                                intelligence for creative auditing and strategic budget optimization.</p>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 4rem; text-align: left;">
+                        <h3>Why Millions Choose YoutubeMulti</h3>
+                        <p class="text-dim" style="line-height: 1.8; margin-top: 1rem;">
+                            Our commitment to excellence has made us the premier "multiwatch youtube" solution on the
+                            market. Often compared to legacy tools like ViewSync, PanLab, or Multitube, YoutubeMulti
+                            offers
+                            a modern, faster, and more versatile alternative. We understand the needs of developers,
+                            creators, and data analysts who require a <strong>YouTube multi-viewer</strong> that just
+                            works.
+                        </p>
+                        <p class="text-dim" style="line-height: 1.8; margin-top: 1rem;">
+                            By continuously integrating user feedback from our global community, we ensure that our
+                            "multi-screen video player" remains the gold standard for innovation. Access the most
+                            powerful
+                            multi-viewer browser experience directly from your web browser without downloading any
+                            software.
+                            Choose from a simple side-by-side view to a massive wall of video with up to 50 screens.
+                            Stop
+                            juggling tabs and start mastering your media with YoutubeMulti today.
+                        </p>
+                        <div
+                            style="margin-top: 3rem; padding: 2rem; border-left: 4px solid var(--primary); background: rgba(255, 0, 0, 0.02);">
+                            <h3 style="margin-bottom: 1rem;">Getting Started with the Premier Multi-Viewer</h3>
+                            <p class="text-dim" style="line-height: 1.8;">
+                                Ready to revolutionize how you interact with video content? Starting with YoutubeMulti
+                                is
+                                simple. Just paste your links from YouTube, TikTok, or any major platform into the
+                                generator, choose your screen count, and click generate. Our platform scales with your
+                                needs, helping you organize your video workspace efficiently. Experience the future of
+                                video
+                                multitasking today and join the power users who demand more from their digital workflow.
+                            </p>
+                        </div>
+                    </div>
+                </section>
             </div>
-        </div>
-    </footer>
+        </main>
 
-    <script src="https://www.youtube.com/iframe_api"></script>
-    <script src="shared.js"></script>
-    <script src="script.js"></script>
+        <footer>
+            <div class="container">
+                <p>&copy; 2026 YoutubeMulti. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="https://www.youtubemulti.online/about.html">About YoutubeMulti</a>
+                    <a href="https://www.youtubemulti.online/contact.html">Contact Support</a>
+                    <a href="https://www.youtubemulti.online/blog.html">Blog</a>
+                    <a href="https://www.youtubemulti.online/subscription.html">Subscription Plans</a>
+                    <a href="https://www.youtubemulti.online/privacy-policy.html">Privacy Policy</a>
+                    <a href="https://www.youtubemulti.online/terms-conditions.html">Terms & Conditions</a>
+                    <a href="https://www.youtubemulti.online/disclaimer.html">Disclaimer</a>
+                    <a href="https://www.youtubemulti.online/cookie-policy.html">Cookie Policy</a>
+                    <a href="https://www.youtubemulti.online/sitemap.xml">Sitemap</a>
+                </div>
+            </div>
+        </footer>
+
+        <script src="https://www.youtube.com/iframe_api"></script>
+        <script src="shared.js"></script>
+        <script src="script.js"></script>
 </body>
 
 </html>
