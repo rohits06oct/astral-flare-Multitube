@@ -6,7 +6,7 @@ window.LEVEL_CONFIG = window.LEVEL_CONFIG || {};
 
 window.LEVEL_CONFIG[3] = {
   levelNumber: 3,
-  title: "Quiz 3",
+  title: "Level 3",
   enforceMatchingOrder: false,
   hintText: "Connect the cosmic pairs in any order!",
 

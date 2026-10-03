@@ -788,43 +788,12 @@
       if (!this.levelCardsGrid) return;
       this.levelCardsGrid.innerHTML = '';
 
-      const levelDescriptions = {
-        1: { title: "Quiz 1 - Fun Starter", diff: "EASY", pairs: 3 },
-        2: { title: "Quiz 2 - Animal Treats", diff: "MEDIUM", pairs: 4 },
-        3: { title: "Quiz 3 - Cosmic Space", diff: "MEDIUM", pairs: 4 },
-        4: { title: "Quiz 4 - Sports Mania", diff: "EASY", pairs: 3 },
-        5: { title: "Quiz 5 - Magic & Spells", diff: "HARD", pairs: 4 }
-      };
-
       for (let lvl = 1; lvl <= this.maxLevels; lvl++) {
-        let cfg = (window.LEVEL_CONFIG && window.LEVEL_CONFIG[lvl]) || null;
-        const saved = localStorage.getItem(`match_game_custom_level_${lvl}`);
-        if (saved) {
-          try { cfg = JSON.parse(saved); } catch (e) { }
-        }
-
-        const title = (cfg && cfg.title) ? cfg.title : (levelDescriptions[lvl]?.title || `Quiz ${lvl}`);
-        const items = (cfg && cfg.leftItems) ? cfg.leftItems : [];
-        const pairsCount = items.length || levelDescriptions[lvl]?.pairs || 3;
+        const title = `Level ${lvl}`;
 
         const card = document.createElement('div');
         card.className = `level-card-3d theme-level-${lvl}`;
         card.dataset.level = lvl;
-
-        // Render preview thumbnails
-        let previewsHtml = '';
-        if (items.length > 0) {
-          previewsHtml = `
-            <div class="level-preview-thumbnails">
-              ${items.slice(0, 4).map(it => `
-                <div class="level-preview-chip" title="${it.name || it.id}">
-                  <img src="${it.image}" alt="${it.name || it.id}">
-                </div>
-              `).join('')}
-              <span class="level-preview-label">${pairsCount} Pairs</span>
-            </div>
-          `;
-        }
 
         card.innerHTML = `
           <div class="level-card-top">
@@ -834,15 +803,12 @@
             <div class="level-meta">
               <div class="level-difficulty-badge">★ ★ ★</div>
               <h3 class="level-title">${title}</h3>
-              <span class="level-pairs-pill">${pairsCount} Match Pairs</span>
             </div>
           </div>
 
-          ${previewsHtml}
-
-          <button class="btn-level-play-3d" aria-label="Play Quiz ${lvl}">
+          <button class="btn-level-play-3d" aria-label="Play Level ${lvl}">
             <span class="btn-play-icon">▶</span>
-            <span class="btn-play-text">START QUIZ ${lvl}</span>
+            <span class="btn-play-text">START LEVEL ${lvl}</span>
           </button>
         `;
 
@@ -1423,12 +1389,12 @@
 
       if (this.currentLevel < this.maxLevels) {
         titleEl.textContent = 'Congratulations! 🎆';
-        subtitleEl.textContent = `You cleared Quiz ${this.currentLevel}! All items matched!`;
-        nextBtn.textContent = `Next Level (Quiz ${this.currentLevel + 1}) →`;
+        subtitleEl.textContent = `You cleared Level ${this.currentLevel}! All items matched!`;
+        nextBtn.textContent = `Next Level (Level ${this.currentLevel + 1}) →`;
       } else {
         titleEl.textContent = 'Awesome! All Levels Won! 🎆🎇';
-        subtitleEl.textContent = 'You successfully solved all 5 Quizzes!';
-        nextBtn.textContent = 'Play from Quiz 1 🔄';
+        subtitleEl.textContent = 'You successfully solved all 5 Levels!';
+        nextBtn.textContent = 'Play from Level 1 🔄';
       }
 
       this.openModal(this.victoryModal);

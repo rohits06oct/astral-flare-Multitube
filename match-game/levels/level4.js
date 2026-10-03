@@ -6,7 +6,7 @@ window.LEVEL_CONFIG = window.LEVEL_CONFIG || {};
 
 window.LEVEL_CONFIG[4] = {
   levelNumber: 4,
-  title: "Quiz 4",
+  title: "Level 4",
   enforceMatchingOrder: false,
   hintText: "Score the goals and baskets in any order!",
 

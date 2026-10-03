@@ -567,11 +567,11 @@ body {
   background: linear-gradient(160deg, #ffffff 0%, #f8fafc 100%);
   border-radius: 22px;
   border: 2px solid #e2e8f0;
-  padding: 16px;
+  padding: 18px 20px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
   transform-style: preserve-3d;
   box-shadow: 
     0 6px 0 #cbd5e1,
@@ -623,14 +623,14 @@ body {
 .level-card-top {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
 /* 3D Orb for Level Number */
 .level-orb-3d {
-  width: 50px;
-  height: 50px;
-  border-radius: 16px;
+  width: 52px;
+  height: 52px;
+  border-radius: 17px;
   background: var(--theme-gradient, linear-gradient(135deg, #5ee432, #2ed573));
   box-shadow: 
     0 4px 0 rgba(0, 0, 0, 0.22),
@@ -640,7 +640,7 @@ body {
   align-items: center;
   justify-content: center;
   color: #ffffff;
-  font-size: 1.45rem;
+  font-size: 1.5rem;
   font-weight: 900;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   flex-shrink: 0;
@@ -652,20 +652,21 @@ body {
 }
 
 .level-difficulty-badge {
-  font-size: 0.72rem;
+  font-size: 0.76rem;
   color: #f59e0b;
-  letter-spacing: 2px;
-  margin-bottom: 2px;
+  letter-spacing: 2.5px;
+  margin-bottom: 3px;
 }
 
 .level-title {
-  font-size: 1.05rem;
+  font-size: 1.25rem;
   font-weight: 800;
   color: #0f172a;
-  margin: 0 0 4px;
+  margin: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  letter-spacing: -0.3px;
 }
 
 .level-pairs-pill {

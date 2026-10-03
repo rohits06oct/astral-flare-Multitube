@@ -6,7 +6,7 @@ window.LEVEL_CONFIG = window.LEVEL_CONFIG || {};
 
 window.LEVEL_CONFIG[1] = {
   levelNumber: 1,
-  title: "Quiz 1",
+  title: "Level 1",
 
   // Allow items to be matched in any order
   enforceMatchingOrder: false,

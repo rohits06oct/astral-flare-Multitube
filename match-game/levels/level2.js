@@ -6,7 +6,7 @@ window.LEVEL_CONFIG = window.LEVEL_CONFIG || {};
 
 window.LEVEL_CONFIG[2] = {
   levelNumber: 2,
-  title: "Quiz 2",
+  title: "Level 2",
   enforceMatchingOrder: false,
   hintText: "Match each animal with its favorite treat in any order!",
 
