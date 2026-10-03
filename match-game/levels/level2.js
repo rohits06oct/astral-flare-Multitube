@@ -1,78 +1,25 @@
 /**
- * LEVEL 2 CONFIGURATION
- * Edit this file to customize items, images, and matching order for Level 2.
+ * Level 2 Configuration: Quick Math Calculation (Calculation Level)
+ * Matching: Math Problem -> Solution (Order scrambled on right side)
  */
-window.LEVEL_CONFIG = window.LEVEL_CONFIG || {};
-
-window.LEVEL_CONFIG[2] = {
-  levelNumber: 2,
-  title: "Level 2",
+window.LEVEL_2_CONFIG = {
+  title: "Level 2: Quick Math Calculation",
+  subtitle: "Match each math equation with its correct answer",
+  hintText: "Calculate and connect in any order!",
   enforceMatchingOrder: false,
-  hintText: "Match each animal with its favorite treat in any order!",
-
   leftItems: [
-    {
-      id: "dog",
-      name: "Happy Dog",
-      image: "images/dog.svg",
-      bgColor: "#fff3e0"
-    },
-    {
-      id: "cat",
-      name: "Playful Cat",
-      image: "images/cat.svg",
-      bgColor: "#ffe0b2"
-    },
-    {
-      id: "monkey",
-      name: "Cheeky Monkey",
-      image: "images/monkey.svg",
-      bgColor: "#d7ccc8"
-    },
-    {
-      id: "bee",
-      name: "Buzzy Bee",
-      image: "images/bee.svg",
-      bgColor: "#fff9c4"
-    }
+    { id: "calc1", text: "2 + 3", name: "2 + 3", bgColor: "#f0fdf4" },
+    { id: "calc2", text: "7 - 3", name: "7 - 3", bgColor: "#eff6ff" },
+    { id: "calc3", text: "4 + 4", name: "4 + 4", bgColor: "#fdf4ff" }
   ],
-
   rightItems: [
-    {
-      id: "honey",
-      name: "Honey Pot",
-      image: "images/honey.svg",
-      bgColor: "#ffe082"
-    },
-    {
-      id: "bone",
-      name: "Dog Bone",
-      image: "images/bone.svg",
-      bgColor: "#ffecb3"
-    },
-    {
-      id: "banana",
-      name: "Yellow Banana",
-      image: "images/banana.svg",
-      bgColor: "#fff9c4"
-    },
-    {
-      id: "fish",
-      name: "Blue Fish",
-      image: "images/fish.svg",
-      bgColor: "#b3e5fc"
-    }
+    { id: "calc2", text: "4", name: "Result 4", bgColor: "#eff6ff" },
+    { id: "calc3", text: "8", name: "Result 8", bgColor: "#fdf4ff" },
+    { id: "calc1", text: "5", name: "Result 5", bgColor: "#f0fdf4" }
   ],
-
-  // REQUIRED MATCHING ORDER (Decided by you):
-  // 1st: Dog -> Bone
-  // 2nd: Cat -> Fish
-  // 3rd: Monkey -> Banana
-  // 4th: Bee -> Honey
   matchingOrder: [
-    { leftId: "dog", rightId: "bone", label: "Dog loves Bone" },
-    { leftId: "cat", rightId: "fish", label: "Cat loves Fish" },
-    { leftId: "monkey", rightId: "banana", label: "Monkey loves Banana" },
-    { leftId: "bee", rightId: "honey", label: "Bee makes Honey" }
+    { leftId: "calc1", rightId: "calc1" },
+    { leftId: "calc2", rightId: "calc2" },
+    { leftId: "calc3", rightId: "calc3" }
   ]
 };

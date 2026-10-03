@@ -1,64 +1,25 @@
 /**
- * LEVEL 3 CONFIGURATION
- * Edit this file to customize items, images, and matching order for Level 3.
+ * Level 3 Configuration: Alphabet D, E, F
+ * Matching: Letter -> Object (Order scrambled on right side)
  */
-window.LEVEL_CONFIG = window.LEVEL_CONFIG || {};
-
-window.LEVEL_CONFIG[3] = {
-  levelNumber: 3,
-  title: "Level 3",
+window.LEVEL_3_CONFIG = {
+  title: "Level 3: Alphabet D, E, F",
+  subtitle: "Match each alphabet letter with the correct image",
+  hintText: "Match letters to items in any order!",
   enforceMatchingOrder: false,
-  hintText: "Connect the cosmic pairs in any order!",
-
   leftItems: [
-    {
-      id: "sun",
-      name: "Sunny Sun",
-      image: "images/sun.svg",
-      bgColor: "#fff8e1"
-    },
-    {
-      id: "earth",
-      name: "Planet Earth",
-      image: "images/earth.svg",
-      bgColor: "#e1f5fe"
-    },
-    {
-      id: "rocket",
-      name: "Space Rocket",
-      image: "images/rocket.svg",
-      bgColor: "#ede7f6"
-    }
+    { id: "D", text: "D", name: "Letter D", bgColor: "#fff7ed" },
+    { id: "E", text: "E", name: "Letter E", bgColor: "#f5f3ff" },
+    { id: "F", text: "F", name: "Letter F", bgColor: "#ecfeff" }
   ],
-
   rightItems: [
-    {
-      id: "moon",
-      name: "Crescent Moon",
-      image: "images/moon.svg",
-      bgColor: "#fff9c4"
-    },
-    {
-      id: "sunglasses",
-      name: "Cool Shades",
-      image: "images/sunglasses.svg",
-      bgColor: "#cfd8dc"
-    },
-    {
-      id: "star",
-      name: "Twinkling Star",
-      image: "images/star.svg",
-      bgColor: "#ffe082"
-    }
+    { id: "E", image: "images/elephant.svg", name: "Elephant", bgColor: "#f5f3ff" },
+    { id: "F", image: "images/fish.svg", name: "Fish", bgColor: "#ecfeff" },
+    { id: "D", image: "images/dog.svg", name: "Dog", bgColor: "#fff7ed" }
   ],
-
-  // REQUIRED MATCHING ORDER:
-  // 1st: Sun -> Sunglasses
-  // 2nd: Earth -> Moon
-  // 3rd: Rocket -> Star
   matchingOrder: [
-    { leftId: "sun", rightId: "sunglasses", label: "Sun wears Sunglasses" },
-    { leftId: "earth", rightId: "moon", label: "Earth orbits with Moon" },
-    { leftId: "rocket", rightId: "star", label: "Rocket journeys to Star" }
+    { leftId: "D", rightId: "D" },
+    { leftId: "E", rightId: "E" },
+    { leftId: "F", rightId: "F" }
   ]
 };

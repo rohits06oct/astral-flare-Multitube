@@ -510,7 +510,7 @@
   class MatchingGame {
     constructor() {
       this.currentLevel = 1;
-      this.maxLevels = 5;
+      this.maxLevels = 16;
       this.levelData = null;
       this.connectedPairs = [];
       this.currentOrderIndex = 0;
@@ -896,21 +896,48 @@
       this.currentOrderIndex = 0;
       this.selectedLeftCard = null;
 
-      // Check localStorage for customized level override, else fallback to window.LEVEL_CONFIG[levelNum]
+      // Sync window.LEVEL_CONFIG if not already done
+      window.LEVEL_CONFIG = window.LEVEL_CONFIG || {};
+      if (!window.LEVEL_CONFIG[levelNum] && window[`LEVEL_${levelNum}_CONFIG`]) {
+        window.LEVEL_CONFIG[levelNum] = window[`LEVEL_${levelNum}_CONFIG`];
+      }
+
+      // Check localStorage for customized level override, else fallback to window.LEVEL_CONFIG[levelNum] or window[`LEVEL_${levelNum}_CONFIG`]
+      let rawConfig = null;
       const savedConfig = localStorage.getItem(`match_game_custom_level_${levelNum}`);
       if (savedConfig) {
         try {
-          this.levelData = JSON.parse(savedConfig);
+          rawConfig = JSON.parse(savedConfig);
         } catch (e) {
-          this.levelData = (window.LEVEL_CONFIG && window.LEVEL_CONFIG[levelNum]) || null;
+          rawConfig = (window.LEVEL_CONFIG && window.LEVEL_CONFIG[levelNum]) || window[`LEVEL_${levelNum}_CONFIG`] || null;
         }
       } else {
-        this.levelData = (window.LEVEL_CONFIG && window.LEVEL_CONFIG[levelNum]) || null;
+        rawConfig = (window.LEVEL_CONFIG && window.LEVEL_CONFIG[levelNum]) || window[`LEVEL_${levelNum}_CONFIG`] || null;
       }
 
-      if (!this.levelData) {
+      if (!rawConfig) {
         this.showToast(`Level ${levelNum} configuration not found!`);
         return;
+      }
+
+      // Deep clone so working level state is isolated
+      this.levelData = JSON.parse(JSON.stringify(rawConfig));
+
+      // Guarantee that in every level, matching items on left and right NEVER line up straight horizontally across
+      if (this.levelData.leftItems && this.levelData.rightItems && this.levelData.rightItems.length > 1) {
+        const leftIds = this.levelData.leftItems.map(it => it.id);
+        const hasDirectParallel = this.levelData.rightItems.some((it, idx) => it.id === leftIds[idx]);
+        if (hasDirectParallel) {
+          const right = [...this.levelData.rightItems];
+          const n = right.length;
+          for (let shift = 1; shift < n; shift++) {
+            const candidate = right.map((_, i) => right[(i + shift) % n]);
+            if (!candidate.some((it, i) => it.id === leftIds[i])) {
+              this.levelData.rightItems = candidate;
+              break;
+            }
+          }
+        }
       }
 
       // Update Header & Badge
@@ -1014,11 +1041,18 @@
         card.dataset.side = 'left';
         if (item.bgColor) card.style.backgroundColor = item.bgColor;
 
-        // Card image
-        const img = document.createElement('img');
-        img.src = item.image;
-        img.alt = item.name || item.id;
-        card.appendChild(img);
+        // Card content: Text or Image
+        if (item.text) {
+          const letterSpan = document.createElement('span');
+          letterSpan.className = item.text.length > 2 ? 'card-calc-text' : 'card-letter-text';
+          letterSpan.textContent = item.text;
+          card.appendChild(letterSpan);
+        } else if (item.image) {
+          const img = document.createElement('img');
+          img.src = item.image;
+          img.alt = item.name || item.id;
+          card.appendChild(img);
+        }
 
         // Anchor dot for visual connection
         const dot = document.createElement('span');
@@ -1041,10 +1075,18 @@
         card.dataset.side = 'right';
         if (item.bgColor) card.style.backgroundColor = item.bgColor;
 
-        const img = document.createElement('img');
-        img.src = item.image;
-        img.alt = item.name || item.id;
-        card.appendChild(img);
+        // Card content: Text or Image
+        if (item.text) {
+          const letterSpan = document.createElement('span');
+          letterSpan.className = item.text.length > 2 ? 'card-calc-text' : 'card-letter-text';
+          letterSpan.textContent = item.text;
+          card.appendChild(letterSpan);
+        } else if (item.image) {
+          const img = document.createElement('img');
+          img.src = item.image;
+          img.alt = item.name || item.id;
+          card.appendChild(img);
+        }
 
         const dot = document.createElement('span');
         dot.className = 'anchor-dot';
@@ -1393,7 +1435,7 @@
         nextBtn.textContent = `Next Level (Level ${this.currentLevel + 1}) →`;
       } else {
         titleEl.textContent = 'Awesome! All Levels Won! 🎆🎇';
-        subtitleEl.textContent = 'You successfully solved all 5 Levels!';
+        subtitleEl.textContent = `You successfully solved all ${this.maxLevels} Levels!`;
         nextBtn.textContent = 'Play from Level 1 🔄';
       }
 

@@ -1,50 +1,28 @@
 /**
- * LEVEL 4 CONFIGURATION
- * Edit this file to customize items, images, and matching order for Level 4.
+ * Level 4 Configuration: Animals & Treats (Item Objects Level)
+ * Matching: Animal -> Favorite Food (Order scrambled on right side)
  */
-window.LEVEL_CONFIG = window.LEVEL_CONFIG || {};
-
-window.LEVEL_CONFIG[4] = {
-  levelNumber: 4,
-  title: "Level 4",
+window.LEVEL_4_CONFIG = {
+  title: "Level 4: Animals & Treats",
+  subtitle: "Match each friendly animal with their favorite food",
+  hintText: "Match animals to treats in any order!",
   enforceMatchingOrder: false,
-  hintText: "Score the goals and baskets in any order!",
-
   leftItems: [
-    {
-      id: "soccer",
-      name: "Soccer Ball",
-      image: "images/soccer.svg",
-      bgColor: "#e8f5e9"
-    },
-    {
-      id: "basketball",
-      name: "Basketball",
-      image: "images/basketball.svg",
-      bgColor: "#fbe9e7"
-    }
+    { id: "dog", image: "images/dog.svg", name: "Puppy Dog", bgColor: "#fff7ed" },
+    { id: "cat", image: "images/cat.svg", name: "Kitty Cat", bgColor: "#fef2f2" },
+    { id: "monkey", image: "images/monkey.svg", name: "Playful Monkey", bgColor: "#fefce8" },
+    { id: "bee", image: "images/bee.svg", name: "Busy Bee", bgColor: "#fef3c7" }
   ],
-
   rightItems: [
-    {
-      id: "hoop",
-      name: "Basketball Hoop",
-      image: "images/hoop.svg",
-      bgColor: "#ffecb3"
-    },
-    {
-      id: "goal",
-      name: "Soccer Goal",
-      image: "images/goal.svg",
-      bgColor: "#e0f2f1"
-    }
+    { id: "cat", image: "images/fish.svg", name: "Delicious Fish", bgColor: "#ecfeff" },
+    { id: "bee", image: "images/honey.svg", name: "Sweet Honey", bgColor: "#fef3c7" },
+    { id: "dog", image: "images/bone.svg", name: "Tasty Bone", bgColor: "#fff7ed" },
+    { id: "monkey", image: "images/banana.svg", name: "Yellow Banana", bgColor: "#fefce8" }
   ],
-
-  // REQUIRED MATCHING ORDER:
-  // 1st: Soccer -> Goal
-  // 2nd: Basketball -> Hoop
   matchingOrder: [
-    { leftId: "soccer", rightId: "goal", label: "Kick Soccer into Goal" },
-    { leftId: "basketball", rightId: "hoop", label: "Dunk Basketball in Hoop" }
+    { leftId: "dog", rightId: "dog" },
+    { leftId: "cat", rightId: "cat" },
+    { leftId: "monkey", rightId: "monkey" },
+    { leftId: "bee", rightId: "bee" }
   ]
 };
