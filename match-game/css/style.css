@@ -1172,14 +1172,15 @@ body {
   align-items: center;
   justify-content: center;
   flex-wrap: nowrap;
-  gap: 2px;
-  margin-bottom: 18px;
+  gap: clamp(1px, 0.4vw, 4px);
+  margin-bottom: clamp(12px, 3vh, 22px);
+  max-width: 96vw;
 }
 
 .float-char {
   display: inline-block;
   font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: clamp(2.1rem, 7.2vw, 3.6rem);
+  font-size: clamp(1.35rem, 6.2vw, 3.4rem);
   font-weight: 900;
   line-height: 1.1;
   text-transform: lowercase;
@@ -1213,7 +1214,7 @@ body {
     transform: translateY(0) rotate(0deg) scale(1);
   }
   50% {
-    transform: translateY(-16px) rotate(calc((var(--ci) - 6) * 1.6deg)) scale(1.08);
+    transform: translateY(-14px) rotate(calc((var(--ci) - 6) * 1.5deg)) scale(1.06);
   }
 }
 
@@ -1290,4 +1291,43 @@ body {
   color: #5ee432;
   font-variant-numeric: tabular-nums;
   font-weight: 800;
+}
+
+/* Desktop Web View (>= 768px) */
+@media (min-width: 768px) {
+  .float-char {
+    font-size: clamp(2.4rem, 4.2vw, 3.8rem);
+    filter: drop-shadow(0 6px 18px rgba(94, 228, 50, 0.5));
+  }
+  .loader-progress-track {
+    width: 360px;
+    height: 12px;
+  }
+  .loader-stats {
+    width: 360px;
+    font-size: 0.82rem;
+  }
+}
+
+/* Mobile Screens (<= 480px) */
+@media (max-width: 480px) {
+  .brand-floating-title {
+    gap: 1px;
+    margin-bottom: 14px;
+  }
+  .float-char {
+    font-size: clamp(1.3rem, 6.4vw, 1.85rem);
+  }
+  .loader-tagline {
+    font-size: 0.82rem;
+    margin-bottom: 18px;
+  }
+  .loader-progress-track {
+    width: min(290px, 86vw);
+    height: 8px;
+  }
+  .loader-stats {
+    width: min(290px, 86vw);
+    font-size: 0.72rem;
+  }
 }
