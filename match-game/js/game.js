@@ -1044,7 +1044,11 @@
         // Card content: Text or Image
         if (item.text) {
           const letterSpan = document.createElement('span');
-          letterSpan.className = item.text.length > 2 ? 'card-calc-text' : 'card-letter-text';
+          if (item.text.length > 2) {
+            letterSpan.className = item.text.length >= 6 ? 'card-calc-text calc-long' : 'card-calc-text';
+          } else {
+            letterSpan.className = 'card-letter-text';
+          }
           letterSpan.textContent = item.text;
           card.appendChild(letterSpan);
         } else if (item.image) {
@@ -1078,7 +1082,11 @@
         // Card content: Text or Image
         if (item.text) {
           const letterSpan = document.createElement('span');
-          letterSpan.className = item.text.length > 2 ? 'card-calc-text' : 'card-letter-text';
+          if (item.text.length > 2) {
+            letterSpan.className = item.text.length >= 6 ? 'card-calc-text calc-long' : 'card-calc-text';
+          } else {
+            letterSpan.className = 'card-letter-text';
+          }
           letterSpan.textContent = item.text;
           card.appendChild(letterSpan);
         } else if (item.image) {
