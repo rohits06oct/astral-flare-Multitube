@@ -457,71 +457,427 @@ body {
   transform: translateY(-50%) scale(1.2);
 }
 
-/* Bottom Bar / Quick Level Switcher */
-.game-footer {
-  height: 52px;
-  padding: 0 clamp(10px, 3vw, 20px);
+/* ==========================================================================
+   SCREEN 1: 3D LEVEL SELECTION SCREEN (Before actual level starts)
+   ========================================================================== */
+
+.level-select-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(circle at 50% 0%, #ffffff 0%, #f1f5f9 100%);
+  overflow: hidden;
+  z-index: 10;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.level-select-screen.hidden {
+  display: none !important;
+}
+
+.level-select-header {
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
-  background-color: #ffffff;
+  padding: 0 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   flex-shrink: 0;
 }
 
-.level-indicators {
-  display: flex;
-  gap: clamp(4px, 1.5vw, 8px);
+.level-select-brand-chip {
+  display: inline-flex;
   align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(94, 228, 50, 0.15) 0%, rgba(46, 213, 115, 0.08) 100%);
+  border: 1px solid rgba(94, 228, 50, 0.35);
+  box-shadow: 0 2px 8px rgba(94, 228, 50, 0.15);
 }
 
-.level-dot {
-  width: clamp(24px, 5.5vw, 30px);
-  height: clamp(24px, 5.5vw, 30px);
-  border-radius: 50%;
-  background-color: #e0e0e0;
-  color: #757575;
-  font-size: clamp(0.72rem, 1.8vw, 0.85rem);
-  font-weight: 700;
+.brand-chip-sparkle {
+  font-size: 0.95rem;
+}
+
+.brand-chip-title {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #15803d;
+}
+
+.level-select-body {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 16px 18px 24px;
+}
+
+.level-select-banner {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.level-select-pill {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  color: #475569;
+  background: #ffffff;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid #cbd5e1;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  margin-bottom: 6px;
+}
+
+.level-select-title {
+  font-size: clamp(1.45rem, 4vw, 1.85rem);
+  font-weight: 900;
+  color: #0f172a;
+  letter-spacing: -0.5px;
+  margin-bottom: 4px;
+}
+
+.level-select-desc {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #64748b;
+}
+
+/* 3D Level Cards Grid */
+.level-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 16px;
+  perspective: 1000px;
+  padding: 4px 2px 12px;
+}
+
+/* 3D Level Card */
+.level-card-3d {
+  position: relative;
+  background: linear-gradient(160deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 22px;
+  border: 2px solid #e2e8f0;
+  padding: 16px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transform-style: preserve-3d;
+  box-shadow: 
+    0 6px 0 #cbd5e1,
+    0 12px 24px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.2s ease;
+  overflow: hidden;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.level-card-3d::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 70%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  transform: skewX(-25deg);
+  transition: left 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.level-card-3d:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 
+    0 14px 0 #cbd5e1,
+    0 24px 36px rgba(15, 23, 42, 0.16),
+    0 0 24px var(--theme-glow, rgba(94, 228, 50, 0.4)),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+  border-color: var(--theme-color, #5ee432);
+}
+
+.level-card-3d:hover::before {
+  left: 150%;
+}
+
+.level-card-3d:active {
+  transform: translateY(2px) scale(0.98);
+  box-shadow: 
+    0 2px 0 #cbd5e1,
+    0 6px 12px rgba(15, 23, 42, 0.1);
+}
+
+.level-card-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* 3D Orb for Level Number */
+.level-orb-3d {
+  width: 50px;
+  height: 50px;
+  border-radius: 16px;
+  background: var(--theme-gradient, linear-gradient(135deg, #5ee432, #2ed573));
+  box-shadow: 
+    0 4px 0 rgba(0, 0, 0, 0.22),
+    0 8px 16px rgba(0, 0, 0, 0.15),
+    inset 0 2px 4px rgba(255, 255, 255, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: 1.5px solid transparent;
-}
-
-.level-dot.active {
-  background-color: #2f3640;
   color: #ffffff;
-  transform: scale(1.1);
+  font-size: 1.45rem;
+  font-weight: 900;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
 }
 
-.level-dot.completed {
-  background-color: var(--color-active);
-  color: #ffffff;
+.level-meta {
+  flex: 1;
+  min-width: 0;
 }
 
-.footer-btn {
-  font-size: clamp(0.75rem, 2vw, 0.84rem);
-  font-weight: 600;
-  padding: 6px clamp(8px, 2vw, 14px);
-  border-radius: 14px;
-  border: 1px solid #cfd8dc;
-  background: #f8fafc;
-  cursor: pointer;
-  color: #455a64;
+.level-difficulty-badge {
+  font-size: 0.72rem;
+  color: #f59e0b;
+  letter-spacing: 2px;
+  margin-bottom: 2px;
+}
+
+.level-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.level-pairs-pill {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.05);
+  color: #475569;
+}
+
+/* Mini Item Preview Chips */
+.level-preview-thumbnails {
   display: flex;
   align-items: center;
-  gap: 5px;
-  transition: all 0.15s ease;
-  white-space: nowrap;
+  gap: 8px;
+  background: rgba(241, 245, 249, 0.85);
+  padding: 8px 12px;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
 }
 
-.footer-btn:hover {
-  background: #eceff1;
-  border-color: #b0bec5;
-  color: #263238;
+.level-preview-chip {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 3px;
+  flex-shrink: 0;
+}
+
+.level-preview-chip img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.level-preview-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #64748b;
+  margin-left: 2px;
+}
+
+/* 3D Play Button Inside Level Card */
+.btn-level-play-3d {
+  width: 100%;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 13px;
+  background: var(--btn-gradient, linear-gradient(135deg, #5ee432, #2ed573));
+  color: #0f172a;
+  font-weight: 800;
+  font-size: 0.92rem;
+  letter-spacing: 0.5px;
+  box-shadow: 
+    0 4px 0 var(--btn-shadow, #15803d),
+    0 6px 14px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  transition: all 0.15s ease;
+  pointer-events: none;
+}
+
+.level-card-3d:hover .btn-level-play-3d {
+  box-shadow: 
+    0 5px 0 var(--btn-shadow, #15803d),
+    0 10px 20px var(--theme-glow, rgba(94, 228, 50, 0.4));
+  transform: translateY(-1px);
+}
+
+.btn-play-icon {
+  font-size: 0.85rem;
+}
+
+/* Theme variables for the 5 levels */
+.theme-level-1 {
+  --theme-color: #5ee432;
+  --theme-gradient: linear-gradient(135deg, #5ee432 0%, #10b981 100%);
+  --theme-glow: rgba(94, 228, 50, 0.4);
+  --btn-gradient: linear-gradient(135deg, #5ee432 0%, #2ed573 100%);
+  --btn-shadow: #15803d;
+}
+
+.theme-level-2 {
+  --theme-color: #ff9f43;
+  --theme-gradient: linear-gradient(135deg, #ff9f43 0%, #ee5253 100%);
+  --theme-glow: rgba(255, 159, 67, 0.45);
+  --btn-gradient: linear-gradient(135deg, #ff9f43 0%, #ee5253 100%);
+  --btn-shadow: #b91c1c;
+}
+
+.theme-level-3 {
+  --theme-color: #00f2fe;
+  --theme-gradient: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+  --theme-glow: rgba(0, 242, 254, 0.45);
+  --btn-gradient: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+  --btn-shadow: #1d4ed8;
+}
+
+.theme-level-4 {
+  --theme-color: #a855f7;
+  --theme-gradient: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+  --theme-glow: rgba(168, 85, 247, 0.45);
+  --btn-gradient: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+  --btn-shadow: #581c87;
+}
+
+.theme-level-5 {
+  --theme-color: #f59e0b;
+  --theme-gradient: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+  --theme-glow: rgba(245, 158, 11, 0.45);
+  --btn-gradient: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+  --btn-shadow: #9a3412;
+}
+
+.level-select-footer {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  background: #ffffff;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   SCREEN 2: ACTIVE GAMEPLAY VIEW & GAMETANIESHAK FOOTER BRANDING LOGO
+   ========================================================================== */
+
+.gameplay-view {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Clickable Quiz Pill Badge in Gameplay */
+#level-badge-clickable {
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+#level-badge-clickable:hover {
+  transform: scale(1.05);
+  border-color: #5ee432;
+  box-shadow: 0 4px 12px rgba(94, 228, 50, 0.25);
+}
+
+#level-badge-clickable:active {
+  transform: scale(0.96);
+}
+
+/* Bottom Bar / GameTanieshak Branding Logo (Clean, small watermark branding) */
+.game-footer {
+  height: 44px;
+  min-height: 44px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  background-color: #ffffff;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.footer-brand-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 14px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.035);
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  font-size: 0.8rem;
+  letter-spacing: 0.8px;
+  transition: all 0.2s ease;
+}
+
+.footer-brand-logo:hover {
+  background: rgba(94, 228, 50, 0.08);
+  border-color: rgba(94, 228, 50, 0.3);
+}
+
+.brand-logo-symbol {
+  font-size: 0.95rem;
+}
+
+.brand-logo-text {
+  font-weight: 800;
+  background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 0.5px;
+}
+
+.footer-brand-logo:hover .brand-logo-text {
+  background: linear-gradient(135deg, #0f172a 0%, #16a34a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* ==========================================================================
@@ -958,6 +1314,26 @@ body {
     padding: 0 12px;
     padding-bottom: env(safe-area-inset-bottom, 0);
   }
+
+  /* Level Selection on Mobile */
+  .level-select-header {
+    height: 56px;
+    padding: 0 14px;
+    padding-top: env(safe-area-inset-top, 0);
+  }
+
+  .level-select-body {
+    padding: 12px 14px 20px;
+  }
+
+  .level-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .level-select-title {
+    font-size: 1.5rem;
+  }
 }
 
 /* Small / Narrow Mobile Screens (<= 375px width e.g. iPhone SE) */
@@ -974,6 +1350,22 @@ body {
   .header-group-right {
     min-width: 64px;
     gap: 4px;
+  }
+
+  .level-card-3d {
+    padding: 12px 14px;
+    gap: 10px;
+  }
+
+  .level-orb-3d {
+    width: 44px;
+    height: 44px;
+    font-size: 1.25rem;
+  }
+
+  .level-preview-chip {
+    width: 30px;
+    height: 30px;
   }
 
   .level-badge {

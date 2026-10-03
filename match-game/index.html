@@ -3,6 +3,33 @@
 
 <head>
   <meta charset="UTF-8">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://www.google-analytics.com">
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="google-adsense-account" content="ca-pub-4159658721841428">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-870891660"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'AW-870891660');
+  </script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J3TF5MZFNY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-J3TF5MZFNY');
+  </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4159658721841428"
+    crossorigin="anonymous"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Line Matching Game - Quiz Puzzle</title>
   <link rel="stylesheet" href="css/style.css">
@@ -85,70 +112,126 @@
   <div class="game-viewport">
     <main class="game-container">
 
-      <!-- Top Navigation Bar -->
-      <header class="game-header">
-        <!-- Pause Button Group (Left) -->
-        <div class="header-group-left">
-          <button id="btn-pause" class="header-btn" aria-label="Pause Game" title="Pause / Menu">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <line x1="8" y1="5" x2="8" y2="19" stroke-linecap="round"></line>
-              <line x1="16" y1="5" x2="16" y2="19" stroke-linecap="round"></line>
-            </svg>
-          </button>
+      <!-- =========================================================
+           SCREEN 1: 3D LEVEL SELECTION SCREEN (Before actual level starts)
+           ========================================================= -->
+      <section id="level-select-screen" class="level-select-screen">
+        <!-- Top Navigation Bar -->
+        <header class="level-select-header">
+          <div class="level-select-brand-chip">
+            <span class="brand-chip-sparkle">✨</span>
+            <span class="brand-chip-title">MATCH QUIZ</span>
+          </div>
+
+          <div class="level-select-header-actions">
+            <button id="btn-close-level-select" class="header-btn btn-close-game" aria-label="Close Game"
+              title="Close / Exit Game">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <line x1="18" y1="6" x2="6" y2="18" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                </line>
+                <line x1="6" y1="6" x2="18" y2="18" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                </line>
+              </svg>
+            </button>
+          </div>
+        </header>
+
+        <!-- Main Scrollable Selection Body -->
+        <div class="level-select-body">
+          <div class="level-select-banner">
+            <div class="level-select-pill">🎮 3D ADVENTURE</div>
+            <h1 class="level-select-title">Select Level</h1>
+            <p class="level-select-desc">Tap any level below to start playing!</p>
+          </div>
+
+          <!-- 3D Level Cards Container -->
+          <div class="level-cards-grid" id="level-cards-grid">
+            <!-- Dynamically populated 3D Level Cards 1 through 5 -->
+          </div>
         </div>
 
-        <!-- Quiz Pill Badge (Center) -->
-        <div class="level-badge">
-          <span id="level-badge-text" class="level-badge-text">Quiz 1</span>
-        </div>
-
-        <!-- Action Buttons Group (Right: Restart & Close/Exit) -->
-        <div class="header-group-right">
-          <button id="btn-restart" class="header-btn" aria-label="Restart Level" title="Restart">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path d="M20 11 A8 8 0 1 0 18.3 16.5" stroke-linecap="round"></path>
-              <polyline points="20 5 20 11 14 11" stroke-linecap="round" stroke-linejoin="round"></polyline>
-            </svg>
-          </button>
-          <button id="btn-close-game" class="header-btn btn-close-game" aria-label="Close Game" title="Close / Exit Game">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <line x1="18" y1="6" x2="6" y2="18" stroke-linecap="round" stroke-linejoin="round"></line>
-              <line x1="6" y1="6" x2="18" y2="18" stroke-linecap="round" stroke-linejoin="round"></line>
-            </svg>
-          </button>
-        </div>
-      </header>
-
-      <!-- Target Order / Instruction Hint Bar -->
-      <div id="order-indicator" class="order-indicator">
-        <!-- Populated dynamically based on required matching order -->
-      </div>
-
-      <!-- Main Game Play Area with SVG Canvas Overlay -->
-      <section class="game-play-area">
-        <!-- SVG Line Overlay -->
-        <svg id="connection-svg" class="connection-svg"></svg>
-
-        <!-- Left Items Column -->
-        <div id="left-column" class="column-items column-left"></div>
-
-        <!-- Right Items Column -->
-        <div id="right-column" class="column-items column-right"></div>
+        <!-- Footer Branding -->
+        <footer class="level-select-footer">
+          <div class="footer-brand-logo">
+            <span class="brand-logo-symbol">🎮</span>
+            <span class="brand-logo-text">GameTanieshak</span>
+          </div>
+        </footer>
       </section>
 
-      <!-- Bottom Quick Navigation Bar -->
-      <footer class="game-footer">
-        <div class="level-indicators" id="level-dots-container">
-          <!-- Dots 1 through 5 rendered by JS -->
+      <!-- =========================================================
+           SCREEN 2: ACTIVE GAMEPLAY VIEW (Starts once level is selected)
+           ========================================================= -->
+      <div id="gameplay-view" class="gameplay-view" style="display: none;">
+        <!-- Top Navigation Bar -->
+        <header class="game-header">
+          <!-- Pause & Levels Button Group (Left) -->
+          <div class="header-group-left">
+            <button id="btn-pause" class="header-btn" aria-label="Pause Game" title="Pause / Menu">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <line x1="8" y1="5" x2="8" y2="19" stroke-linecap="round"></line>
+                <line x1="16" y1="5" x2="16" y2="19" stroke-linecap="round"></line>
+              </svg>
+            </button>
+            <button id="btn-back-to-levels" class="header-btn" aria-label="Choose Level"
+              title="Select Level / All Levels">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <rect x="3" y="3" width="7" height="7" rx="1.5" stroke-width="2"></rect>
+                <rect x="14" y="3" width="7" height="7" rx="1.5" stroke-width="2"></rect>
+                <rect x="3" y="14" width="7" height="7" rx="1.5" stroke-width="2"></rect>
+                <rect x="14" y="14" width="7" height="7" rx="1.5" stroke-width="2"></rect>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Quiz Pill Badge (Center - clickable to switch levels) -->
+          <div class="level-badge" id="level-badge-clickable" title="Click to choose another level">
+            <span id="level-badge-text" class="level-badge-text">Quiz 1</span>
+          </div>
+
+          <!-- Action Buttons Group (Right: Restart & Close/Exit) -->
+          <div class="header-group-right">
+            <button id="btn-restart" class="header-btn" aria-label="Restart Level" title="Restart">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M20 11 A8 8 0 1 0 18.3 16.5" stroke-linecap="round"></path>
+                <polyline points="20 5 20 11 14 11" stroke-linecap="round" stroke-linejoin="round"></polyline>
+              </svg>
+            </button>
+            <button id="btn-close-game" class="header-btn btn-close-game" aria-label="Close Game"
+              title="Close / Exit Game">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <line x1="18" y1="6" x2="6" y2="18" stroke-linecap="round" stroke-linejoin="round"></line>
+                <line x1="6" y1="6" x2="18" y2="18" stroke-linecap="round" stroke-linejoin="round"></line>
+              </svg>
+            </button>
+          </div>
+        </header>
+
+        <!-- Target Order / Instruction Hint Bar -->
+        <div id="order-indicator" class="order-indicator">
+          <!-- Populated dynamically based on required matching order -->
         </div>
 
-        <!-- Commented for production (prevent user from editing in production):
-        <button id="btn-footer-customizer" class="footer-btn" title="Customize Level & Upload Images">
-          <span>⚙️</span>
-          <span class="footer-btn-text">Customizer</span>
-        </button>
-        -->
-      </footer>
+        <!-- Main Game Play Area with SVG Canvas Overlay -->
+        <section class="game-play-area">
+          <!-- SVG Line Overlay -->
+          <svg id="connection-svg" class="connection-svg"></svg>
+
+          <!-- Left Items Column -->
+          <div id="left-column" class="column-items column-left"></div>
+
+          <!-- Right Items Column -->
+          <div id="right-column" class="column-items column-right"></div>
+        </section>
+
+        <!-- Bottom Branding Bar with GameTanieshak Logo -->
+        <footer class="game-footer">
+          <div class="footer-brand-logo">
+            <span class="brand-logo-symbol">🎮</span>
+            <span class="brand-logo-text">GameTanieshak</span>
+          </div>
+        </footer>
+      </div>
 
       <!-- Toast Feedback Message -->
       <div id="toast-msg" class="toast-msg"></div>
@@ -166,6 +249,7 @@
           <p id="victory-subtitle" class="victory-subtitle">You matched all items in perfect sequence!</p>
           <div class="stars-rating">⭐⭐⭐</div>
           <button id="btn-next-level" class="btn-primary">Next Level →</button>
+          <button id="btn-victory-levels" class="btn-secondary">▦ Choose Level</button>
           <button id="btn-replay-level" class="btn-secondary">Replay Level ↺</button>
         </div>
       </div>
@@ -178,6 +262,7 @@
           <h2 class="modal-title">Game Paused</h2>
           <div class="modal-actions">
             <button id="btn-resume" class="btn-primary">▶ Resume Game</button>
+            <button id="btn-pause-select-level" class="btn-secondary">▦ Choose Level</button>
             <button id="btn-pause-restart" class="btn-secondary">↺ Restart Level</button>
             <button id="btn-pause-exit" class="btn-secondary btn-exit-action">✕ Exit to Games</button>
             <!-- Commented for production:

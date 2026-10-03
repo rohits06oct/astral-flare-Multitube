@@ -527,6 +527,9 @@
 
       // DOM Elements
       this.container = document.querySelector('.game-container');
+      this.levelSelectScreen = document.getElementById('level-select-screen');
+      this.gameplayView = document.getElementById('gameplay-view');
+      this.levelCardsGrid = document.getElementById('level-cards-grid');
       this.playArea = document.querySelector('.game-play-area');
       this.leftColumn = document.getElementById('left-column');
       this.rightColumn = document.getElementById('right-column');
@@ -541,10 +544,15 @@
       this.customizerModal = document.getElementById('customizer-modal');
 
       this.initEvents();
-      this.loadLevel(this.currentLevel);
+      this.renderLevelSelectCards();
 
-      // Initial Game Loader with gametanieshak floating style (min 4-5 sec)
-      this.triggerGameLoader(3000);
+      // Show 3D Level Selection Screen before actual level starts
+      this.showLevelSelectScreen();
+
+      // Initial Game Loader with gametanieshak floating style (3 sec)
+      this.triggerGameLoader(3000, () => {
+        this.showLevelSelectScreen();
+      });
     }
 
     // --- GAME LOADER ("gametanieshak" in floating style + loading sound) ---
@@ -669,15 +677,52 @@
         setTimeout(() => this.refreshAllLines(), 150);
       });
 
+      // Close button on Level Selection Screen
+      const btnCloseLevelSelect = document.getElementById('btn-close-level-select');
+      if (btnCloseLevelSelect) {
+        btnCloseLevelSelect.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.handleCloseGame();
+        });
+      }
+
+      // Back to Level Select button in gameplay header
+      const btnBackToLevels = document.getElementById('btn-back-to-levels');
+      if (btnBackToLevels) {
+        btnBackToLevels.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.sound.playTap();
+          this.showLevelSelectScreen();
+        });
+      }
+
+      // Clickable Level badge in gameplay header to change levels
+      const levelBadgeClickable = document.getElementById('level-badge-clickable');
+      if (levelBadgeClickable) {
+        levelBadgeClickable.addEventListener('click', () => {
+          this.sound.playTap();
+          this.showLevelSelectScreen();
+        });
+      }
+
       // Victory Modal Buttons
       document.getElementById('btn-next-level').addEventListener('click', () => {
         this.closeModal(this.victoryModal);
         const nextLvl = this.currentLevel < this.maxLevels ? this.currentLevel + 1 : 1;
-        // Trigger game loader with gametanieshak floating style for 4-5s
-        this.triggerGameLoader(4600, () => {
-          this.loadLevel(nextLvl);
+        // Trigger game loader with gametanieshak floating style for 4s
+        this.triggerGameLoader(4000, () => {
+          this.startLevel(nextLvl);
         });
       });
+
+      const btnVictoryLevels = document.getElementById('btn-victory-levels');
+      if (btnVictoryLevels) {
+        btnVictoryLevels.addEventListener('click', () => {
+          this.closeModal(this.victoryModal);
+          this.showLevelSelectScreen();
+        });
+      }
+
       document.getElementById('btn-replay-level').addEventListener('click', () => {
         this.closeModal(this.victoryModal);
         this.restartLevel();
@@ -686,6 +731,14 @@
       // Pause Modal Buttons
       const btnResume = document.getElementById('btn-resume');
       if (btnResume) btnResume.addEventListener('click', () => this.closeModal(this.pauseModal));
+
+      const btnPauseSelectLevel = document.getElementById('btn-pause-select-level');
+      if (btnPauseSelectLevel) {
+        btnPauseSelectLevel.addEventListener('click', () => {
+          this.closeModal(this.pauseModal);
+          this.showLevelSelectScreen();
+        });
+      }
 
       const btnPauseRestart = document.getElementById('btn-pause-restart');
       if (btnPauseRestart) {
@@ -711,9 +764,6 @@
         });
       }
 
-      // Footer Level Dots
-      this.renderLevelDots();
-
       // Customizer Modal Buttons
       const btnCloseCust = document.getElementById('btn-close-customizer');
       if (btnCloseCust) {
@@ -731,6 +781,95 @@
           this.renderCustomizerContent(parseInt(e.target.value, 10));
         });
       }
+    }
+
+    // --- 3D LEVEL SELECTION SCREEN SYSTEM ---
+    renderLevelSelectCards() {
+      if (!this.levelCardsGrid) return;
+      this.levelCardsGrid.innerHTML = '';
+
+      const levelDescriptions = {
+        1: { title: "Quiz 1 - Fun Starter", diff: "EASY", pairs: 3 },
+        2: { title: "Quiz 2 - Animal Treats", diff: "MEDIUM", pairs: 4 },
+        3: { title: "Quiz 3 - Cosmic Space", diff: "MEDIUM", pairs: 4 },
+        4: { title: "Quiz 4 - Sports Mania", diff: "EASY", pairs: 3 },
+        5: { title: "Quiz 5 - Magic & Spells", diff: "HARD", pairs: 4 }
+      };
+
+      for (let lvl = 1; lvl <= this.maxLevels; lvl++) {
+        let cfg = (window.LEVEL_CONFIG && window.LEVEL_CONFIG[lvl]) || null;
+        const saved = localStorage.getItem(`match_game_custom_level_${lvl}`);
+        if (saved) {
+          try { cfg = JSON.parse(saved); } catch (e) { }
+        }
+
+        const title = (cfg && cfg.title) ? cfg.title : (levelDescriptions[lvl]?.title || `Quiz ${lvl}`);
+        const items = (cfg && cfg.leftItems) ? cfg.leftItems : [];
+        const pairsCount = items.length || levelDescriptions[lvl]?.pairs || 3;
+
+        const card = document.createElement('div');
+        card.className = `level-card-3d theme-level-${lvl}`;
+        card.dataset.level = lvl;
+
+        // Render preview thumbnails
+        let previewsHtml = '';
+        if (items.length > 0) {
+          previewsHtml = `
+            <div class="level-preview-thumbnails">
+              ${items.slice(0, 4).map(it => `
+                <div class="level-preview-chip" title="${it.name || it.id}">
+                  <img src="${it.image}" alt="${it.name || it.id}">
+                </div>
+              `).join('')}
+              <span class="level-preview-label">${pairsCount} Pairs</span>
+            </div>
+          `;
+        }
+
+        card.innerHTML = `
+          <div class="level-card-top">
+            <div class="level-orb-3d">
+              <span class="level-orb-number">${lvl}</span>
+            </div>
+            <div class="level-meta">
+              <div class="level-difficulty-badge">★ ★ ★</div>
+              <h3 class="level-title">${title}</h3>
+              <span class="level-pairs-pill">${pairsCount} Match Pairs</span>
+            </div>
+          </div>
+
+          ${previewsHtml}
+
+          <button class="btn-level-play-3d" aria-label="Play Quiz ${lvl}">
+            <span class="btn-play-icon">▶</span>
+            <span class="btn-play-text">START QUIZ ${lvl}</span>
+          </button>
+        `;
+
+        card.addEventListener('click', () => {
+          this.sound.playTap();
+          this.startLevel(lvl);
+        });
+
+        this.levelCardsGrid.appendChild(card);
+      }
+    }
+
+    showLevelSelectScreen() {
+      if (this.levelSelectScreen) this.levelSelectScreen.style.display = 'flex';
+      if (this.gameplayView) this.gameplayView.style.display = 'none';
+      if (this.pauseModal) this.closeModal(this.pauseModal);
+      if (this.victoryModal) this.closeModal(this.victoryModal);
+
+      const scrollBody = document.querySelector('.level-select-body');
+      if (scrollBody) scrollBody.scrollTop = 0;
+    }
+
+    startLevel(levelNum) {
+      if (this.levelSelectScreen) this.levelSelectScreen.style.display = 'none';
+      if (this.gameplayView) this.gameplayView.style.display = 'flex';
+      this.loadLevel(levelNum);
+      setTimeout(() => this.refreshAllLines(), 80);
     }
 
     // --- CLOSE / EXIT GAME HANDLER (Fullscreen, Mobile, Tablet, Web Modes) ---
@@ -836,6 +975,7 @@
 
     renderLevelDots() {
       const container = document.getElementById('level-dots-container');
+      if (!container) return;
       container.innerHTML = '';
       for (let i = 1; i <= this.maxLevels; i++) {
         const dot = document.createElement('div');
@@ -849,6 +989,7 @@
 
     updateLevelDots() {
       const dots = document.querySelectorAll('.level-dot');
+      if (!dots || dots.length === 0) return;
       dots.forEach((dot, idx) => {
         const lvl = idx + 1;
         dot.classList.remove('active');
