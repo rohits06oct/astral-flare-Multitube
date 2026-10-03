@@ -8,12 +8,11 @@ window.LEVEL_CONFIG[1] = {
   levelNumber: 1,
   title: "Quiz 1",
   
-  // Set to true to require matches to be made in the exact sequence in matchingOrder
-  // Set to false if items can be matched in any order
-  enforceMatchingOrder: true,
+  // Allow items to be matched in any order
+  enforceMatchingOrder: false,
 
   // Prompt / description displayed to player
-  hintText: "Follow the matching sequence!",
+  hintText: "Match items in any order!",
 
   // Left Column Items (You can add or remove items as you want)
   leftItems: [

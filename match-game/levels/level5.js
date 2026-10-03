@@ -7,8 +7,8 @@ window.LEVEL_CONFIG = window.LEVEL_CONFIG || {};
 window.LEVEL_CONFIG[5] = {
   levelNumber: 5,
   title: "Quiz 5",
-  enforceMatchingOrder: true,
-  hintText: "Cast the spells and unlock treasures in order!",
+  enforceMatchingOrder: false,
+  hintText: "Cast the spells and unlock treasures in any order!",
 
   leftItems: [
     {

@@ -628,28 +628,39 @@
     }
 
     updateOrderIndicator() {
-      if (!this.levelData.enforceMatchingOrder) {
-        this.orderIndicator.innerHTML = `<span>${this.levelData.hintText || 'Match all items!'}</span>`;
+      const totalPairs = (this.levelData.matchingOrder || []).length;
+      const matchedCount = this.connectedPairs.length;
+
+      if (matchedCount >= totalPairs && totalPairs > 0) {
+        this.orderIndicator.innerHTML = `<span>All items matched! 🎉</span>`;
         return;
       }
 
-      const orderList = this.levelData.matchingOrder || [];
-      const totalSteps = orderList.length;
-      const currentStep = Math.min(this.currentOrderIndex + 1, totalSteps);
-
-      if (this.currentOrderIndex < totalSteps) {
-        const currentPair = orderList[this.currentOrderIndex];
-        const leftItem = this.levelData.leftItems.find(it => it.id === currentPair.leftId);
-        const name = leftItem ? leftItem.name : `Item ${currentStep}`;
-        this.orderIndicator.innerHTML = `
-          <div class="order-badge-step">
-            <span class="dot"></span>
-            <span>Target ${currentStep}/${totalSteps}: <strong>${name}</strong></span>
-          </div>
-        `;
-      } else {
-        this.orderIndicator.innerHTML = `<span>All matched in correct order! 🎉</span>`;
+      if (this.levelData.enforceMatchingOrder) {
+        const orderList = this.levelData.matchingOrder || [];
+        const currentStep = Math.min(this.currentOrderIndex + 1, totalPairs);
+        if (this.currentOrderIndex < totalPairs) {
+          const currentPair = orderList[this.currentOrderIndex];
+          const leftItem = this.levelData.leftItems.find(it => it.id === currentPair.leftId);
+          const name = leftItem ? leftItem.name : `Item ${currentStep}`;
+          this.orderIndicator.innerHTML = `
+            <div class="order-badge-step">
+              <span class="dot"></span>
+              <span>Target ${currentStep}/${totalPairs}: <strong>${name}</strong></span>
+            </div>
+          `;
+          return;
+        }
       }
+
+      // Default: Match in any order progress display
+      const hint = this.levelData.hintText || 'Match items in any order!';
+      this.orderIndicator.innerHTML = `
+        <div class="order-badge-step">
+          <span class="dot"></span>
+          <span>${hint} (<strong>${matchedCount}/${totalPairs}</strong> matched)</span>
+        </div>
+      `;
     }
 
     // --- CARD RENDERING & INTERACTION ---
@@ -1040,11 +1051,11 @@
 
       if (this.currentLevel < this.maxLevels) {
         titleEl.textContent = 'Congratulations! 🎆';
-        subtitleEl.textContent = `You cleared Quiz ${this.currentLevel} with perfect matching order!`;
+        subtitleEl.textContent = `You cleared Quiz ${this.currentLevel}! All items matched!`;
         nextBtn.textContent = `Next Level (Quiz ${this.currentLevel + 1}) →`;
       } else {
         titleEl.textContent = 'Awesome! All Levels Won! 🎆🎇';
-        subtitleEl.textContent = 'You successfully solved all 5 Quizzes in perfect order!';
+        subtitleEl.textContent = 'You successfully solved all 5 Quizzes!';
         nextBtn.textContent = 'Play from Quiz 1 🔄';
       }
 
