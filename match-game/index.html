@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Line Matching Game - Quiz Puzzle</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <div class="game-viewport">
+    <main class="game-container">
+
+      <!-- Top Navigation Bar -->
+      <header class="game-header">
+        <!-- Pause Button (Left) -->
+        <button id="btn-pause" class="header-btn" aria-label="Pause Game" title="Pause / Menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <line x1="8" y1="5" x2="8" y2="19" stroke-linecap="round"></line>
+            <line x1="16" y1="5" x2="16" y2="19" stroke-linecap="round"></line>
+          </svg>
+        </button>
+
+        <!-- Quiz Pill Badge (Center) -->
+        <div class="level-badge">
+          <span id="level-badge-text" class="level-badge-text">Quiz 1</span>
+        </div>
+
+        <!-- Reset Button (Right) -->
+        <button id="btn-restart" class="header-btn" aria-label="Restart Level" title="Restart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M20 11 A8 8 0 1 0 18.3 16.5" stroke-linecap="round"></path>
+            <polyline points="20 5 20 11 14 11" stroke-linecap="round" stroke-linejoin="round"></polyline>
+          </svg>
+        </button>
+      </header>
+
+      <!-- Target Order / Instruction Hint Bar -->
+      <div id="order-indicator" class="order-indicator">
+        <!-- Populated dynamically based on required matching order -->
+      </div>
+
+      <!-- Main Game Play Area with SVG Canvas Overlay -->
+      <section class="game-play-area">
+        <!-- SVG Line Overlay -->
+        <svg id="connection-svg" class="connection-svg"></svg>
+
+        <!-- Left Items Column -->
+        <div id="left-column" class="column-items column-left"></div>
+
+        <!-- Right Items Column -->
+        <div id="right-column" class="column-items column-right"></div>
+      </section>
+
+      <!-- Bottom Quick Navigation Bar -->
+      <footer class="game-footer">
+        <div class="level-indicators" id="level-dots-container">
+          <!-- Dots 1 through 5 rendered by JS -->
+        </div>
+
+        <!-- Commented for production (prevent user from editing in production):
+        <button id="btn-footer-customizer" class="footer-btn" title="Customize Level & Upload Images">
+          <span>⚙️</span>
+          <span class="footer-btn-text">Customizer</span>
+        </button>
+        -->
+      </footer>
+
+      <!-- Toast Feedback Message -->
+      <div id="toast-msg" class="toast-msg"></div>
+
+      <!-- Confetti Particles Canvas -->
+      <canvas id="confetti-canvas"></canvas>
+
+      <!-- =========================================================
+           MODAL 1: CONGRATULATIONS / NEXT LEVEL POPUP
+           ========================================================= -->
+      <div id="victory-modal" class="modal-overlay">
+        <div class="modal-card">
+          <div class="victory-icon-wrap">🌟</div>
+          <h2 id="victory-title" class="victory-title">Congratulations!</h2>
+          <p id="victory-subtitle" class="victory-subtitle">You matched all items in perfect sequence!</p>
+          <div class="stars-rating">⭐⭐⭐</div>
+          <button id="btn-next-level" class="btn-primary">Next Level →</button>
+          <button id="btn-replay-level" class="btn-secondary">Replay Level ↺</button>
+        </div>
+      </div>
+
+      <!-- =========================================================
+           MODAL 2: PAUSE / SETTINGS MODAL
+           ========================================================= -->
+      <div id="pause-modal" class="modal-overlay">
+        <div class="modal-card">
+          <h2 class="modal-title">Game Paused</h2>
+          <div class="modal-actions">
+            <button id="btn-resume" class="btn-primary">▶ Resume Game</button>
+            <button id="btn-pause-restart" class="btn-secondary">↺ Restart Level</button>
+            <!-- Commented for production:
+            <button id="btn-open-customizer" class="btn-secondary">🎨 Customize & Upload Images</button>
+            -->
+          </div>
+        </div>
+      </div>
+
+      <!-- =========================================================
+           MODAL 3: LEVEL & IMAGE CUSTOMIZER (Commented for production)
+           =========================================================
+      <div id="customizer-modal" class="modal-overlay">
+        <div class="modal-card customizer-card">
+          <div class="customizer-header">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 1.3rem;">🎨</span>
+              <div>
+                <h3 style="font-size: 1.1rem; font-weight: 800;">Level & Image Editor</h3>
+                <p style="font-size: 0.78rem; color: #64748b;">Upload images & customize matching order</p>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <select id="customizer-level-select" class="item-input" style="font-weight: 700;">
+                <option value="1">Quiz 1</option>
+                <option value="2">Quiz 2</option>
+                <option value="3">Quiz 3</option>
+                <option value="4">Quiz 4</option>
+                <option value="5">Quiz 5</option>
+              </select>
+              <button id="btn-close-customizer"
+                style="background: none; border: none; font-size: 1.4rem; cursor: pointer; color: #64748b;">&times;</button>
+            </div>
+          </div>
+
+          <div class="customizer-body" id="customizer-items-container">
+            <!-- Dynamic editor rows rendered here -->
+          </div>
+        </div>
+      </div>
+      -->
+
+    </main>
+  </div>
+
+  <!-- LEVEL CONFIGURATION FILES (Requirement 2: Every level has separate file) -->
+  <script src="levels/level1.js"></script>
+  <script src="levels/level2.js"></script>
+  <script src="levels/level3.js"></script>
+  <script src="levels/level4.js"></script>
+  <script src="levels/level5.js"></script>
+
+  <!-- CORE GAME ENGINE -->
+  <script src="js/game.js"></script>
+
+</body>
+
+</html>

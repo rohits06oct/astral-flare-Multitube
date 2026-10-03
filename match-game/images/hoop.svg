@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Backboard -->
+  <rect x="25" y="15" width="50" height="35" rx="3" fill="#ffffff" stroke="#e53935" stroke-width="3"/>
+  <rect x="37" y="27" width="26" height="18" fill="none" stroke="#e53935" stroke-width="2"/>
+  <!-- Rim -->
+  <ellipse cx="50" cy="50" rx="20" ry="5" fill="none" stroke="#f4511e" stroke-width="4"/>
+  <!-- Net -->
+  <path d="M30,50 L40,80 L50,50 L60,80 L70,50 M35,65 L65,65 M40,75 L60,75" stroke="#ffffff" stroke-width="2" fill="none"/>
+</svg>

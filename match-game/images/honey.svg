@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path d="M30,35 L70,35 L65,80 L35,80 Z" fill="#ffb300" stroke="#ff8f00" stroke-width="2"/>
+    <rect x="26" y="28" width="48" height="8" rx="3" fill="#ff8f00"/>
+    <ellipse cx="50" cy="55" rx="14" ry="10" fill="#fff9c4"/>
+    <text x="50" y="58" font-size="7" font-weight="bold" fill="#e65100" text-anchor="middle" font-family="sans-serif">HONEY</text>
+    <path d="M45,35 Q50,48 55,42 Q60,35 60,35" fill="#ffe082"/>
+  </svg>

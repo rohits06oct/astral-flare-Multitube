@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <!-- Dog Face -->
+  <ellipse cx="50" cy="55" rx="30" ry="25" fill="#d7ccc8" />
+  <!-- Ears -->
+  <path d="M22,38 C15,45 14,65 24,62 C28,60 26,45 26,40 Z" fill="#8d6e63" />
+  <path d="M78,38 C85,45 86,65 76,62 C72,60 74,45 74,40 Z" fill="#8d6e63" />
+  <!-- Eyes -->
+  <circle cx="39" cy="50" r="3.5" fill="#3e2723" />
+  <circle cx="61" cy="50" r="3.5" fill="#3e2723" />
+  <!-- Nose -->
+  <ellipse cx="50" cy="60" rx="6" ry="4" fill="#3e2723" />
+  <!-- Mouth -->
+  <path d="M50,64 L50,69 Q44,72 41,68 M50,69 Q56,72 59,68" stroke="#3e2723" stroke-width="2" fill="none" stroke-linecap="round" />
+  <!-- Tongue -->
+  <path d="M48,70 Q50,77 53,70" fill="#ef5350" />
+</svg>

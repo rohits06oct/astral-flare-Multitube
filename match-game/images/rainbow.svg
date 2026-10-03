@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <!-- Rainbow bands -->
+  <g fill="none" stroke-width="7" stroke-linecap="round">
+    <!-- Red/Coral -->
+    <path d="M15,80 A35,35 0 0,1 85,80" stroke="#ff7675" />
+    <!-- Orange/Yellow -->
+    <path d="M22,80 A28,28 0 0,1 78,80" stroke="#ffeaa7" />
+    <!-- Green -->
+    <path d="M29,80 A21,21 0 0,1 71,80" stroke="#55efc4" />
+    <!-- Blue/Purple -->
+    <path d="M36,80 A14,14 0 0,1 64,80" stroke="#74b9ff" />
+  </g>
+</svg>

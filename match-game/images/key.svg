@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Key shaft -->
+  <g transform="rotate(-45 50 50)" fill="#ffd54f" stroke="#ff8f00" stroke-width="2">
+    <circle cx="30" cy="50" r="14" />
+    <circle cx="30" cy="50" r="6" fill="#ffffff" />
+    <rect x="42" y="46" width="36" height="8" rx="2" />
+    <!-- Teeth -->
+    <rect x="66" y="54" width="6" height="10" rx="1" />
+    <rect x="74" y="54" width="5" height="14" rx="1" />
+  </g>
+</svg>

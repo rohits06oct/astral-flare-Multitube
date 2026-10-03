@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="35" fill="#ff7043" stroke="#d84315" stroke-width="2"/>
+  <!-- Basketball lines -->
+  <line x1="15" y1="50" x2="85" y2="50" stroke="#bf360c" stroke-width="2.5"/>
+  <line x1="50" y1="15" x2="50" y2="85" stroke="#bf360c" stroke-width="2.5"/>
+  <path d="M25,25 Q45,50 25,75" fill="none" stroke="#bf360c" stroke-width="2.5"/>
+  <path d="M75,25 Q55,50 75,75" fill="none" stroke="#bf360c" stroke-width="2.5"/>
+</svg>

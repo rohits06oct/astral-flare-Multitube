@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <!-- Dog Bone -->
+  <g transform="rotate(-30 50 50)" fill="#fff9c4" stroke="#fbc02d" stroke-width="2">
+    <!-- Shaft -->
+    <rect x="25" y="44" width="50" height="12" rx="4" />
+    <!-- Left Bulbs -->
+    <circle cx="23" cy="43" r="8" />
+    <circle cx="23" cy="57" r="8" />
+    <!-- Right Bulbs -->
+    <circle cx="77" cy="43" r="8" />
+    <circle cx="77" cy="57" r="8" />
+  </g>
+</svg>

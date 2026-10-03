@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <!-- Face base -->
+  <defs>
+    <radialGradient id="faceGrad" cx="40%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#ffe153" />
+      <stop offset="85%" stop-color="#fbc02d" />
+      <stop offset="100%" stop-color="#f57f17" />
+    </radialGradient>
+  </defs>
+  <circle cx="50" cy="50" r="40" fill="url(#faceGrad)" stroke="#e65100" stroke-width="1.5" />
+
+  <!-- Eyes (happy closed arches) -->
+  <path d="M30,42 Q38,34 46,42" fill="none" stroke="#5d4037" stroke-width="4.5" stroke-linecap="round" />
+  <path d="M54,42 Q62,34 70,42" fill="none" stroke="#5d4037" stroke-width="4.5" stroke-linecap="round" />
+
+  <!-- Open mouth -->
+  <path d="M32,54 Q50,50 68,54 Q65,74 50,75 Q35,74 32,54 Z" fill="#4e342e" />
+
+  <!-- Drool drip -->
+  <path d="M36,65 Q33,70 33,78 A5,5 0 0,0 43,78 Q43,70 41,65 Z" fill="#42a5f5" opacity="0.9" />
+  <ellipse cx="36" cy="84" rx="3.5" ry="3.5" fill="#42a5f5" opacity="0.85" />
+</svg>
