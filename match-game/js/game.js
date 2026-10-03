@@ -631,6 +631,31 @@
         this.restartLevel();
       });
 
+      // Close Game (Fullscreen / Direct / Modal) Header Button
+      const btnCloseGame = document.getElementById('btn-close-game');
+      if (btnCloseGame) {
+        btnCloseGame.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          this.handleCloseGame();
+        });
+      }
+
+      // Escape key to exit fullscreen / close game
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          if (this.pauseModal && this.pauseModal.classList.contains('open')) {
+            this.closeModal(this.pauseModal);
+          } else if (this.customizerModal && this.customizerModal.classList.contains('open')) {
+            this.closeModal(this.customizerModal);
+          } else if (this.victoryModal && this.victoryModal.classList.contains('open')) {
+            this.closeModal(this.victoryModal);
+          } else {
+            this.handleCloseGame();
+          }
+        }
+      });
+
       // Global Mouse / Touch Move & Up for Drag Line
       window.addEventListener('mousemove', (e) => this.handleDragMove(e));
       window.addEventListener('mouseup', (e) => this.handleDragEnd(e));
@@ -670,6 +695,14 @@
         });
       }
 
+      const btnPauseExit = document.getElementById('btn-pause-exit');
+      if (btnPauseExit) {
+        btnPauseExit.addEventListener('click', () => {
+          this.closeModal(this.pauseModal);
+          this.handleCloseGame();
+        });
+      }
+
       const btnOpenCust = document.getElementById('btn-open-customizer');
       if (btnOpenCust) {
         btnOpenCust.addEventListener('click', () => {
@@ -698,6 +731,57 @@
           this.renderCustomizerContent(parseInt(e.target.value, 10));
         });
       }
+    }
+
+    // --- CLOSE / EXIT GAME HANDLER (Fullscreen, Mobile, Tablet, Web Modes) ---
+    handleCloseGame() {
+      // 1. Audio feedback tap
+      try {
+        if (this.sound) this.sound.playTap();
+      } catch (e) { }
+
+      // 2. If the browser is in HTML5 Fullscreen mode, exit it
+      const doc = document;
+      if (doc.fullscreenElement || doc.webkitFullscreenElement || doc.mozFullScreenElement || doc.msFullscreenElement) {
+        try {
+          if (doc.exitFullscreen) {
+            doc.exitFullscreen().catch(() => {});
+          } else if (doc.webkitExitFullscreen) {
+            doc.webkitExitFullscreen();
+          } else if (doc.mozCancelFullScreen) {
+            doc.mozCancelFullScreen();
+          } else if (doc.msExitFullscreen) {
+            doc.msExitFullscreen();
+          }
+        } catch (e) { }
+      }
+
+      // 3. If running inside an iframe (e.g. Games modal on games.html), notify parent
+      const isInsideIframe = window.self !== window.top;
+      if (isInsideIframe) {
+        try {
+          window.parent.postMessage('close-game-modal', '*');
+          window.parent.postMessage({ type: 'close-game-modal' }, '*');
+          return;
+        } catch (e) { }
+      }
+
+      // 4. If opened via window.open / popup, close the window/tab
+      if (window.opener && !window.opener.closed) {
+        try {
+          window.close();
+          return;
+        } catch (e) { }
+      }
+
+      // 5. If document referrer leads to games.html, return there
+      if (document.referrer && (document.referrer.includes('games.html') || document.referrer.includes('games'))) {
+        window.location.href = document.referrer;
+        return;
+      }
+
+      // 6. Default fallback: navigate cleanly to parent Games hub
+      window.location.href = '../games.html';
     }
 
     // --- LEVEL MANAGEMENT ---

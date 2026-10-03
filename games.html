@@ -639,6 +639,13 @@
                     closeGameModal();
                 }
             });
+
+            // PostMessage listener from match-game iframe close button
+            window.addEventListener('message', (e) => {
+                if (e.data === 'close-game-modal' || (e.data && e.data.type === 'close-game-modal')) {
+                    closeGameModal();
+                }
+            });
         });
     </script>
 </body>
