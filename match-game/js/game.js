@@ -12,6 +12,10 @@
   class SoundManager {
     constructor() {
       this.ctx = null;
+      this.compressor = null;
+      this.masterGain = null;
+      this.noiseBuffer = null;
+      this.drawingNodes = null;
       this.enabled = true;
     }
 
@@ -20,6 +24,20 @@
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         if (AudioContext) {
           this.ctx = new AudioContext();
+          // Dynamics compressor prevents distortion and ensures powerful, clean loud audio
+          this.compressor = this.ctx.createDynamicsCompressor();
+          this.compressor.threshold.setValueAtTime(-12, this.ctx.currentTime);
+          this.compressor.knee.setValueAtTime(30, this.ctx.currentTime);
+          this.compressor.ratio.setValueAtTime(12, this.ctx.currentTime);
+          this.compressor.attack.setValueAtTime(0.003, this.ctx.currentTime);
+          this.compressor.release.setValueAtTime(0.2, this.ctx.currentTime);
+
+          // Much louder volume (0.90 master gain)
+          this.masterGain = this.ctx.createGain();
+          this.masterGain.gain.setValueAtTime(0.9, this.ctx.currentTime);
+
+          this.compressor.connect(this.masterGain);
+          this.masterGain.connect(this.ctx.destination);
         }
       }
       if (this.ctx && this.ctx.state === 'suspended') {
@@ -27,90 +45,311 @@
       }
     }
 
-    playSelect() {
+    getDestination() {
+      return this.compressor || (this.ctx ? this.ctx.destination : null);
+    }
+
+    getNoiseBuffer() {
+      if (this.noiseBuffer) return this.noiseBuffer;
+      if (!this.ctx) return null;
+      const bufferSize = this.ctx.sampleRate * 2;
+      const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+      const output = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        output[i] = Math.random() * 2 - 1;
+      }
+      this.noiseBuffer = buffer;
+      return buffer;
+    }
+
+    // 1. Crisp, loud tile tap sound on EVERY item click
+    playTap() {
       if (!this.enabled) return;
       this.init();
       if (!this.ctx) return;
+      const now = this.ctx.currentTime;
+      const dest = this.getDestination();
+
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
       osc.type = 'sine';
-      osc.frequency.setValueAtTime(540, this.ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(800, this.ctx.currentTime + 0.08);
-      gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.08);
+      osc.frequency.setValueAtTime(950, now);
+      osc.frequency.exponentialRampToValueAtTime(260, now + 0.055);
+
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.linearRampToValueAtTime(0.85, now + 0.003);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.055);
+
       osc.connect(gain);
-      gain.connect(this.ctx.destination);
-      osc.start();
-      osc.stop(this.ctx.currentTime + 0.08);
+      gain.connect(dest);
+      osc.start(now);
+      osc.stop(now + 0.06);
     }
 
-    playMatch() {
+    playSelect() {
+      this.playTap();
+    }
+
+    // 2. Line drawing sound - continuous swoosh while dragging
+    startDrawingSound() {
+      if (!this.enabled) return;
+      this.init();
+      if (!this.ctx) return;
+      if (this.drawingNodes) return;
+
+      const now = this.ctx.currentTime;
+      const dest = this.getDestination();
+
+      const osc = this.ctx.createOscillator();
+      const oscGain = this.ctx.createGain();
+      const filter = this.ctx.createBiquadFilter();
+
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(440, now);
+
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(750, now);
+      filter.Q.setValueAtTime(3, now);
+
+      oscGain.gain.setValueAtTime(0.001, now);
+      oscGain.gain.linearRampToValueAtTime(0.40, now + 0.04);
+
+      osc.connect(filter);
+      filter.connect(oscGain);
+      oscGain.connect(dest);
+
+      osc.start(now);
+      this.drawingNodes = { osc, oscGain, filter };
+    }
+
+    updateDrawingSound(dist) {
+      if (!this.drawingNodes || !this.ctx) return;
+      const now = this.ctx.currentTime;
+      const freq = 420 + Math.min(dist * 1.5, 480);
+      try {
+        this.drawingNodes.osc.frequency.cancelScheduledValues(now);
+        this.drawingNodes.osc.frequency.linearRampToValueAtTime(freq, now + 0.04);
+      } catch (e) {}
+    }
+
+    stopDrawingSound() {
+      if (!this.drawingNodes || !this.ctx) return;
+      const { osc, oscGain } = this.drawingNodes;
+      const now = this.ctx.currentTime;
+      try {
+        oscGain.gain.cancelScheduledValues(now);
+        oscGain.gain.linearRampToValueAtTime(0.001, now + 0.04);
+        setTimeout(() => {
+          try {
+            osc.stop();
+            osc.disconnect();
+            oscGain.disconnect();
+          } catch (e) {}
+        }, 50);
+      } catch (e) {}
+      this.drawingNodes = null;
+    }
+
+    // 3. Try Again / Wrong Match sound
+    playTryAgain() {
       if (!this.enabled) return;
       this.init();
       if (!this.ctx) return;
       const now = this.ctx.currentTime;
-      [
-        { freq: 523.25, time: 0 },       // C5
-        { freq: 659.25, time: 0.08 },    // E5
-        { freq: 783.99, time: 0.16 },    // G5
-        { freq: 1046.50, time: 0.24 }    // C6
-      ].forEach(note => {
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(note.freq, now + note.time);
-        gain.gain.setValueAtTime(0.18, now + note.time);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + note.time + 0.22);
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-        osc.start(now + note.time);
-        osc.stop(now + note.time + 0.25);
-      });
+      const dest = this.getDestination();
+
+      // Two-tone descending "Uh-oh / Try Again" boing
+      const osc1 = this.ctx.createOscillator();
+      const gain1 = this.ctx.createGain();
+      osc1.type = 'sawtooth';
+      osc1.frequency.setValueAtTime(360, now);
+      osc1.frequency.linearRampToValueAtTime(290, now + 0.12);
+      gain1.gain.setValueAtTime(0.75, now);
+      gain1.gain.exponentialRampToValueAtTime(0.01, now + 0.14);
+      osc1.connect(gain1);
+      gain1.connect(dest);
+      osc1.start(now);
+      osc1.stop(now + 0.15);
+
+      const osc2 = this.ctx.createOscillator();
+      const gain2 = this.ctx.createGain();
+      osc2.type = 'sawtooth';
+      osc2.frequency.setValueAtTime(260, now + 0.15);
+      osc2.frequency.linearRampToValueAtTime(160, now + 0.36);
+      gain2.gain.setValueAtTime(0.80, now + 0.15);
+      gain2.gain.exponentialRampToValueAtTime(0.005, now + 0.38);
+      osc2.connect(gain2);
+      gain2.connect(dest);
+      osc2.start(now + 0.15);
+      osc2.stop(now + 0.4);
     }
 
     playError() {
+      this.playTryAgain();
+    }
+
+    // 4. Clapping sound when user matches correct tiles
+    playClapping() {
       if (!this.enabled) return;
       this.init();
       if (!this.ctx) return;
       const now = this.ctx.currentTime;
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-      osc.type = 'sawtooth';
-      osc.frequency.setValueAtTime(220, now);
-      osc.frequency.linearRampToValueAtTime(140, now + 0.25);
-      gain.gain.setValueAtTime(0.15, now);
-      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
-      osc.connect(gain);
-      gain.connect(this.ctx.destination);
-      osc.start(now);
-      osc.stop(now + 0.25);
+      const dest = this.getDestination();
+      const noiseBuf = this.getNoiseBuffer();
+
+      // Synthesize 10 rapid handclaps
+      const clapTimes = [0, 0.07, 0.14, 0.20, 0.26, 0.32, 0.39, 0.46, 0.54, 0.62];
+      clapTimes.forEach(delay => {
+        const t = now + delay;
+        if (noiseBuf) {
+          const src = this.ctx.createBufferSource();
+          src.buffer = noiseBuf;
+          const bpf = this.ctx.createBiquadFilter();
+          bpf.type = 'bandpass';
+          bpf.frequency.setValueAtTime(1150 + (Math.random() * 200 - 100), t);
+          bpf.Q.setValueAtTime(2.8, t);
+
+          const gain = this.ctx.createGain();
+          gain.gain.setValueAtTime(0.001, t);
+          gain.gain.linearRampToValueAtTime(0.75, t + 0.002);
+          gain.gain.exponentialRampToValueAtTime(0.005, t + 0.045);
+
+          src.connect(bpf);
+          bpf.connect(gain);
+          gain.connect(dest);
+
+          src.start(t);
+          src.stop(t + 0.05);
+        }
+      });
+
+      // Joyful match chime chord arpeggio
+      const chord = [523.25, 659.25, 783.99, 1046.50];
+      chord.forEach((freq, idx) => {
+        const t = now + (idx * 0.07);
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, t);
+
+        gain.gain.setValueAtTime(0.001, t);
+        gain.gain.linearRampToValueAtTime(0.75, t + 0.015);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
+
+        osc.connect(gain);
+        gain.connect(dest);
+        osc.start(t);
+        osc.stop(t + 0.36);
+      });
+    }
+
+    playMatch() {
+      this.playClapping();
+    }
+
+    // 5. Firecrackers celebration sound when user wins the match
+    playFirecrackers() {
+      if (!this.enabled) return;
+      this.init();
+      if (!this.ctx) return;
+      const now = this.ctx.currentTime;
+      const dest = this.getDestination();
+      const noiseBuf = this.getNoiseBuffer();
+
+      // Rocket whistle launching upward
+      const whistleOsc = this.ctx.createOscillator();
+      const whistleGain = this.ctx.createGain();
+      whistleOsc.type = 'triangle';
+      whistleOsc.frequency.setValueAtTime(320, now);
+      whistleOsc.frequency.exponentialRampToValueAtTime(2500, now + 0.38);
+      whistleGain.gain.setValueAtTime(0.01, now);
+      whistleGain.gain.linearRampToValueAtTime(0.70, now + 0.22);
+      whistleGain.gain.linearRampToValueAtTime(0.01, now + 0.4);
+      whistleOsc.connect(whistleGain);
+      whistleGain.connect(dest);
+      whistleOsc.start(now);
+      whistleOsc.stop(now + 0.41);
+
+      // Explosive Thuds / Booms
+      [0.40, 0.85, 1.35].forEach((boomTime, i) => {
+        const t = now + boomTime;
+        const subOsc = this.ctx.createOscillator();
+        const subGain = this.ctx.createGain();
+        subOsc.type = 'sine';
+        subOsc.frequency.setValueAtTime(150 - (i * 20), t);
+        subOsc.frequency.exponentialRampToValueAtTime(30, t + 0.4);
+        subGain.gain.setValueAtTime(0.90, t);
+        subGain.gain.exponentialRampToValueAtTime(0.01, t + 0.45);
+        subOsc.connect(subGain);
+        subGain.connect(dest);
+        subOsc.start(t);
+        subOsc.stop(t + 0.46);
+
+        if (noiseBuf) {
+          const boomSrc = this.ctx.createBufferSource();
+          boomSrc.buffer = noiseBuf;
+          const lpf = this.ctx.createBiquadFilter();
+          lpf.type = 'lowpass';
+          lpf.frequency.setValueAtTime(380, t);
+          lpf.frequency.linearRampToValueAtTime(80, t + 0.4);
+          const boomNoiseGain = this.ctx.createGain();
+          boomNoiseGain.gain.setValueAtTime(0.90, t);
+          boomNoiseGain.gain.exponentialRampToValueAtTime(0.01, t + 0.45);
+          boomSrc.connect(lpf);
+          lpf.connect(boomNoiseGain);
+          boomNoiseGain.connect(dest);
+          boomSrc.start(t);
+          boomSrc.stop(t + 0.46);
+        }
+      });
+
+      // String of firecracker crackles & pops (30 rapid bursts)
+      if (noiseBuf) {
+        for (let c = 0; c < 30; c++) {
+          const crackleTime = now + 0.42 + (Math.random() * 1.6);
+          const crackleSrc = this.ctx.createBufferSource();
+          crackleSrc.buffer = noiseBuf;
+          const hpf = this.ctx.createBiquadFilter();
+          hpf.type = 'highpass';
+          hpf.frequency.setValueAtTime(1800 + Math.random() * 1400, crackleTime);
+          const crackleGain = this.ctx.createGain();
+          crackleGain.gain.setValueAtTime(0.60 + Math.random() * 0.35, crackleTime);
+          crackleGain.gain.exponentialRampToValueAtTime(0.01, crackleTime + 0.025);
+          crackleSrc.connect(hpf);
+          hpf.connect(crackleGain);
+          crackleGain.connect(dest);
+          crackleSrc.start(crackleTime);
+          crackleSrc.stop(crackleTime + 0.03);
+        }
+      }
+
+      // Victory fanfare brass
+      const fanfareNotes = [
+        { f: 523.25, t: 0.42, d: 0.16 }, // C5
+        { f: 659.25, t: 0.58, d: 0.16 }, // E5
+        { f: 783.99, t: 0.74, d: 0.22 }, // G5
+        { f: 1046.50, t: 0.96, d: 0.55 }, // C6
+        { f: 880.00, t: 1.55, d: 0.18 }, // A5
+        { f: 1046.50, t: 1.75, d: 0.70 } // C6 Victory!
+      ];
+      fanfareNotes.forEach(n => {
+        const t = now + n.t;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(n.f, t);
+        gain.gain.setValueAtTime(0.001, t);
+        gain.gain.linearRampToValueAtTime(0.85, t + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.01, t + n.d);
+        osc.connect(gain);
+        gain.connect(dest);
+        osc.start(t);
+        osc.stop(t + n.d + 0.05);
+      });
     }
 
     playVictory() {
-      if (!this.enabled) return;
-      this.init();
-      if (!this.ctx) return;
-      const notes = [
-        { f: 440, t: 0 },
-        { f: 554.37, t: 0.1 },
-        { f: 659.25, t: 0.2 },
-        { f: 880, t: 0.3 },
-        { f: 783.99, t: 0.42 },
-        { f: 880, t: 0.54 }
-      ];
-      const now = this.ctx.currentTime;
-      notes.forEach(n => {
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(n.f, now + n.t);
-        gain.gain.setValueAtTime(0.2, now + n.t);
-        gain.gain.exponentialRampToValueAtTime(0.01, now + n.t + 0.35);
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-        osc.start(now + n.t);
-        osc.stop(now + n.t + 0.35);
-      });
+      this.playFirecrackers();
     }
   }
 
@@ -221,6 +460,17 @@
     }
 
     initEvents() {
+      // Unlock Web Audio API on first user gesture
+      const unlockAudio = () => {
+        this.sound.init();
+        window.removeEventListener('pointerdown', unlockAudio);
+        window.removeEventListener('touchstart', unlockAudio);
+        window.removeEventListener('click', unlockAudio);
+      };
+      window.addEventListener('pointerdown', unlockAudio, { passive: true });
+      window.addEventListener('touchstart', unlockAudio, { passive: true });
+      window.addEventListener('click', unlockAudio, { passive: true });
+
       // Pause & Restart Header Buttons
       document.getElementById('btn-pause').addEventListener('click', () => this.openPauseModal());
       document.getElementById('btn-restart').addEventListener('click', () => {
@@ -239,6 +489,7 @@
       window.addEventListener('mouseup', (e) => this.handleDragEnd(e));
       window.addEventListener('touchmove', (e) => this.handleDragMove(e), { passive: false });
       window.addEventListener('touchend', (e) => this.handleDragEnd(e));
+      window.addEventListener('touchcancel', (e) => this.handleDragEnd(e));
 
       // Window resize recalculates all drawn lines
       window.addEventListener('resize', () => this.refreshAllLines());
@@ -459,8 +710,20 @@
     // --- CONNECTION & DRAG SYSTEM ---
     getPointerPos(e) {
       const rect = this.playArea.getBoundingClientRect();
-      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      let clientX = 0;
+      let clientY = 0;
+
+      if (e.touches && e.touches.length > 0) {
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+      } else if (e.changedTouches && e.changedTouches.length > 0) {
+        clientX = e.changedTouches[0].clientX;
+        clientY = e.changedTouches[0].clientY;
+      } else if (e.clientX !== undefined) {
+        clientX = e.clientX;
+        clientY = e.clientY;
+      }
+
       return {
         x: clientX - rect.left,
         y: clientY - rect.top,
@@ -480,11 +743,12 @@
 
     handleLeftCardStart(e, card) {
       if (card.classList.contains('matched')) return;
-      if (e.type === 'touchstart') {
-        // Prevent default only if touch
+      if (e.type === 'touchstart' && e.cancelable) {
+        e.preventDefault();
       }
 
-      this.sound.playSelect();
+      // Tap sound on every tile click
+      this.sound.playTap();
       this.isDragging = true;
       this.hasDragMoved = false;
       this.dragStartCard = card;
@@ -503,22 +767,37 @@
 
     handleDragMove(e) {
       if (!this.isDragging || !this.dragStartCard) return;
-      if (e.type === 'touchmove') e.preventDefault();
+      if (e.type === 'touchmove' && e.cancelable) {
+        e.preventDefault();
+      }
 
       const pointer = this.getPointerPos(e);
       const dist = Math.hypot(pointer.x - this.dragOriginX, pointer.y - this.dragOriginY);
 
-      if (dist > 8 && !this.hasDragMoved) {
-        this.hasDragMoved = true;
-        // Create drag line
-        const startPos = this.getCardAnchorPos(this.dragStartCard, 'left');
-        this.dragTempLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        this.dragTempLine.setAttribute('class', 'connection-line active-drag');
-        this.dragTempLine.setAttribute('x1', startPos.x);
-        this.dragTempLine.setAttribute('y1', startPos.y);
-        this.dragTempLine.setAttribute('x2', pointer.x);
-        this.dragTempLine.setAttribute('y2', pointer.y);
-        this.svgOverlay.appendChild(this.dragTempLine);
+      if (dist > 8) {
+        if (!this.hasDragMoved) {
+          this.hasDragMoved = true;
+          // Line drawing audio starts
+          this.sound.startDrawingSound();
+
+          // Clean up any stray temp lines first
+          if (this.dragTempLine) {
+            this.dragTempLine.remove();
+            this.dragTempLine = null;
+          }
+
+          const startPos = this.getCardAnchorPos(this.dragStartCard, 'left');
+          this.dragTempLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          this.dragTempLine.setAttribute('class', 'connection-line active-drag');
+          this.dragTempLine.setAttribute('x1', startPos.x);
+          this.dragTempLine.setAttribute('y1', startPos.y);
+          this.dragTempLine.setAttribute('x2', pointer.x);
+          this.dragTempLine.setAttribute('y2', pointer.y);
+          this.svgOverlay.appendChild(this.dragTempLine);
+        }
+
+        // Modulate line drawing audio as user draws
+        this.sound.updateDrawingSound(dist);
       }
 
       if (this.dragTempLine) {
@@ -531,29 +810,65 @@
       if (!this.isDragging) return;
       this.isDragging = false;
 
-      const pointer = this.getPointerPos(e);
       let targetRightCard = null;
+      const startCard = this.dragStartCard;
 
-      if (this.hasDragMoved) {
-        const elem = document.elementFromPoint(pointer.clientX, pointer.clientY);
-        if (elem) {
-          targetRightCard = elem.closest('.column-right .match-card');
+      try {
+        const pointer = this.getPointerPos(e);
+
+        if (this.hasDragMoved) {
+          // 1. Precise element detection under touch point
+          const elem = document.elementFromPoint(pointer.clientX, pointer.clientY);
+          if (elem) {
+            targetRightCard = elem.closest('.column-right .match-card');
+          }
+
+          // 2. Touch proximity tolerance (in case finger is slightly outside border on mobile)
+          if (!targetRightCard) {
+            const rightCards = document.querySelectorAll('.column-right .match-card:not(.matched)');
+            for (const rCard of rightCards) {
+              const rRect = rCard.getBoundingClientRect();
+              if (
+                pointer.clientX >= rRect.left - 24 &&
+                pointer.clientX <= rRect.right + 24 &&
+                pointer.clientY >= rRect.top - 24 &&
+                pointer.clientY <= rRect.bottom + 24
+              ) {
+                targetRightCard = rCard;
+                break;
+              }
+            }
+          }
         }
-      }
+      } catch (err) {
+        console.warn('Touch drag error:', err);
+      } finally {
+        // Stop line drawing sound
+        this.sound.stopDrawingSound();
 
-      if (this.dragTempLine) {
-        this.dragTempLine.remove();
-        this.dragTempLine = null;
-      }
+        // ALWAYS remove temporary drag lines - guarantee no leftover stray lines
+        if (this.dragTempLine) {
+          this.dragTempLine.remove();
+          this.dragTempLine = null;
+        }
 
-      if (targetRightCard && this.dragStartCard) {
-        this.evaluateMatch(this.dragStartCard, targetRightCard);
+        const strayLines = this.svgOverlay.querySelectorAll('.connection-line.active-drag');
+        strayLines.forEach(l => l.remove());
+
+        this.dragStartCard = null;
+        this.hasDragMoved = false;
+
+        if (targetRightCard && startCard) {
+          this.evaluateMatch(startCard, targetRightCard);
+        }
       }
     }
 
     handleLeftCardClick(e, card) {
       if (card.classList.contains('matched')) return;
-      // Already selected in handleLeftCardStart
+      // Tap sound on every tile click
+      this.sound.playTap();
+
       document.querySelectorAll('.column-left .match-card').forEach(c => {
         if (!c.classList.contains('matched')) c.classList.remove('selected');
       });
@@ -563,6 +878,9 @@
 
     handleRightCardClick(e, card) {
       if (card.classList.contains('matched')) return;
+
+      // Tap sound on every tile click
+      this.sound.playTap();
 
       if (!this.selectedLeftCard) {
         this.showToast('Select an item on the left first!');
@@ -590,8 +908,8 @@
       const validPair = matchingList.find(p => p.leftId === leftId && p.rightId === rightId);
 
       if (!validPair) {
-        // Wrong match!
-        this.sound.playError();
+        // Wrong match - Play try again sound
+        this.sound.playTryAgain();
         this.triggerMismatchFeedback(leftCard, rightCard, "Not a match! Try again.");
         return;
       }
@@ -600,8 +918,8 @@
       if (this.levelData.enforceMatchingOrder) {
         const requiredPair = matchingList[this.currentOrderIndex];
         if (requiredPair && (requiredPair.leftId !== leftId || requiredPair.rightId !== rightId)) {
-          // Out of order!
-          this.sound.playError();
+          // Out of order - Play try again sound
+          this.sound.playTryAgain();
           const targetLeft = this.levelData.leftItems.find(it => it.id === requiredPair.leftId);
           const targetName = targetLeft ? targetLeft.name : `Step ${this.currentOrderIndex + 1}`;
           this.triggerMismatchFeedback(leftCard, rightCard, `Wrong order! Match "${targetName}" first.`);
@@ -610,7 +928,11 @@
       }
 
       // MATCH SUCCESS!
-      this.sound.playMatch();
+      // 1. Clapping applause sound
+      this.sound.playClapping();
+      // 2. Clapping tile badge animation appears
+      this.spawnClappingBadge(leftCard, rightCard);
+
       leftCard.classList.remove('selected');
       leftCard.classList.add('matched');
       rightCard.classList.add('matched');
@@ -673,6 +995,26 @@
       return line;
     }
 
+    spawnClappingBadge(leftCard, rightCard) {
+      const playArea = this.playArea;
+      if (!playArea) return;
+      const pRect = playArea.getBoundingClientRect();
+      const lRect = leftCard.getBoundingClientRect();
+      const rRect = rightCard.getBoundingClientRect();
+
+      const midX = ((lRect.left + lRect.right) / 2 + (rRect.left + rRect.right) / 2) / 2 - pRect.left;
+      const midY = ((lRect.top + lRect.bottom) / 2 + (rRect.top + rRect.bottom) / 2) / 2 - pRect.top;
+
+      const badge = document.createElement('div');
+      badge.className = 'clapping-badge';
+      badge.style.left = `${midX}px`;
+      badge.style.top = `${midY}px`;
+      badge.innerHTML = `<span class="clapping-icon">👏</span><span>Great Match!</span>`;
+
+      playArea.appendChild(badge);
+      setTimeout(() => badge.remove(), 1350);
+    }
+
     refreshAllLines() {
       this.connectedPairs.forEach(pair => {
         if (pair.leftCard && pair.rightCard && pair.lineEl) {
@@ -688,19 +1030,20 @@
 
     // --- VICTORY & CONGRATULATIONS POPUP ---
     triggerVictory() {
-      this.sound.playVictory();
-      this.confetti.explode(90);
+      // Grand celebration sound with firecrackers and fanfare
+      this.sound.playFirecrackers();
+      this.confetti.explode(110);
 
       const titleEl = document.getElementById('victory-title');
       const subtitleEl = document.getElementById('victory-subtitle');
       const nextBtn = document.getElementById('btn-next-level');
 
       if (this.currentLevel < this.maxLevels) {
-        titleEl.textContent = 'Congratulations!';
+        titleEl.textContent = 'Congratulations! 🎆';
         subtitleEl.textContent = `You cleared Quiz ${this.currentLevel} with perfect matching order!`;
         nextBtn.textContent = `Next Level (Quiz ${this.currentLevel + 1}) →`;
       } else {
-        titleEl.textContent = 'Awesome! All Levels Won!';
+        titleEl.textContent = 'Awesome! All Levels Won! 🎆🎇';
         subtitleEl.textContent = 'You successfully solved all 5 Quizzes in perfect order!';
         nextBtn.textContent = 'Play from Quiz 1 🔄';
       }
