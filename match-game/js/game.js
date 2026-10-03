@@ -129,7 +129,7 @@
       try {
         this.drawingNodes.osc.frequency.cancelScheduledValues(now);
         this.drawingNodes.osc.frequency.linearRampToValueAtTime(freq, now + 0.04);
-      } catch (e) {}
+      } catch (e) { }
     }
 
     stopDrawingSound() {
@@ -144,9 +144,9 @@
             osc.stop();
             osc.disconnect();
             oscGain.disconnect();
-          } catch (e) {}
+          } catch (e) { }
         }, 50);
-      } catch (e) {}
+      } catch (e) { }
       this.drawingNodes = null;
     }
 
@@ -351,6 +351,91 @@
     playVictory() {
       this.playFirecrackers();
     }
+
+    // 6. Game Loader Sound Effect (Ascending synth chimes, swoosh & completion chime over 4-5s)
+    startLoadingSound(durationMs = 4500) {
+      if (!this.enabled) return;
+      this.init();
+      if (!this.ctx) return;
+
+      const now = this.ctx.currentTime;
+      const dest = this.getDestination();
+
+      // Step count across duration (every ~0.3s)
+      const stepCount = 14;
+      const interval = (durationMs / 1000) / stepCount;
+      const scale = [
+        261.63, // C4
+        293.66, // D4
+        329.63, // E4
+        392.00, // G4
+        440.00, // A4
+        523.25, // C5
+        587.33, // D5
+        659.25, // E5
+        783.99, // G5
+        880.00, // A5
+        1046.50, // C6
+        1174.66, // D6
+        1318.51, // E6
+        1567.98  // G6
+      ];
+
+      for (let i = 0; i < stepCount; i++) {
+        const t = now + (i * interval);
+        const noteFreq = scale[i % scale.length];
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = i % 2 === 0 ? 'sine' : 'triangle';
+        osc.frequency.setValueAtTime(noteFreq, t);
+
+        gain.gain.setValueAtTime(0.001, t);
+        gain.gain.linearRampToValueAtTime(0.65, t + 0.015);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.28);
+
+        osc.connect(gain);
+        gain.connect(dest);
+        osc.start(t);
+        osc.stop(t + 0.30);
+      }
+
+      // Rising swoosh near completion (at ~80% of loading time)
+      const finishTime = now + (durationMs / 1000) - 0.9;
+      if (finishTime > now) {
+        const swooshOsc = this.ctx.createOscillator();
+        const swooshGain = this.ctx.createGain();
+        swooshOsc.type = 'sine';
+        swooshOsc.frequency.setValueAtTime(380, finishTime);
+        swooshOsc.frequency.exponentialRampToValueAtTime(1400, finishTime + 0.75);
+
+        swooshGain.gain.setValueAtTime(0.001, finishTime);
+        swooshGain.gain.linearRampToValueAtTime(0.55, finishTime + 0.4);
+        swooshGain.gain.exponentialRampToValueAtTime(0.001, finishTime + 0.8);
+
+        swooshOsc.connect(swooshGain);
+        swooshGain.connect(dest);
+        swooshOsc.start(finishTime);
+        swooshOsc.stop(finishTime + 0.82);
+      }
+
+      // Final celebratory completion chime
+      const doneTime = now + (durationMs / 1000);
+      [783.99, 1046.50, 1318.51].forEach((f, idx) => {
+        const dt = doneTime + (idx * 0.06);
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(f, dt);
+        gain.gain.setValueAtTime(0.001, dt);
+        gain.gain.linearRampToValueAtTime(0.80, dt + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, dt + 0.42);
+        osc.connect(gain);
+        gain.connect(dest);
+        osc.start(dt);
+        osc.stop(dt + 0.45);
+      });
+    }
   }
 
   // --- CONFETTI PARTICLE SYSTEM ---
@@ -457,6 +542,68 @@
 
       this.initEvents();
       this.loadLevel(this.currentLevel);
+
+      // Initial Game Loader with gametanieshak floating style (min 4-5 sec)
+      this.triggerGameLoader(3000);
+    }
+
+    // --- GAME LOADER ("gametanieshak" in floating style + loading sound) ---
+    triggerGameLoader(durationMs = 3000, onComplete = null) {
+      const screen = document.getElementById('game-loader-screen');
+      const bar = document.getElementById('loader-progress-bar');
+      const percentNum = document.getElementById('loader-percent-num');
+      const statusText = document.getElementById('loader-status-text');
+
+      if (!screen || !bar) {
+        if (onComplete) onComplete();
+        return;
+      }
+
+      // Reset and display loader screen
+      screen.classList.remove('fade-out');
+      screen.classList.add('active');
+      bar.style.width = '0%';
+      if (percentNum) percentNum.textContent = '0%';
+
+      const statusPhrases = [
+        'Matching Words & Puzzles...',
+        'Preparing Level Challenge...',
+        'Ready to Play!'
+      ];
+
+      // Play loading sound effect
+      this.sound.startLoadingSound(durationMs);
+
+      const startTime = performance.now();
+
+      const updateProgress = (currentTime) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / durationMs, 1);
+        const pct = Math.floor(progress * 100);
+
+        bar.style.width = `${pct}%`;
+        if (percentNum) percentNum.textContent = `${pct}%`;
+
+        if (statusText) {
+          const phraseIdx = Math.min(Math.floor(progress * statusPhrases.length), statusPhrases.length - 1);
+          statusText.textContent = statusPhrases[phraseIdx];
+        }
+
+        if (progress < 1) {
+          requestAnimationFrame(updateProgress);
+        } else {
+          // Finished loading (4.6 seconds)
+          setTimeout(() => {
+            screen.classList.add('fade-out');
+            if (onComplete) onComplete();
+            setTimeout(() => {
+              screen.classList.remove('active');
+            }, 520);
+          }, 200);
+        }
+      };
+
+      requestAnimationFrame(updateProgress);
     }
 
     initEvents() {
@@ -500,11 +647,11 @@
       // Victory Modal Buttons
       document.getElementById('btn-next-level').addEventListener('click', () => {
         this.closeModal(this.victoryModal);
-        if (this.currentLevel < this.maxLevels) {
-          this.loadLevel(this.currentLevel + 1);
-        } else {
-          this.loadLevel(1);
-        }
+        const nextLvl = this.currentLevel < this.maxLevels ? this.currentLevel + 1 : 1;
+        // Trigger game loader with gametanieshak floating style for 4-5s
+        this.triggerGameLoader(4600, () => {
+          this.loadLevel(nextLvl);
+        });
       });
       document.getElementById('btn-replay-level').addEventListener('click', () => {
         this.closeModal(this.victoryModal);
@@ -1189,14 +1336,14 @@
       config.matchingOrder.forEach((pair, pairIdx) => {
         const pRow = document.createElement('div');
         pRow.style.cssText = 'display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 0.85rem;';
-        
+
         // Select Left Item
-        let leftOptions = config.leftItems.map(it => 
+        let leftOptions = config.leftItems.map(it =>
           `<option value="${it.id}" ${it.id === pair.leftId ? 'selected' : ''}>${it.name || it.id}</option>`
         ).join('');
 
         // Select Right Item
-        let rightOptions = config.rightItems.map(it => 
+        let rightOptions = config.rightItems.map(it =>
           `<option value="${it.id}" ${it.id === pair.rightId ? 'selected' : ''}>${it.name || it.id}</option>`
         ).join('');
 
