@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Flippers (Front) -->
+  <path d="M40 38 C28 20, 14 26, 24 44 C28 48, 36 46, 40 42 Z" fill="#15803d"/>
+  <path d="M60 38 C72 20, 86 26, 76 44 C72 48, 64 46, 60 42 Z" fill="#15803d"/>
+  <!-- Rear Flippers -->
+  <path d="M38 68 C28 78, 32 86, 42 78 Z" fill="#15803d"/>
+  <path d="M62 68 C72 78, 68 86, 58 78 Z" fill="#15803d"/>
+  <!-- Tail -->
+  <polygon points="48,74 52,74 50,84" fill="#15803d"/>
+  <!-- Turtle Shell (Dome) -->
+  <ellipse cx="50" cy="54" rx="22" ry="24" fill="#166534"/>
+  <ellipse cx="50" cy="54" rx="19" ry="21" fill="#22c55e"/>
+  <!-- Shell Scute Pattern -->
+  <polygon points="50,40 58,46 58,54 50,60 42,54 42,46" fill="#15803d"/>
+  <polygon points="50,60 58,66 54,72 46,72 42,66" fill="#15803d"/>
+  <!-- Head -->
+  <ellipse cx="50" cy="24" rx="10" ry="12" fill="#16a34a"/>
+  <!-- Eyes -->
+  <circle cx="45" cy="22" r="2.8" fill="#ffffff"/>
+  <circle cx="45" cy="22" r="1.6" fill="#0f172a"/>
+  <circle cx="55" cy="22" r="2.8" fill="#ffffff"/>
+  <circle cx="55" cy="22" r="1.6" fill="#0f172a"/>
+</svg>

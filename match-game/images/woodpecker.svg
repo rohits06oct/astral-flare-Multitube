@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Tree Trunk -->
+  <path d="M22 10 L22 90 L34 90 L34 10 Z" fill="#78350f"/>
+  <line x1="28" y1="20" x2="28" y2="40" stroke="#5c260b" stroke-width="2" stroke-linecap="round"/>
+  <line x1="26" y1="55" x2="26" y2="75" stroke="#5c260b" stroke-width="2" stroke-linecap="round"/>
+  <!-- Clinging Feet -->
+  <path d="M34 52 L42 54 M34 72 L42 70" stroke="#334155" stroke-width="3" stroke-linecap="round"/>
+  <!-- Body & Wing -->
+  <path d="M40 44 C42 36, 56 36, 60 48 C64 62, 58 78, 44 80 L38 88 L40 76 Z" fill="#0f172a"/>
+  <!-- White Wing Pattern -->
+  <path d="M46 54 Q56 58, 52 70 Q44 66, 46 54 Z" fill="#ffffff"/>
+  <!-- White Throat & Belly -->
+  <path d="M42 42 C40 50, 42 62, 45 68 C42 64, 40 54, 42 42 Z" fill="#f8fafc"/>
+  <!-- Head & Red Crest -->
+  <circle cx="50" cy="34" r="10" fill="#0f172a"/>
+  <!-- Striking Crimson Crest -->
+  <path d="M42 28 Q52 14, 62 26 Q54 28, 48 30 Z" fill="#dc2626"/>
+  <!-- Eye -->
+  <circle cx="52" cy="32" r="3.5" fill="#ffffff"/>
+  <circle cx="52" cy="32" r="1.8" fill="#0f172a"/>
+  <!-- Chisel Beak pointing at tree -->
+  <polygon points="42,34 26,38 42,40" fill="#64748b"/>
+</svg>

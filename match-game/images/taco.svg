@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Crispy Corn Taco Shell (Outer curved) -->
+  <path d="M16 68 C16 34, 40 24, 76 28 C84 40, 84 62, 80 68 C58 76, 32 76, 16 68 Z" fill="#f59e0b"/>
+  <!-- Seasoned Ground Meat Filling -->
+  <path d="M22 66 C26 48, 48 38, 74 38 C72 52, 66 66, 22 66 Z" fill="#78350f"/>
+  <!-- Shredded Lettuce -->
+  <path d="M28 48 Q34 40, 42 46 Q48 38, 56 44 Q64 36, 72 42" stroke="#22c55e" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+  <!-- Cheddar Cheese Shreds -->
+  <line x1="32" y1="44" x2="40" y2="52" stroke="#facc15" stroke-width="3" stroke-linecap="round"/>
+  <line x1="48" y1="42" x2="56" y2="48" stroke="#facc15" stroke-width="3" stroke-linecap="round"/>
+  <line x1="60" y1="40" x2="68" y2="46" stroke="#facc15" stroke-width="3" stroke-linecap="round"/>
+  <!-- Diced Red Tomatoes -->
+  <rect x="36" y="46" width="6" height="5" rx="1.5" fill="#ef4444"/>
+  <rect x="52" y="44" width="6" height="5" rx="1.5" fill="#ef4444"/>
+  <rect x="66" y="42" width="6" height="5" rx="1.5" fill="#ef4444"/>
+  <!-- Front Taco Shell Lip -->
+  <path d="M16 68 C22 56, 38 48, 78 52 C82 62, 78 72, 76 72 C56 78, 30 76, 16 68 Z" fill="#fbbf24"/>
+</svg>

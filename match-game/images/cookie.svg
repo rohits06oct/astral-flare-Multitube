@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Cookie Base with organic wavy edge -->
+  <path d="M50 14 C68 14, 86 26, 86 50 C86 70, 72 86, 50 86 C26 86, 14 70, 14 50 C14 28, 28 14, 50 14 Z" fill="#d97706"/>
+  <!-- Cookie Surface Highlight -->
+  <circle cx="50" cy="50" r="32" fill="#f59e0b"/>
+  <!-- Golden Crumb Texture -->
+  <circle cx="36" cy="38" r="1.5" fill="#b45309"/>
+  <circle cx="64" cy="58" r="1.5" fill="#b45309"/>
+  <circle cx="48" cy="68" r="1.5" fill="#b45309"/>
+  <!-- Rich Dark Chocolate Chips -->
+  <ellipse cx="36" cy="32" rx="5" ry="4" fill="#451a03"/>
+  <ellipse cx="62" cy="34" rx="6" ry="5" fill="#451a03"/>
+  <ellipse cx="48" cy="50" rx="7" ry="5.5" fill="#451a03"/>
+  <ellipse cx="28" cy="58" rx="6" ry="4.5" fill="#451a03"/>
+  <ellipse cx="68" cy="54" rx="5.5" ry="5" fill="#451a03"/>
+  <ellipse cx="50" cy="72" rx="6" ry="4" fill="#451a03"/>
+  <ellipse cx="72" cy="68" rx="4" ry="3.5" fill="#451a03"/>
+  <!-- Chip Gloss Highlight -->
+  <circle cx="47" cy="48" r="1.5" fill="#78350f"/>
+  <circle cx="61" cy="32" r="1.2" fill="#78350f"/>
+</svg>

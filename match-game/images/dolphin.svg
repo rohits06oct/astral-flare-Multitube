@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Ocean Waves -->
+  <path d="M10 82 Q30 76, 50 82 T90 82" stroke="#0ea5e9" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <path d="M22 88 Q40 84, 60 88 T82 88" stroke="#0284c7" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <!-- Dolphin Body (Leaping arc) -->
+  <path d="M20 44 C22 28, 44 22, 68 28 C80 32, 86 44, 82 58 C78 68, 62 72, 48 64 C36 56, 26 48, 20 44 Z" fill="#0284c7"/>
+  <!-- White/Light Belly -->
+  <path d="M30 46 C42 42, 58 44, 70 54 C66 64, 52 66, 42 60 C36 54, 32 48, 30 46 Z" fill="#e0f2fe"/>
+  <!-- Dorsal Fin -->
+  <path d="M48 24 Q54 12, 62 20 Q56 26, 52 26 Z" fill="#0284c7"/>
+  <!-- Pectoral Flippers -->
+  <path d="M46 54 Q48 68, 54 66 Q52 56, 48 54 Z" fill="#0369a1"/>
+  <!-- Tail Flukes -->
+  <path d="M80 54 C86 52, 94 46, 92 56 C88 62, 84 66, 80 64 C82 72, 88 78, 82 78 C78 76, 76 66, 78 58 Z" fill="#0284c7"/>
+  <!-- Snout & Smile -->
+  <path d="M20 44 C12 44, 8 48, 14 50 C18 52, 24 50, 24 46 Z" fill="#0284c7"/>
+  <path d="M16 48 Q20 50, 24 48" stroke="#0f172a" stroke-width="1.2" fill="none"/>
+  <!-- Eye -->
+  <circle cx="28" cy="40" r="3" fill="#ffffff"/>
+  <circle cx="28" cy="40" r="1.8" fill="#0f172a"/>
+  <!-- Water Splash drops -->
+  <circle cx="28" cy="74" r="2.5" fill="#38bdf8"/>
+  <circle cx="76" cy="74" r="2.2" fill="#38bdf8"/>
+</svg>

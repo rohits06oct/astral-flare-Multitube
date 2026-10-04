@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Wooden Stick -->
+  <rect x="45" y="70" width="10" height="26" rx="4" fill="#fde68a" stroke="#d97706" stroke-width="1.5"/>
+  <!-- Top Red Layer -->
+  <path d="M34 38 C34 18, 66 18, 66 38 L66 40 L34 40 Z" fill="#ef4444"/>
+  <!-- Middle White Layer -->
+  <rect x="34" y="40" width="32" height="15" fill="#f8fafc"/>
+  <!-- Bottom Blue Layer -->
+  <path d="M34 55 L66 55 L66 70 C66 72, 64 74, 62 74 L38 74 C36 74, 34 72, 34 70 Z" fill="#3b82f6"/>
+  <!-- Popsicle Gloss Highlight -->
+  <path d="M40 24 C40 20, 44 20, 44 24 L44 68 C44 70, 40 70, 40 68 Z" fill="#ffffff" opacity="0.35"/>
+  <!-- Ice Drips -->
+  <circle cx="68" cy="72" r="2" fill="#3b82f6"/>
+  <circle cx="69" cy="78" r="1.5" fill="#3b82f6"/>
+</svg>

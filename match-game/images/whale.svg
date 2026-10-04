@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Blowhole Water Spout -->
+  <path d="M42 22 Q40 10, 36 12 M42 22 Q42 6, 44 8 M42 22 Q46 10, 50 12" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <!-- Whale Body -->
+  <path d="M16 44 C20 30, 42 24, 68 32 C82 36, 86 46, 82 56 C76 66, 48 68, 30 64 C20 62, 14 54, 16 44 Z" fill="#1e40af"/>
+  <!-- Light Blue Grooved Throat/Belly -->
+  <path d="M20 48 C28 46, 42 48, 54 56 C50 64, 38 64, 28 62 C22 60, 18 54, 20 48 Z" fill="#93c5fd"/>
+  <line x1="26" y1="52" x2="48" y2="58" stroke="#60a5fa" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="28" y1="56" x2="44" y2="60" stroke="#60a5fa" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Pectoral Flipper -->
+  <path d="M46 54 Q44 68, 36 72 Q36 64, 44 54 Z" fill="#1d4ed8"/>
+  <!-- Giant Tail Flukes -->
+  <path d="M78 50 C86 44, 94 36, 92 48 C88 54, 84 56, 80 54 C82 60, 88 64, 92 62 C92 70, 84 64, 78 56 Z" fill="#1e40af"/>
+  <!-- Eye -->
+  <circle cx="26" cy="42" r="2.8" fill="#ffffff"/>
+  <circle cx="26" cy="42" r="1.5" fill="#0f172a"/>
+  <!-- Gentle Smile -->
+  <path d="M18 46 Q24 50, 30 48" stroke="#0f172a" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+</svg>

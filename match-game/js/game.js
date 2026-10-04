@@ -783,6 +783,30 @@
       osc.stop(now + 0.36);
     }
 
+    playOceanSound() {
+      if (!this.enabled) return;
+      this.init();
+      if (!this.ctx) return;
+      const now = this.ctx.currentTime;
+      const dest = this.getDestination();
+
+      // Aquatic chime splash
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(523.25, now);
+      osc.frequency.exponentialRampToValueAtTime(880, now + 0.2);
+
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.linearRampToValueAtTime(0.7, now + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.38);
+
+      osc.connect(gain);
+      gain.connect(dest);
+      osc.start(now);
+      osc.stop(now + 0.4);
+    }
+
     playItemSound(leftId, rightId, levelData) {
       if (!this.enabled) return { label: 'Great Match!', emoji: '👏' };
 
@@ -821,20 +845,31 @@
         return { label: 'Grunt! Camel Matched!', emoji: '🐫' };
       }
 
-      // 5. Birds (Eagle, Parrot, Owl, Flamingo, Peacock, Duck, Falcon, Hummingbird, Bluebird)
-      if (key.includes('eagle') || key.includes('parrot') || key.includes('owl') || key.includes('flamingo') || key.includes('peacock') || key.includes('duck') || key.includes('falcon') || key.includes('hummingbird') || key.includes('bluebird')) {
+      // 5. Birds (Eagle, Parrot, Owl, Flamingo, Peacock, Duck, Falcon, Hummingbird, Bluebird, Swan, Woodpecker, Seagull)
+      if (key.includes('eagle') || key.includes('parrot') || key.includes('owl') || key.includes('flamingo') || key.includes('peacock') || key.includes('duck') || key.includes('falcon') || key.includes('hummingbird') || key.includes('bluebird') || key.includes('swan') || key.includes('woodpecker') || key.includes('seagull')) {
         this.playBirdSound();
         const emoji = key.includes('eagle') || key.includes('falcon') ? '🦅' :
                       key.includes('parrot') ? '🦜' :
                       key.includes('owl') ? '🦉' :
                       key.includes('flamingo') ? '🦩' :
                       key.includes('peacock') ? '🦚' :
-                      key.includes('duck') ? '🦆' : '🐦';
+                      key.includes('duck') ? '🦆' :
+                      key.includes('swan') ? '🦢' :
+                      key.includes('woodpecker') ? '🪵' :
+                      key.includes('seagull') ? '🌊' : '🐦';
         return { label: 'Chirp! Bird Matched!', emoji };
       }
 
-      // 6. USA Eating Items (Burger, Hot Dog, Pizza, Fries, Pancake, Pie, Popcorn, Milkshake, Steak, Corn)
-      if (key.includes('burger') || key.includes('hotdog') || key.includes('pizza') || key.includes('fries') || key.includes('pancake') || key.includes('pie') || key.includes('popcorn') || key.includes('milkshake') || key.includes('steak') || key.includes('corn')) {
+      // 6. Ocean Wildlife (Dolphin, Sea Turtle, Blue Whale)
+      if (key.includes('dolphin') || key.includes('turtle') || key.includes('whale')) {
+        this.playOceanSound();
+        const emoji = key.includes('dolphin') ? '🐬' :
+                      key.includes('turtle') ? '🐢' : '🐋';
+        return { label: 'Splash! Ocean Creature Matched!', emoji };
+      }
+
+      // 7. USA Eating Items & Treats
+      if (key.includes('burger') || key.includes('hotdog') || key.includes('pizza') || key.includes('fries') || key.includes('pancake') || key.includes('pie') || key.includes('popcorn') || key.includes('milkshake') || key.includes('steak') || key.includes('corn') || key.includes('taco') || key.includes('cookie') || key.includes('ice_pop')) {
         this.playBurgerSound();
         const emoji = key.includes('burger') ? '🍔' :
                       key.includes('hotdog') ? '🌭' :
@@ -844,12 +879,15 @@
                       key.includes('pie') ? '🥧' :
                       key.includes('popcorn') ? '🍿' :
                       key.includes('milkshake') ? '🥤' :
-                      key.includes('steak') ? '🥩' : '🌽';
-        return { label: 'Yummy! USA Food Matched!', emoji };
+                      key.includes('steak') ? '🥩' :
+                      key.includes('taco') ? '🌮' :
+                      key.includes('cookie') ? '🍪' :
+                      key.includes('ice_pop') ? '🍧' : '🌽';
+        return { label: 'Yummy! USA Treat Matched!', emoji };
       }
 
-      // 7. Numbers (Word to Digit: One -> 1, Two -> 2, etc.)
-      if (key.includes('num') || /^(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand)/i.test(key)) {
+      // 8. Numbers (Word to Digit)
+      if (key.includes('num') || /^(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|million)/i.test(key)) {
         this.playNumberSound();
         return { label: 'Count! Number Matched!', emoji: '🔢' };
       }
@@ -1177,7 +1215,7 @@
   class MatchingGame {
     constructor() {
       this.currentLevel = 1;
-      this.maxLevels = 36;
+      this.maxLevels = 50;
       this.levelData = null;
       this.connectedPairs = [];
       this.currentOrderIndex = 0;
@@ -1702,12 +1740,24 @@
 
       const getTextClass = (txt) => {
         if (!txt || txt.length <= 1) return 'card-letter-text';
+
+        // Math calculations with operators and numbers
         if (/\d/.test(txt) && /[+\-×÷=]/.test(txt)) {
-          return txt.length >= 6 ? 'card-calc-text calc-long' : 'card-calc-text';
+          if (txt.length >= 9) return 'card-calc-text calc-xl';
+          if (txt.length >= 8) return 'card-calc-text calc-long';
+          if (txt.length >= 6) return 'card-calc-text calc-medium';
+          return 'card-calc-text';
         }
+
+        // Numeric Digits
         if (/^\d+$/.test(txt)) {
-          return txt.length <= 2 ? 'card-letter-text' : 'card-calc-text';
+          if (txt.length <= 2) return 'card-letter-text';
+          if (txt.length === 3) return 'card-digit-medium';
+          if (txt.length === 4) return 'card-digit-long';
+          return 'card-digit-xl';
         }
+
+        // Word texts
         if (txt.length <= 4) return 'card-word-short';
         if (txt.length <= 6) return 'card-word-medium';
         if (txt.length <= 8) return 'card-word-long';

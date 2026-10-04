@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Water ripples -->
+  <path d="M12 82 Q30 78, 50 82 T88 82" stroke="#38bdf8" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M20 88 Q38 85, 56 88 T80 88" stroke="#0ea5e9" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <!-- Swan Body & Tail Feathers -->
+  <path d="M30 60 C30 76, 50 84, 72 80 C82 78, 86 68, 76 60 C66 54, 44 54, 30 60 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <path d="M72 70 Q84 62, 78 58 Q68 64, 62 68 Z" fill="#f1f5f9"/>
+  <!-- Elegant S-Curved Neck -->
+  <path d="M32 64 C28 50, 36 34, 48 24 C54 18, 52 14, 46 14 C38 14, 28 26, 26 44 C24 58, 28 66, 32 64 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <!-- Head -->
+  <circle cx="48" cy="18" r="7" fill="#ffffff"/>
+  <!-- Black Mask & Eye -->
+  <path d="M47 16 L54 19 L48 21 Z" fill="#0f172a"/>
+  <circle cx="46" cy="17" r="1.2" fill="#0f172a"/>
+  <!-- Orange Beak -->
+  <polygon points="53,18 64,22 53,23" fill="#f97316"/>
+</svg>
