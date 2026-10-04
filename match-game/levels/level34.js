@@ -1,20 +1,20 @@
 /**
- * Level 34 Configuration: USA Eating Items - American BBQ & Harvest
- * Matching: Grilled Steak, Corn on Cob, and Fries (Order scrambled on right side)
+ * Level 34 Configuration: USA Eating Items - Diner & Grill Classics
+ * Matching: Word Name on Left -> Object Image on Right
  */
 window.LEVEL_34_CONFIG = {
-  title: "Level 34: USA BBQ Feast",
-  subtitle: "Match American grilled steak, sweet corn, and french fries",
-  hintText: "Savor and match BBQ items in any order!",
+  title: "Level 34: USA Diner Classics",
+  subtitle: "Match diner food names with their pictures",
+  hintText: "Match food names to their pictures!",
   enforceMatchingOrder: false,
   leftItems: [
-    { id: "steak", image: "images/steak.svg", name: "Grilled BBQ Steak", bgColor: "#fff7ed" },
-    { id: "corn", image: "images/corn.svg", name: "Golden Corn Cob", bgColor: "#fefce8" },
-    { id: "fries2", image: "images/fries.svg", name: "Crispy Fries", bgColor: "#fef2f2" }
+    { id: "steak", text: "Steak", name: "Steak", bgColor: "#fff7ed" },
+    { id: "corn", text: "Corn", name: "Corn", bgColor: "#fefce8" },
+    { id: "fries2", text: "Fries", name: "Fries", bgColor: "#fffbeb" }
   ],
   rightItems: [
     { id: "corn", image: "images/corn.svg", name: "Golden Corn Cob", bgColor: "#fefce8" },
-    { id: "fries2", image: "images/fries.svg", name: "Crispy Fries", bgColor: "#fef2f2" },
+    { id: "fries2", image: "images/fries.svg", name: "Golden Fries", bgColor: "#fffbeb" },
     { id: "steak", image: "images/steak.svg", name: "Grilled BBQ Steak", bgColor: "#fff7ed" }
   ],
   matchingOrder: [

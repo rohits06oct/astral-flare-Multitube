@@ -1702,15 +1702,16 @@
 
       const getTextClass = (txt) => {
         if (!txt || txt.length <= 1) return 'card-letter-text';
-        if (/[+\-×÷=]/.test(txt)) {
+        if (/\d/.test(txt) && /[+\-×÷=]/.test(txt)) {
           return txt.length >= 6 ? 'card-calc-text calc-long' : 'card-calc-text';
         }
         if (/^\d+$/.test(txt)) {
           return txt.length <= 2 ? 'card-letter-text' : 'card-calc-text';
         }
         if (txt.length <= 4) return 'card-word-short';
-        if (txt.length <= 7) return 'card-word-medium';
-        return 'card-word-long';
+        if (txt.length <= 6) return 'card-word-medium';
+        if (txt.length <= 8) return 'card-word-long';
+        return 'card-word-xl';
       };
 
       // Left Column

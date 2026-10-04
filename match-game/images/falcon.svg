@@ -1,18 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <!-- Peregrine Falcon in soaring / perched pose -->
-  <path d="M30 46 C24 64, 40 84, 56 86 C72 84, 80 64, 76 46 Z" fill="#475569"/>
+  <!-- Perch Rock Base -->
+  <path d="M15 88 Q50 82, 85 88 L85 96 L15 96 Z" fill="#64748b"/>
+  <!-- Powerful Sleek Body -->
+  <path d="M34 32 C30 20, 60 16, 68 28 C74 36, 72 50, 70 68 C68 82, 54 84, 46 84 C38 84, 32 76, 32 62 Z" fill="#334155"/>
   <!-- Wing Feather Layer -->
-  <path d="M30 46 Q16 60, 24 80 Q36 72, 42 58 Z" fill="#1e293b"/>
-  <!-- Chest Bars -->
-  <ellipse cx="56" cy="62" rx="14" ry="18" fill="#f8fafc"/>
-  <line x1="48" y1="56" x2="64" y2="56" stroke="#64748b" stroke-width="2" stroke-linecap="round"/>
-  <line x1="46" y1="64" x2="66" y2="64" stroke="#64748b" stroke-width="2" stroke-linecap="round"/>
-  <line x1="50" y1="72" x2="62" y2="72" stroke="#64748b" stroke-width="2" stroke-linecap="round"/>
-  <!-- Falcon Hood Head -->
-  <path d="M42 46 C38 28, 66 24, 68 44 C68 50, 42 52, 42 46 Z" fill="#1e293b"/>
-  <!-- Yellow Eye Ring & Eye -->
-  <circle cx="50" cy="36" r="4.5" fill="#facc15"/>
-  <circle cx="50" cy="36" r="2.5" fill="#0f172a"/>
-  <!-- Sharp Hooked Beak -->
-  <path d="M54 38 L66 42 C66 48, 58 50, 54 46 Z" fill="#eab308"/>
+  <path d="M34 40 C24 50, 22 72, 36 82 C44 76, 44 58, 38 42 Z" fill="#1e293b"/>
+  <!-- Barred Falcon Chest -->
+  <path d="M46 36 C56 36, 64 44, 62 66 C60 76, 52 80, 46 80 C40 80, 42 66, 46 36 Z" fill="#f8fafc"/>
+  <line x1="45" y1="46" x2="59" y2="46" stroke="#475569" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="44" y1="54" x2="60" y2="54" stroke="#475569" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="45" y1="62" x2="58" y2="62" stroke="#475569" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="47" y1="70" x2="55" y2="70" stroke="#475569" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Head Hood -->
+  <path d="M38 30 C36 18, 58 14, 66 24 C68 30, 62 36, 56 36 C48 36, 40 34, 38 30 Z" fill="#0f172a"/>
+  <!-- Golden Cere & Hooked Raptor Beak -->
+  <path d="M64 26 L76 30 C76 36, 68 40, 63 35 Z" fill="#facc15"/>
+  <path d="M68 28 L78 31 C77 36, 72 38, 68 33 Z" fill="#ca8a04"/>
+  <!-- Falcon Raptor Eye with yellow ring -->
+  <circle cx="54" cy="24" r="5" fill="#facc15"/>
+  <circle cx="54" cy="24" r="3" fill="#0f172a"/>
+  <circle cx="55" cy="23" r="1.2" fill="#ffffff"/>
+  <!-- Strong Talons -->
+  <path d="M44 82 L42 88 M48 82 L48 88 M52 82 L54 88" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
 </svg>

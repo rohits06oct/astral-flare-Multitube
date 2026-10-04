@@ -3,7 +3,7 @@
  * Matching: Number Word -> Digit (Order scrambled on right side)
  */
 window.LEVEL_29_CONFIG = {
-  title: "Level 29: Numbers 19 to 21",
+  title: "Level 29: Numbers 19 - 21",
   subtitle: "Match each number word with its numeric digit",
   hintText: "Match number words to digits in any order!",
   enforceMatchingOrder: false,
