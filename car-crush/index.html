@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>WeCrash: Car Chain Crusher - 3D Simulation Game | YoutubeMulti</title>
+    <meta name="description" content="Slide under the chain barrier or get crushed flat by 200-ton hydraulic pistons in WeCrash 3D!">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="../favicon.ico">
+</head>
+<body>
+
+    <!-- Ambient Studio Stage Backdrop -->
+    <div class="ambient-backdrop"></div>
+
+    <!-- Centered Arcade / Shorts Device Frame Container -->
+    <div class="game-stage-frame portrait-mode" id="game-stage-frame">
+        
+        <!-- 3D Canvas Viewport -->
+        <div id="canvas-container"></div>
+
+        <!-- UI Overlay HUD -->
+        <div class="ui-overlay" id="main-ui-overlay">
+            
+            <!-- Top Header & Status Banner (Locked strictly at top) -->
+            <div class="top-bar-area interactive">
+                <header class="top-nav">
+                    <div class="brand-group">
+                        <a href="../games.html" class="brand-badge" title="Back to Games Portal">
+                            <span class="brand-logo-icon">🚗💥</span>
+                            <span class="brand-title">WECRASH</span>
+                        </a>
+                    </div>
+
+                    <div class="top-actions">
+                        <!-- Aspect Ratio Toggle (9:16 Shorts vs Fullscreen) -->
+                        <button class="glass-btn" id="btn-aspect-toggle" title="Toggle 9:16 Shorts Frame vs Fullscreen">
+                            <span id="aspect-icon">📱</span>
+                        </button>
+
+                        <!-- Clean View (Cinema Mode) -->
+                        <button class="glass-btn" id="btn-cinema-toggle" title="Toggle Clean View (Key: C)">
+                            <span id="cinema-icon">👁️</span>
+                        </button>
+
+                        <!-- Pause / Resume Button (Key: P / Space) -->
+                        <button class="glass-btn" id="btn-pause-toggle" title="Pause / Resume Simulation (Key: P or Space)">
+                            <span id="pause-icon">⏸️</span>
+                        </button>
+
+                        <!-- Restart Button -->
+                        <button class="glass-btn btn-restart" id="btn-restart-run" title="Restart current run / level (Key: R)">
+                            <span>🔄</span>
+                        </button>
+
+                        <!-- Custom Car Studio Button -->
+                        <button class="glass-btn btn-primary" id="btn-open-builder" title="Custom Car Studio">
+                            <span>🛠️</span>
+                        </button>
+
+                        <!-- Sound Toggle Button -->
+                        <button class="glass-btn" id="btn-sound-toggle" title="Toggle Sound">
+                            <span id="sound-icon">🔊</span>
+                        </button>
+                    </div>
+                </header>
+
+                <!-- Compact Status Pill (Locked at top, short messages) -->
+                <div class="center-status-banner" id="hud-status">
+                    <span class="banner-title" id="hud-title">READY</span>
+                </div>
+            </div>
+
+            <!-- Bottom Controls & Telemetry Dock -->
+            <div class="bottom-dock">
+                
+                <!-- Left: Mini Telemetry Widget in Corner -->
+                <div class="hud-telemetry-mini interactive">
+                    <div class="telemetry-row">
+                        <span class="telemetry-label">Speed</span>
+                        <span class="telemetry-value"><span id="speed-val">0</span> <small style="font-size: 0.65rem; color: #94a3b8;">KM/H</small></span>
+                    </div>
+
+                    <div class="telemetry-row">
+                        <span class="telemetry-label">Clearance</span>
+                        <span class="telemetry-value" id="clearance-val">Checking...</span>
+                    </div>
+                    
+                    <div class="gauge-bar-wrap">
+                        <div class="gauge-bar" id="clearance-gauge"></div>
+                    </div>
+                </div>
+
+                <!-- Center: Collapsible Control Drawer (Toggles open/close so view is 100% clear) -->
+                <div class="collapsible-drawer interactive" id="controls-drawer">
+                    
+                    <!-- Drawer Toggle Handle Button -->
+                    <button class="drawer-toggle-btn" id="btn-drawer-toggle">
+                        <span id="drawer-arrow">▼</span>
+                        <span id="drawer-label">Controls & Levels</span>
+                    </button>
+
+                    <!-- Drawer Content -->
+                    <div class="drawer-content">
+                        
+                        <!-- Tabs: Campaign Levels vs Custom Sandbox -->
+                        <div class="console-tabs">
+                            <button class="tab-btn active" id="tab-levels">🏆 Levels 1-5</button>
+                            <button class="tab-btn" id="tab-sandbox">⚙️ Sandbox</button>
+                        </div>
+
+                        <!-- 1. Campaign Levels View -->
+                        <div id="levels-panel">
+                            <div class="level-cards-container" id="level-cards">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+
+                        <!-- 2. Custom Sandbox View -->
+                        <div id="sandbox-panel" style="display: none;">
+                            <div class="sandbox-grid">
+                                
+                                <div class="control-group">
+                                    <label class="control-label">
+                                        <span>⛓️ Chain Height</span>
+                                        <span id="chain-height-val">1.75m</span>
+                                    </label>
+                                    <input type="range" class="range-slider" id="chain-height-slider" min="0.80" max="3.20" step="0.05" value="1.75">
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label">
+                                        <span>🚘 Vehicle</span>
+                                    </label>
+                                    <select class="custom-select" id="car-select">
+                                        <!-- Populated by JS -->
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="sandbox-action-row">
+                                <button class="glass-btn btn-primary" id="btn-spawn-car" style="flex: 2;">
+                                    <span>▶ Launch</span>
+                                </button>
+                                <button class="glass-btn btn-restart" id="btn-sandbox-restart" style="flex: 2;">
+                                    <span>🔄 Restart</span>
+                                </button>
+                                <button class="glass-btn btn-crush-now" id="btn-manual-crush" style="flex: 1.5;" title="Force trigger hydraulic crushers immediately!">
+                                    <span>💥 CRUSH!</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Quick Tools Footer (Cameras & Speeds) -->
+                        <div class="quick-tools">
+                            <div class="tool-group">
+                                <span class="tool-label">🎥</span>
+                                <button class="pill-btn active cam-btn" data-cam="screenshot">Screenshot</button>
+                                <button class="pill-btn cam-btn" data-cam="side">Side</button>
+                                <button class="pill-btn cam-btn" data-cam="hood">Overlook</button>
+                                <button class="pill-btn cam-btn" data-cam="free">360°</button>
+                            </div>
+
+                            <div class="tool-group">
+                                <span class="tool-label">⏱️</span>
+                                <button class="pill-btn speed-btn" data-speed="0.25">0.25x</button>
+                                <button class="pill-btn active speed-btn" data-speed="1.0">1x</button>
+                                <button class="pill-btn speed-btn" data-speed="2.0">2x</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Custom Car Builder Modal -->
+    <div class="modal-overlay" id="custom-car-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2 class="modal-title">🛠️ Custom Vehicle Engineering Studio</h2>
+                <button class="btn-close" id="btn-close-modal" aria-label="Close modal">&times;</button>
+            </div>
+
+            <form id="custom-car-form">
+                <div class="modal-body">
+                    
+                    <div class="preview-pane">
+                        <div id="car-preview-canvas"></div>
+                        <div class="preview-stats-card">
+                            <div class="preview-stat-item">
+                                <span>Roof Height:</span>
+                                <span id="val-height">1.25m</span>
+                            </div>
+                            <div class="preview-stat-item">
+                                <span>Vehicle Width:</span>
+                                <span id="val-width">1.95m</span>
+                            </div>
+                            <div class="preview-stat-item">
+                                <span>Overall Length:</span>
+                                <span id="val-length">4.50m</span>
+                            </div>
+                            <div class="preview-stat-item">
+                                <span>Ground Clearance:</span>
+                                <span id="val-suspension">0.22m</span>
+                            </div>
+                            <div class="preview-stat-item">
+                                <span>Top Speed:</span>
+                                <span id="val-speed">80 km/h</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-pane">
+                        <div class="control-group">
+                            <label class="control-label">Vehicle Name</label>
+                            <input type="text" class="input-text" id="custom-name" value="Velocity Razor GT" required maxlength="30">
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Body Architecture</label>
+                            <select class="custom-select" id="custom-type">
+                                <option value="wedge">Ultra-Low Wedge (Best for sliding under low chains!)</option>
+                                <option value="supercar">Exotic Mid-Engine Supercar</option>
+                                <option value="targa">Low Classic Coupe</option>
+                                <option value="van">Boxy Work Van (Screenshot Replica)</option>
+                                <option value="suv">Rugged Full-Size SUV</option>
+                                <option value="monster">Colossus Lifted Monster 4x4</option>
+                                <option value="bus">Long Transit Bus</option>
+                            </select>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">
+                                <span>Vehicle Roof Height</span>
+                            </label>
+                            <input type="range" class="range-slider" id="custom-height" min="0.80" max="3.40" step="0.05" value="1.25">
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">
+                                <span>Vehicle Width</span>
+                            </label>
+                            <input type="range" class="range-slider" id="custom-width" min="1.50" max="2.60" step="0.05" value="1.95">
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">
+                                <span>Vehicle Length</span>
+                            </label>
+                            <input type="range" class="range-slider" id="custom-length" min="3.40" max="7.50" step="0.1" value="4.50">
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">
+                                <span>Suspension / Ground Clearance</span>
+                            </label>
+                            <input type="range" class="range-slider" id="custom-suspension" min="0.12" max="0.75" step="0.02" value="0.22">
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">
+                                <span>Engine Power / Speed</span>
+                            </label>
+                            <input type="range" class="range-slider" id="custom-speed" min="12" max="32" step="1" value="24">
+                        </div>
+
+                        <div class="color-pickers-row">
+                            <div class="color-input-wrap">
+                                <label for="custom-color">Body:</label>
+                                <input type="color" id="custom-color" value="#0284c7">
+                            </div>
+                            <div class="color-input-wrap">
+                                <label for="custom-accent">Trim:</label>
+                                <input type="color" id="custom-accent" value="#0f172a">
+                            </div>
+                            <label class="checkbox-wrap">
+                                <input type="checkbox" id="custom-spoiler" checked>
+                                <span>Spoiler</span>
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="glass-btn" id="btn-cancel-modal">Cancel</button>
+                    <button type="submit" class="glass-btn btn-primary">
+                        <span>💾 Save & Drive</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Three.js & OrbitControls via CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+    <!-- Game Scripts -->
+    <script src="js/audio.js"></script>
+    <script src="js/cars.js"></script>
+    <script src="js/levels.js"></script>
+    <script src="js/scene.js"></script>
+    <script src="js/physics.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
+</html>

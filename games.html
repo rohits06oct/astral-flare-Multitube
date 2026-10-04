@@ -80,10 +80,13 @@
             margin-bottom: 2.5rem;
         }
 
-        /* Single Game Tile Container */
+        /* Multi Game Tile Grid Container */
         .games-grid {
-            display: flex;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 1rem 0 4rem;
         }
 
@@ -578,6 +581,53 @@
                         </button>
                         <a href="match-game/index.html" class="btn-secondary-game" id="btnOpenDirect">
                             <span>⤢</span> Fullscreen
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- WECRASH: CAR CHAIN CRUSHER TILE -->
+            <div class="game-tile" id="weCrashTile" title="Click to Play WeCrash: Car Chain Crusher" style="border-color: rgba(249, 115, 22, 0.35);">
+
+                <!-- Graphic Preview -->
+                <div class="game-tile-preview" style="background: linear-gradient(135deg, #1c1917 0%, #0f172a 100%);">
+                    <div class="preview-decor-bg" style="background-image: radial-gradient(#f97316 1px, transparent 1px);"></div>
+
+                    <!-- Custom Stylized Preview Scene -->
+                    <div style="position: relative; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; z-index: 2;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 3.5rem; filter: drop-shadow(0 10px 20px rgba(249, 115, 22, 0.5));">🚗💥⛓️</div>
+                            <div style="font-size: 1.1rem; font-weight: 900; letter-spacing: 2px; color: #f97316; margin-top: 6px; text-transform: uppercase;">Hydraulic Rams & Chain</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tile Content -->
+                <div class="game-tile-body">
+                    <div class="game-tile-header">
+                        <div>
+                            <h2 class="game-tile-title">
+                                <span>WeCrash: Car Crusher</span>
+                            </h2>
+                            <p class="game-tile-desc">
+                                Slide under the chain barrier or get crushed flat by 200-ton hydraulic pistons!
+                            </p>
+                        </div>
+                        <span class="game-tile-badge" style="background: rgba(249, 115, 22, 0.15); color: #f97316; border-color: rgba(249, 115, 22, 0.3);">3D Simulation</span>
+                    </div>
+
+                    <div class="game-features-list">
+                        <div class="feature-item"><span style="color: #f97316;">✓</span> Realistic 3D Mesh Squash Physics</div>
+                        <div class="feature-item"><span style="color: #f97316;">✓</span> Custom Vehicle Builder & Sandbox</div>
+                    </div>
+
+                    <div class="game-tile-actions">
+                        <a href="car-crush/index.html" class="btn-play-game" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: #fff; text-decoration: none; box-shadow: 0 6px 20px rgba(249, 115, 22, 0.35);">
+                            <span>▶</span> Play WeCrash 3D
+                        </a>
+                        <a href="car-crush/index.html" class="btn-secondary-game" style="text-decoration: none;">
+                            <span>🛠️</span> Studio
                         </a>
                     </div>
                 </div>
