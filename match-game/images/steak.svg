@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Sizzling Platter -->
+  <ellipse cx="50" cy="56" rx="44" ry="26" fill="#334155"/>
+  <ellipse cx="50" cy="53" rx="41" ry="23" fill="#1e293b"/>
+  <!-- T-Bone Steak Cut -->
+  <path d="M22 48 C20 32, 60 26, 76 34 C86 40, 84 62, 70 70 C50 78, 26 72, 22 48 Z" fill="#78350f"/>
+  <!-- Charred Grill Marks -->
+  <line x1="30" y1="36" x2="68" y2="68" stroke="#451a03" stroke-width="4" stroke-linecap="round"/>
+  <line x1="42" y1="32" x2="78" y2="60" stroke="#451a03" stroke-width="4" stroke-linecap="round"/>
+  <line x1="56" y1="34" x2="38" y2="68" stroke="#451a03" stroke-width="4" stroke-linecap="round"/>
+  <line x1="68" y1="38" x2="52" y2="70" stroke="#451a03" stroke-width="4" stroke-linecap="round"/>
+  <!-- Bone -->
+  <ellipse cx="32" cy="46" rx="5" ry="4" fill="#f8fafc"/>
+  <ellipse cx="32" cy="46" rx="2" ry="2" fill="#e2e8f0"/>
+  <!-- Herb Garnish -->
+  <path d="M68 45 Q74 42, 72 38 Q68 42, 68 45" fill="#22c55e"/>
+</svg>

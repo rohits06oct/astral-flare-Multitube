@@ -698,6 +698,91 @@
       });
     }
 
+    playCamelSound() {
+      if (!this.enabled) return;
+      this.init();
+      if (!this.ctx) return;
+      const now = this.ctx.currentTime;
+      const dest = this.getDestination();
+
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      const filter = this.ctx.createBiquadFilter();
+
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(110, now);
+      osc.frequency.linearRampToValueAtTime(75, now + 0.35);
+
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(320, now);
+      filter.Q.setValueAtTime(2.5, now);
+
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.linearRampToValueAtTime(0.75, now + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.38);
+
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(dest);
+
+      osc.start(now);
+      osc.stop(now + 0.4);
+    }
+
+    playBirdSound() {
+      if (!this.enabled) return;
+      this.init();
+      if (!this.ctx) return;
+      const now = this.ctx.currentTime;
+      const dest = this.getDestination();
+
+      const chirps = [0, 0.12];
+      chirps.forEach(delay => {
+        const t = now + delay;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(1400, t);
+        osc.frequency.exponentialRampToValueAtTime(2400, t + 0.05);
+        osc.frequency.exponentialRampToValueAtTime(1600, t + 0.1);
+
+        gain.gain.setValueAtTime(0.001, t);
+        gain.gain.linearRampToValueAtTime(0.65, t + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.01, t + 0.1);
+
+        osc.connect(gain);
+        gain.connect(dest);
+        osc.start(t);
+        osc.stop(t + 0.11);
+      });
+    }
+
+    playBurgerSound() {
+      this.playCrunchSound();
+    }
+
+    playNumberSound() {
+      if (!this.enabled) return;
+      this.init();
+      if (!this.ctx) return;
+      const now = this.ctx.currentTime;
+      const dest = this.getDestination();
+
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(659.25, now);
+
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.linearRampToValueAtTime(0.75, now + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+
+      osc.connect(gain);
+      gain.connect(dest);
+      osc.start(now);
+      osc.stop(now + 0.36);
+    }
+
     playItemSound(leftId, rightId, levelData) {
       if (!this.enabled) return { label: 'Great Match!', emoji: '👏' };
 
@@ -730,55 +815,94 @@
         return { label: 'Roarrr! Lion Matched!', emoji: '🦁' };
       }
 
-      // 4. Bee (Bzzzz)
+      // 4. Camel
+      if (key.includes('camel') || key.includes('cactus') || key.includes('oasis') || key.includes('dunes')) {
+        this.playCamelSound();
+        return { label: 'Grunt! Camel Matched!', emoji: '🐫' };
+      }
+
+      // 5. Birds (Eagle, Parrot, Owl, Flamingo, Peacock, Duck, Falcon, Hummingbird, Bluebird)
+      if (key.includes('eagle') || key.includes('parrot') || key.includes('owl') || key.includes('flamingo') || key.includes('peacock') || key.includes('duck') || key.includes('falcon') || key.includes('hummingbird') || key.includes('bluebird')) {
+        this.playBirdSound();
+        const emoji = key.includes('eagle') || key.includes('falcon') ? '🦅' :
+                      key.includes('parrot') ? '🦜' :
+                      key.includes('owl') ? '🦉' :
+                      key.includes('flamingo') ? '🦩' :
+                      key.includes('peacock') ? '🦚' :
+                      key.includes('duck') ? '🦆' : '🐦';
+        return { label: 'Chirp! Bird Matched!', emoji };
+      }
+
+      // 6. USA Eating Items (Burger, Hot Dog, Pizza, Fries, Pancake, Pie, Popcorn, Milkshake, Steak, Corn)
+      if (key.includes('burger') || key.includes('hotdog') || key.includes('pizza') || key.includes('fries') || key.includes('pancake') || key.includes('pie') || key.includes('popcorn') || key.includes('milkshake') || key.includes('steak') || key.includes('corn')) {
+        this.playBurgerSound();
+        const emoji = key.includes('burger') ? '🍔' :
+                      key.includes('hotdog') ? '🌭' :
+                      key.includes('pizza') ? '🍕' :
+                      key.includes('fries') ? '🍟' :
+                      key.includes('pancake') ? '🥞' :
+                      key.includes('pie') ? '🥧' :
+                      key.includes('popcorn') ? '🍿' :
+                      key.includes('milkshake') ? '🥤' :
+                      key.includes('steak') ? '🥩' : '🌽';
+        return { label: 'Yummy! USA Food Matched!', emoji };
+      }
+
+      // 7. Numbers (Word to Digit: One -> 1, Two -> 2, etc.)
+      if (key.includes('num') || /^(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand)/i.test(key)) {
+        this.playNumberSound();
+        return { label: 'Count! Number Matched!', emoji: '🔢' };
+      }
+
+      // 8. Bee (Bzzzz)
       if (key.includes('bee') || key.includes('honey')) {
         this.playBeeSound();
         return { label: 'Bzzzz! Bee Matched!', emoji: '🐝' };
       }
 
-      // 5. Elephant (Trumpet)
+      // 9. Elephant (Trumpet)
       if (key.includes('elephant') || leftId === 'E' || rightId === 'E') {
         this.playElephantSound();
         return { label: 'Trumpet! Elephant Matched!', emoji: '🐘' };
       }
 
-      // 6. Monkey (Ooh-Aah)
+      // 10. Monkey (Ooh-Aah)
       if (key.includes('monkey') || leftId === 'M' || rightId === 'M') {
         this.playMonkeySound();
         return { label: 'Ooh-Aah! Monkey Matched!', emoji: '🐵' };
       }
 
-      // 7. Sports (Soccer / Basketball)
+      // 11. Sports (Soccer / Basketball)
       if (key.includes('soccer') || key.includes('basketball') || key.includes('goal') || key.includes('hoop')) {
         this.playSportsBounceSound();
         return { label: 'Score! Sports Matched!', emoji: '⚽' };
       }
 
-      // 8. Calculations / Math
+      // 12. Calculations / Math
       if (key.includes('calc') || key.includes('+') || key.includes('-') || key.includes('×') || key.includes('÷') || key.includes('result') || key.includes('math')) {
         this.playMathSound();
         return { label: 'Ding! Calculation Solved!', emoji: '🔢' };
       }
 
-      // 9. Magic / Wizard
+      // 13. Magic / Wizard
       if (key.includes('wizard') || key.includes('magic') || key.includes('wand') || key.includes('chest') || key.includes('key')) {
         this.playMagicSound();
         return { label: 'Sparkle! Magic Matched!', emoji: '🪄' };
       }
 
-      // 10. Vehicle / Van
+      // 14. Vehicle / Van
       if (key.includes('van') || leftId === 'V') {
         this.playCarSound();
         return { label: 'Honk-Honk! Van Matched!', emoji: '🚐' };
       }
 
-      // 11. Xylophone
+      // 15. Xylophone
       if (key.includes('xylophone') || leftId === 'X') {
         this.playXylophoneSound();
         return { label: 'Tinkle! Xylophone Matched!', emoji: '🎵' };
       }
 
-      // 12. Fruit / Food / Treats
+      // 16. Fruit / Food / Treats
       if (key.includes('apple') || key.includes('banana') || key.includes('watermelon') || key.includes('orange') || key.includes('grapes') || key.includes('donut') || key.includes('ice_cream') || leftId === 'A' || leftId === 'B' || leftId === 'W' || leftId === 'G' || leftId === 'O' || leftId === 'I') {
         this.playCrunchSound();
         return { label: 'Yum! Sweet Match!', emoji: '🍎' };
@@ -1053,7 +1177,7 @@
   class MatchingGame {
     constructor() {
       this.currentLevel = 1;
-      this.maxLevels = 16;
+      this.maxLevels = 36;
       this.levelData = null;
       this.connectedPairs = [];
       this.currentOrderIndex = 0;
@@ -1393,7 +1517,7 @@
       if (doc.fullscreenElement || doc.webkitFullscreenElement || doc.mozFullScreenElement || doc.msFullscreenElement) {
         try {
           if (doc.exitFullscreen) {
-            doc.exitFullscreen().catch(() => {});
+            doc.exitFullscreen().catch(() => { });
           } else if (doc.webkitExitFullscreen) {
             doc.webkitExitFullscreen();
           } else if (doc.mozCancelFullScreen) {
@@ -1576,6 +1700,19 @@
       this.leftColumn.innerHTML = '';
       this.rightColumn.innerHTML = '';
 
+      const getTextClass = (txt) => {
+        if (!txt || txt.length <= 1) return 'card-letter-text';
+        if (/[+\-×÷=]/.test(txt)) {
+          return txt.length >= 6 ? 'card-calc-text calc-long' : 'card-calc-text';
+        }
+        if (/^\d+$/.test(txt)) {
+          return txt.length <= 2 ? 'card-letter-text' : 'card-calc-text';
+        }
+        if (txt.length <= 4) return 'card-word-short';
+        if (txt.length <= 7) return 'card-word-medium';
+        return 'card-word-long';
+      };
+
       // Left Column
       (this.levelData.leftItems || []).forEach(item => {
         const card = document.createElement('div');
@@ -1587,11 +1724,7 @@
         // Card content: Text or Image
         if (item.text) {
           const letterSpan = document.createElement('span');
-          if (item.text.length > 2) {
-            letterSpan.className = item.text.length >= 6 ? 'card-calc-text calc-long' : 'card-calc-text';
-          } else {
-            letterSpan.className = 'card-letter-text';
-          }
+          letterSpan.className = getTextClass(item.text);
           letterSpan.textContent = item.text;
           card.appendChild(letterSpan);
         } else if (item.image) {
@@ -1625,11 +1758,7 @@
         // Card content: Text or Image
         if (item.text) {
           const letterSpan = document.createElement('span');
-          if (item.text.length > 2) {
-            letterSpan.className = item.text.length >= 6 ? 'card-calc-text calc-long' : 'card-calc-text';
-          } else {
-            letterSpan.className = 'card-letter-text';
-          }
+          letterSpan.className = getTextClass(item.text);
           letterSpan.textContent = item.text;
           card.appendChild(letterSpan);
         } else if (item.image) {
@@ -1990,8 +2119,8 @@
         subtitleEl.textContent = `You cleared Level ${this.currentLevel}! All items matched!`;
         nextBtn.textContent = `Next Level (Level ${this.currentLevel + 1}) →`;
       } else {
-        titleEl.textContent = 'Awesome! All Levels Won! 🎆🎇';
-        subtitleEl.textContent = `You successfully solved all ${this.maxLevels} Levels!`;
+        titleEl.textContent = 'Awesome! All Levels Won 🎆';
+        subtitleEl.textContent = `You successfully solved all ${this.maxLevels} Levels! More levels coming soon!!!`;
         nextBtn.textContent = 'Play from Level 1 🔄';
       }
 

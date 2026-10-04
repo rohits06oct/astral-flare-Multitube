@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Water Pond Surface -->
+  <path d="M12 82 Q30 76, 50 82 Q70 88, 88 82 L88 92 L12 92 Z" fill="#38bdf8"/>
+  <!-- Yellow Duck Body -->
+  <path d="M26 62 C26 48, 48 48, 62 54 C72 58, 84 56, 84 64 C84 76, 36 82, 26 62 Z" fill="#facc15"/>
+  <!-- Little Wing -->
+  <path d="M42 58 C38 68, 54 72, 60 64 C58 58, 46 54, 42 58 Z" fill="#eab308"/>
+  <!-- Head -->
+  <circle cx="38" cy="40" r="16" fill="#facc15"/>
+  <!-- Eye -->
+  <circle cx="34" cy="38" r="3" fill="#0f172a"/>
+  <circle cx="35" cy="37" r="1" fill="#ffffff"/>
+  <!-- Orange Bill -->
+  <ellipse cx="20" cy="44" rx="8" ry="4" fill="#f97316"/>
+</svg>

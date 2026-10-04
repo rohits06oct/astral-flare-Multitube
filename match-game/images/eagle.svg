@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Brown Body and Wings -->
+  <path d="M26 48 C20 65, 32 86, 50 88 C68 86, 80 65, 74 48 C68 46, 32 46, 26 48 Z" fill="#78350f"/>
+  <!-- Wing Feathers Left -->
+  <path d="M26 48 Q10 58, 16 78 Q28 72, 32 60 Z" fill="#451a03"/>
+  <!-- Wing Feathers Right -->
+  <path d="M74 48 Q90 58, 84 78 Q72 72, 68 60 Z" fill="#451a03"/>
+  <!-- White Head and Neck -->
+  <path d="M36 48 C34 26, 66 26, 64 48 C64 54, 36 54, 36 48 Z" fill="#ffffff"/>
+  <!-- Fierce Eyes -->
+  <circle cx="44" cy="36" r="3" fill="#facc15"/>
+  <circle cx="44" cy="36" r="1.5" fill="#0f172a"/>
+  <!-- Golden Hooked Beak -->
+  <path d="M48 38 L62 43 C64 48, 54 52, 48 48 Z" fill="#f59e0b"/>
+</svg>

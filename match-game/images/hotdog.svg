@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Bun Back -->
+  <path d="M12 56 C10 40, 88 30, 88 50 C88 64, 14 70, 12 56 Z" fill="#d97706"/>
+  <!-- Sausage -->
+  <path d="M10 50 C8 42, 92 34, 92 48 C92 58, 10 60, 10 50 Z" fill="#b91c1c"/>
+  <!-- Mustard Zigzag -->
+  <path d="M18 48 Q25 42, 32 49 Q39 56, 46 48 Q53 40, 60 49 Q67 58, 74 48 Q81 40, 86 48" fill="none" stroke="#facc15" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Bun Front -->
+  <path d="M14 58 C16 48, 86 42, 86 54 C86 68, 16 74, 14 58 Z" fill="#f59e0b"/>
+</svg>

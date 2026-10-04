@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Fanned Feather Display -->
+  <path d="M12 60 C8 15, 92 15, 88 60 Z" fill="#0d9488"/>
+  <!-- Feather eye spots -->
+  <circle cx="26" cy="40" r="6" fill="#0284c7"/>
+  <circle cx="26" cy="40" r="3" fill="#facc15"/>
+  <circle cx="38" cy="26" r="6" fill="#0284c7"/>
+  <circle cx="38" cy="26" r="3" fill="#facc15"/>
+  <circle cx="50" cy="20" r="6" fill="#0284c7"/>
+  <circle cx="50" cy="20" r="3" fill="#facc15"/>
+  <circle cx="62" cy="26" r="6" fill="#0284c7"/>
+  <circle cx="62" cy="26" r="3" fill="#facc15"/>
+  <circle cx="74" cy="40" r="6" fill="#0284c7"/>
+  <circle cx="74" cy="40" r="3" fill="#facc15"/>
+  <!-- Blue Body & Head -->
+  <path d="M44 85 C40 65, 42 46, 50 46 C58 46, 60 65, 56 85 Z" fill="#1d4ed8"/>
+  <circle cx="50" cy="44" r="8" fill="#1d4ed8"/>
+  <!-- Crown Crest -->
+  <line x1="50" y1="36" x2="44" y2="30" stroke="#0d9488" stroke-width="2"/>
+  <circle cx="44" cy="30" r="2" fill="#0284c7"/>
+  <line x1="50" y1="36" x2="50" y2="28" stroke="#0d9488" stroke-width="2"/>
+  <circle cx="50" cy="28" r="2" fill="#0284c7"/>
+  <line x1="50" y1="36" x2="56" y2="30" stroke="#0d9488" stroke-width="2"/>
+  <circle cx="56" cy="30" r="2" fill="#0284c7"/>
+  <!-- Eye & Beak -->
+  <circle cx="48" cy="42" r="1.5" fill="#ffffff"/>
+  <polygon points="46,46 42,48 46,50" fill="#f59e0b"/>
+</svg>

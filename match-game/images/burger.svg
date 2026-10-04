@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Top Bun -->
+  <path d="M18 48 C18 24, 82 24, 82 48 Z" fill="#f59e0b"/>
+  <!-- Sesame seeds -->
+  <circle cx="36" cy="34" r="1.5" fill="#fef3c7"/>
+  <circle cx="50" cy="30" r="1.5" fill="#fef3c7"/>
+  <circle cx="64" cy="35" r="1.5" fill="#fef3c7"/>
+  <circle cx="44" cy="40" r="1.5" fill="#fef3c7"/>
+  <circle cx="58" cy="41" r="1.5" fill="#fef3c7"/>
+  <!-- Lettuce -->
+  <path d="M14 50 Q20 46, 28 50 Q36 46, 44 50 Q52 46, 60 50 Q68 46, 76 50 Q84 46, 88 50 L84 54 Q76 50, 68 54 Q60 50, 52 54 Q44 50, 36 54 Q28 50, 20 54 Q14 50, 14 50 Z" fill="#22c55e"/>
+  <!-- Tomato -->
+  <rect x="18" y="52" width="64" height="6" rx="3" fill="#ef4444"/>
+  <!-- Cheese -->
+  <polygon points="18,58 82,58 74,66 50,62 30,68 18,58" fill="#fbbf24"/>
+  <!-- Patty -->
+  <rect x="16" y="62" width="68" height="11" rx="5" fill="#78350f"/>
+  <!-- Bottom Bun -->
+  <rect x="20" y="73" width="60" height="9" rx="4" fill="#d97706"/>
+</svg>

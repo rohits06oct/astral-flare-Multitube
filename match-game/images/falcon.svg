@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Peregrine Falcon in soaring / perched pose -->
+  <path d="M30 46 C24 64, 40 84, 56 86 C72 84, 80 64, 76 46 Z" fill="#475569"/>
+  <!-- Wing Feather Layer -->
+  <path d="M30 46 Q16 60, 24 80 Q36 72, 42 58 Z" fill="#1e293b"/>
+  <!-- Chest Bars -->
+  <ellipse cx="56" cy="62" rx="14" ry="18" fill="#f8fafc"/>
+  <line x1="48" y1="56" x2="64" y2="56" stroke="#64748b" stroke-width="2" stroke-linecap="round"/>
+  <line x1="46" y1="64" x2="66" y2="64" stroke="#64748b" stroke-width="2" stroke-linecap="round"/>
+  <line x1="50" y1="72" x2="62" y2="72" stroke="#64748b" stroke-width="2" stroke-linecap="round"/>
+  <!-- Falcon Hood Head -->
+  <path d="M42 46 C38 28, 66 24, 68 44 C68 50, 42 52, 42 46 Z" fill="#1e293b"/>
+  <!-- Yellow Eye Ring & Eye -->
+  <circle cx="50" cy="36" r="4.5" fill="#facc15"/>
+  <circle cx="50" cy="36" r="2.5" fill="#0f172a"/>
+  <!-- Sharp Hooked Beak -->
+  <path d="M54 38 L66 42 C66 48, 58 50, 54 46 Z" fill="#eab308"/>
+</svg>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Crust -->
+  <path d="M50 12 C68 12, 85 18, 90 24 L50 88 L10 24 C15 18, 32 12, 50 12 Z" fill="#d97706"/>
+  <!-- Cheese Slice -->
+  <path d="M50 20 C64 20, 78 24, 82 28 L50 82 L18 28 C22 24, 36 20, 50 20 Z" fill="#facc15"/>
+  <!-- Pepperonis -->
+  <circle cx="42" cy="38" r="8" fill="#b91c1c"/>
+  <circle cx="62" cy="46" r="7.5" fill="#dc2626"/>
+  <circle cx="36" cy="58" r="7" fill="#b91c1c"/>
+  <circle cx="54" cy="66" r="6" fill="#dc2626"/>
+  <!-- Herbs -->
+  <circle cx="48" cy="30" r="1.5" fill="#15803d"/>
+  <circle cx="30" cy="48" r="1.5" fill="#15803d"/>
+  <circle cx="65" cy="35" r="1.5" fill="#15803d"/>
+  <circle cx="48" cy="52" r="1.5" fill="#15803d"/>
+</svg>
